@@ -4,7 +4,7 @@
 
 *SQL is a language that speaks only to Relational Databases
 
-***
+
 
 ## Examples
 
