@@ -14,7 +14,7 @@
   
     lego_people = table
 
-*SELECT name FROM lego_height WHERE cm > 3;
+### *SELECT name FROM lego_height WHERE cm > 3;
   
     name        = column
   
@@ -22,7 +22,7 @@
   
     cm > 3      = condition
 
-*SELECT name, age FROM people LEFT JOIN lego_height USING (name);
+### *SELECT name, age FROM people LEFT JOIN lego_height USING (name);
   
     name        = column
  
@@ -34,7 +34,7 @@
   
     (name)      = join criteria
 
-*INSERT INTO lego_people(name, age) VALUES ('Joe', 12);
+### *INSERT INTO lego_people(name, age) VALUES ('Joe', 12);
   
     lego_people = table
   
@@ -44,7 +44,7 @@
   
     ('Joe', 12) = inputs / column
 
-*UPDATE lego_people SET age = 13 WHERE name = 'Joe';
+### *UPDATE lego_people SET age = 13 WHERE name = 'Joe';
   
     lego_people  = table
   
@@ -52,7 +52,7 @@
   
     name = 'Joe' = column criteria
 
-*DELETE FROM lego_people WHERE name = 'Joe';
+### *DELETE FROM lego_people WHERE name = 'Joe';
   
     lego_people  = table
   
