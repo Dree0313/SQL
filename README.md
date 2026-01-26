@@ -6,6 +6,8 @@
 
 ***
 
+## examples
+
 *SELECT name FROM lego_people;
   
     name        = column
