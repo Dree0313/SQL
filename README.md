@@ -8,7 +8,7 @@
 
 ## Examples
 
-*SELECT name FROM lego_people;
+### *SELECT name FROM lego_people;
   
     name        = column
   
