@@ -4,6 +4,8 @@
 
 *SQL is a language that speaks only to Relational Databases
 
+________________________________________________________________________________________
+
 *SELECT name FROM lego_people;
   
     name        = column
