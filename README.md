@@ -6,7 +6,7 @@
 
 ***
 
-## examples
+## Examples
 
 *SELECT name FROM lego_people;
   
