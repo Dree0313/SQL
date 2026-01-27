@@ -1,5 +1,178 @@
 # SQL Learning & Projects Monorepo
 
+This repository serves as a structured SQL workbench containing multiple independent projects. Each project simulates a real-world system and is designed with business requirements, schema design, and analytical queries. The purpose of the repository is to demonstrate SQL proficiency across different domains while following software development lifecycle principles, rather than showcasing a single isolated example.
+
+Tier 1: Beginner (Syntax Literacy)
+
+This is language fluency, not understanding.
+
+Subjects
+
+SELECT / WHERE
+
+ORDER BY
+
+LIMIT
+
+Basic INSERT / UPDATE / DELETE
+
+Simple functions (COUNT, SUM)
+
+🧠 This is knowing how to speak sentences.
+
+Tier 2: Intermediate (Relational Thinking)
+
+👉 Your BCBS project lands you HERE solidly
+
+Subjects
+
+Multi-table JOINs (INNER, LEFT)
+
+GROUP BY / HAVING
+
+Subqueries
+
+CTEs
+
+Constraints (PK, FK, CHECK)
+
+Data normalization (1NF–3NF)
+
+Views
+
+Basic indexing
+
+Translating business rules → SQL
+
+🧠 This is understanding how data relates and why.
+
+Tier 3: Advanced (Professional Engineer Level)
+
+Most senior devs live here.
+
+Subjects
+
+Window functions (LAG, LEAD, RANK)
+
+Query optimization
+
+Execution plans
+
+Index strategies
+
+Transactions & isolation levels
+
+Locks & concurrency
+
+Stored procedures & triggers
+
+Partitioning
+
+Denormalization tradeoffs
+
+🧠 This is making SQL fast, safe, and scalable.
+
+⚠️ Most people think this is the top.
+
+It is not.
+
+Tier 4: Expert (Database Engineering)
+
+Now SQL becomes part of a system, not the star.
+
+Subjects
+
+Database internals
+
+Query planners & optimizers
+
+Cost-based optimization
+
+MVCC (Multi-Version Concurrency Control)
+
+Write-ahead logging (WAL)
+
+Replication strategies
+
+Sharding
+
+Fault tolerance
+
+Distributed SQL systems (Spanner, CockroachDB)
+
+Schema evolution at scale
+
+Backups & disaster recovery
+
+🧠 This is knowing what the database engine is doing behind the scenes.
+
+Tier 5: Research / PhD-Level (Database Science)
+
+🔥 This is where “PhD level” actually lives.
+
+SQL becomes secondary.
+
+Core Subjects (ALL of these matter)
+📐 Theory
+
+Relational algebra
+
+Relational calculus
+
+Query equivalence
+
+Normal form proofs
+
+Functional dependencies
+
+Constraint satisfaction
+
+Formal query languages
+
+⚙️ Systems
+
+Query optimizer design
+
+Index structure research (B-trees, LSM trees)
+
+Storage engines
+
+Distributed consensus (Paxos, Raft)
+
+CAP theorem tradeoffs
+
+Transaction correctness proofs
+
+Snapshot isolation models
+
+📊 Data Science + Databases
+
+Columnar storage
+
+Vectorized execution
+
+Analytical vs OLTP engines
+
+Approximate query processing
+
+Streaming SQL
+
+Temporal databases
+
+Graph databases & extensions
+
+🧪 Research & Innovation
+
+Designing new SQL dialects
+
+Query language evolution
+
+Database benchmarking research
+
+New data models (beyond relational)
+
+Performance modeling
+
 *SQL (Structured Query Language) is a language used to communicate with databases
 
 *SQL is a language that speaks only to Relational Databases
