@@ -1,4 +1,4 @@
-# SQL
+# SQL Learning & Projects Monorepo
 
 *SQL (Structured Query Language) is a language used to communicate with databases
 
