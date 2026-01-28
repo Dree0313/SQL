@@ -9,8 +9,6 @@ At this stage, the emphasis is on:
 - Understanding how queries are structured
 - Building confidence interacting with a database
 
-This tier intentionally avoids complex joins, schema design, and optimization topics.
-
 ---
 
 ## Concepts Covered
