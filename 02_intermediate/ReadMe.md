@@ -67,7 +67,7 @@ The goal is to move beyond single-table queries and begin thinking in terms of:
   - Eligibility
   - Status-based restrictions
   - Financial limits
--Understanding the difference between data correctness and application logic
+- Understanding the difference between data correctness and application logic
 
 ---
 
