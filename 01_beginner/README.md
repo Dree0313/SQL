@@ -16,7 +16,7 @@ This tier intentionally avoids complex joins, schema design, and optimization to
 ## Concepts Covered
 
 ### Core Querying
-- `SELECT`(01_select.sql)
+- [`SELECT`](01_select.sql)
 - `WHERE`
 - Column selection vs `SELECT *`
 - Aliases (`AS`)
