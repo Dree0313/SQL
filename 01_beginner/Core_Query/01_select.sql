@@ -5,13 +5,13 @@ __________________________________________________________________________
 __________________________________________________________________________
 
 -- Scenerio:
-  -- You are a junior database developer at a company. HR needs reports from
-  -- the employee database, and you have to write queries to retrieve 
+  -- You are a junior database developer at a company. HR needs reports 
+  -- from the employee database, and you have to write queries to retrieve 
   -- specific information.
 
   -- Table: employees
-    -- id  first_name  last_name  department  role  salary
-    --  1     Alice      
+    ![Employee Departments Chart](charts/your_chart_name.png)
+  
 __________________________________________________________________________
 -- 1️ Select all columns from a table
 -- What it does: Retrieves every column for every row in a table
