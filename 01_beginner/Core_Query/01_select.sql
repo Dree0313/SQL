@@ -10,7 +10,12 @@ __________________________________________________________________________
   -- specific information.
 
   -- Table: employees
-![Employee Departments](SQL/Charts/Employees_Table.png)
+    -- id            1       2          3          4          5
+    -- first_name  Alice     Bob       Carol       Dave       Eve
+    -- last_name   Johnson  Smith      Davis      Wilson     Taylor
+    -- department    HR      IT         HR         IT       Finance
+    -- role        Manager  Analyst  Assistant  Developer  Accountant
+    -- salary        75000  60000      50000      65000      75000
 
   
 __________________________________________________________________________
@@ -27,6 +32,14 @@ __________________________________________________________________________
 SELECT *
 FROM employees;
 
+-- Expected Results:
+  -- id            1       2          3          4          5
+  -- first_name  Alice     Bob       Carol       Dave       Eve
+  -- last_name   Johnson  Smith      Davis      Wilson     Taylor
+  -- department    HR      IT         HR         IT       Finance
+  -- role        Manager  Analyst  Assistant  Developer  Accountant
+  -- salary       75000    60000      50000      65000      75000
+
 __________________________________________________________________________
 -- 2 Select Specific columns
 -- What it does: Retrieves only the columns specified
@@ -39,6 +52,10 @@ __________________________________________________________________________
 --Solution:
 SELECT first_name, last_name
 FROM employees;
+
+-- Expected Result:
+  -- first_name  Alice    Bob   Carol   Dave    Eve
+  -- last_name  Johnson  Smith  Davis  Wilson  Taylor
 
 __________________________________________________________________________
 -- 3 Column aliases
@@ -53,6 +70,10 @@ __________________________________________________________________________
 SELECT first_name AS "First Name", last_name AS "Last Name"
 FROM employees;
 
+-- Expected Result:
+  -- First Name  Alice    Bob   Carol   Dave    Eve
+  -- Last Name  Johnson  Smith  Davis  Wilson  Taylor
+
 __________________________________________________________________________
 -- 4 DISTINCT keyword
 -- What it does: Returns only unique values, removing duplicates
@@ -65,6 +86,9 @@ __________________________________________________________________________
 -- Solution:
 SELECT DISTINCT department
 FROM employees;
+
+-- Expected Result:
+  -- department  HR  IT  Finance
 
 __________________________________________________________________________
 -- 6 Literals
@@ -79,6 +103,9 @@ __________________________________________________________________________
 SELECT first_name, 'Employee' AS role
 FROM employees;
 
+-- Expected Result:
+  -- first_name  Alice      Bob      Carol      Dave      Eve
+  -- role       Employee  Employee  Employee  Employee  Employee
 __________________________________________________________________________
 -- 7 Concatenation (SQLite-specific)
 -- What it does: Combines values from multiple columns into one
@@ -91,3 +118,6 @@ __________________________________________________________________________
 -- Solution:
 SELECT first_name || ' ' || last_name AS full_name
 FROM employees;
+
+-- Expected Result:
+  -- full_name  Alice Johnson  Bob Smith  Carol Davis  Dave Wilson  Eve Taylor
