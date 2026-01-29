@@ -7,7 +7,7 @@ VALUES
 (2, 'Bob', 'Smith', 'bob.smith@example.com', 'Active'),
 (3, 'Carol', 'Davis', 'carol.davis@example.com', 'Inactive'),
 (4, 'David', 'Brown', 'david.brown@example.com', 'Active'),
-(5, 'Eva', 'Miller', 'eva.miller@example.com', 'Acitve');
+(5, 'Eva', 'Miller', 'eva.miller@example.com', 'Active');
 
 -- Accounts Table
 INSERT INTO Accounts (account_id, member_id, account_type, balance, opened_date)
