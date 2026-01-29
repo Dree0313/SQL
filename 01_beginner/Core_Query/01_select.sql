@@ -10,7 +10,8 @@ __________________________________________________________________________
   -- specific information.
 
   -- Table: employees
-    ![Employee Departments Chart](charts/your_chart_name.png)
+![Employee Departments](SQL/Charts/Employees Table.png)
+
   
 __________________________________________________________________________
 -- 1️ Select all columns from a table
