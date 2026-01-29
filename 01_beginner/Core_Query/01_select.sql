@@ -1,5 +1,4 @@
 __________________________________________________________________________
--- 01_select.sql
 -- Beginner SQL: SELECT statement
 -- Purpose: Learn basic data retrieval
 __________________________________________________________________________
@@ -91,7 +90,7 @@ FROM employees;
   -- department  HR  IT  Finance
 
 __________________________________________________________________________
--- 6 Literals
+-- 5 Literals
 -- What it does: Adds static text or numbers to query results
 -- Why use it: Can label results or add context without changing the table
 -- Syntax: SELECT column, 'Literal' AS alias FROM table_name;
@@ -107,7 +106,7 @@ FROM employees;
   -- first_name  Alice      Bob      Carol      Dave      Eve
   -- role       Employee  Employee  Employee  Employee  Employee
 __________________________________________________________________________
--- 7 Concatenation (SQLite-specific)
+-- 6 Concatenation (SQLite-specific)
 -- What it does: Combines values from multiple columns into one
 -- Why use it: Useful for full names, addresses, or other combined fields
 -- Syntax: SELECT column || ' ' || column2 AS alias FROM table_name;
