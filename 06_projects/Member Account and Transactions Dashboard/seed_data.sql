@@ -10,7 +10,7 @@ VALUES
 (5, 'Eva', 'Miller', 'Active');
 
 -- Accounts Table
-INSERT INTO Accounts (account_id, member_id, account_type, balance, opened_date)
+INSERT INTO Accounts (account_id, member_id, account_type, balance, open_date)
 VALUES
 (101, 1, 'Checking', 2500.00, '2023-01-10'),
 (102, 1, 'Savings', 5000.00, '2022-06-15'),
