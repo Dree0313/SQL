@@ -1,13 +1,13 @@
 -- Purpose: Populate tables with sample data for Member Account & Transactions Dashboard
 
 -- Members Table
-INSERT INTO Members (member_id, first_name, last_name, email, status)
+INSERT INTO Members (member_id, first_name, last_name, status)
 VALUES
-(1, 'Alice', 'Johnson', 'alice.johnson@example.com', 'Active'),
-(2, 'Bob', 'Smith', 'bob.smith@example.com', 'Active'),
-(3, 'Carol', 'Davis', 'carol.davis@example.com', 'Inactive'),
-(4, 'David', 'Brown', 'david.brown@example.com', 'Active'),
-(5, 'Eva', 'Miller', 'eva.miller@example.com', 'Active');
+(1, 'Alice', 'Johnson', 'Active'),
+(2, 'Bob', 'Smith', 'Active'),
+(3, 'Carol', 'Davis', 'Inactive'),
+(4, 'David', 'Brown', 'Active'),
+(5, 'Eva', 'Miller', 'Active');
 
 -- Accounts Table
 INSERT INTO Accounts (account_id, member_id, account_type, balance, opened_date)
