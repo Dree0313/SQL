@@ -3,7 +3,7 @@
 -- Members Table
 INSERT INTO Members (member_id, first_name, last_name, email, status)
 VALUES
-(1, 'Alice', 'Johnson', 'alice.johnson@example.com', 'Acitve'),
+(1, 'Alice', 'Johnson', 'alice.johnson@example.com', 'Active'),
 (2, 'Bob', 'Smith', 'bob.smith@example.com', 'Active'),
 (3, 'Carol', 'Davis', 'carol.davis@example.com', 'Inactive'),
 (4, 'David', 'Brown', 'david.brown@example.com', 'Active'),
