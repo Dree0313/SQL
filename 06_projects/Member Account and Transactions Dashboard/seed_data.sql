@@ -21,15 +21,15 @@ VALUES
 (107, 5, 'Checking', 1200.00, '2023-12-25');
 
 -- Transactions Table
-INSERT INTO Transactions (transaction_id, account_id, transaction_date, transaction_type, amount, description)
+INSERT INTO Transactions (transaction_id, account_id, transaction_date, amount, description)
 VALUES
-(1001, 101, '2026-01-10', 'Deposit', 1000.00, 'Paycheck'),
-(1002, 101, '2026-01-12', 'Withdrawal', 200.00, 'Groceries'),
-(1003, 102, '2026-01-05', 'Deposit', 500.00, 'Gift'),
-(1004, 103, '2026-01-07', 'Withdrawal', 150.00, 'Gas'),
-(1005, 104, '2026-01-08', 'Deposit', 300.00, 'Refund'),
-(1006, 104, '2026-01-09', 'Withdrawal', 50.00, 'Coffee'),
-(1007, 106, '2026-01-15', 'Deposit', 1000.00, 'Bonus'),
-(1008, 107, '2026-01-16', 'Withdrawal', 100.00, 'Restaurant'),
-(1009, 101, '2026-01-17', 'Withdrawal', 50.00, 'Subscription'),
-(1010, 102, '2026-01-18', 'Deposit', 200.00, 'Freelance Payment');
+(1001, 101, '2026-01-10', 1000.00, 'Paycheck'),
+(1002, 101, '2026-01-12', 200.00, 'Groceries'),
+(1003, 102, '2026-01-05', 500.00, 'Gift'),
+(1004, 103, '2026-01-07', 150.00, 'Gas'),
+(1005, 104, '2026-01-08', 300.00, 'Refund'),
+(1006, 104, '2026-01-09', 50.00, 'Coffee'),
+(1007, 106, '2026-01-15', 1000.00, 'Bonus'),
+(1008, 107, '2026-01-16', 100.00, 'Restaurant'),
+(1009, 101, '2026-01-17', 50.00, 'Subscription'),
+(1010, 102, '2026-01-18', 200.00, 'Freelance Payment');
