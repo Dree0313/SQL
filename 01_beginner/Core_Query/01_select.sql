@@ -10,7 +10,7 @@ __________________________________________________________________________
   -- specific information.
 
   -- Table: employees
-![Employee Departments](SQL/Charts/Employees Table.png)
+![Employee Departments](SQL/Charts/Employees_Table.png)
 
   
 __________________________________________________________________________
