@@ -20,38 +20,44 @@ __________________________________________________________________________
 
   
 __________________________________________________________________________
--- 1️ Selecting Specific Columns
--- What it does: Returns only the columns you specify
--- Why use it: Reduces clutter, improves readability, and can improve 
-  -- performance
--- Syntax: SELECT columns FROM table_name WHERE column = value;
+-- 1️ Mixing SELECT* and Specific Columns (not typical, but possible)
+-- What it does: Returns all columns plus any additional expressions you
+  -- specify
+-- Why use it: Useful when combining all data with computed values
+-- Syntax: SELECT*, expression AS alias FROM table_name;
 __________________________________________________________________________
 -- Problem: 
-  -- Management wants to see only employees in the HR department
+  -- Management wants all details and a new column showing if 
+    -- salary > 65000
 
 -- Solution: 
-SELECT first_name, last_name, department
-FROM employees
-WHERE department = 'HR';
+SELECT*, salary > 65000 AS high_salary
+FROM employees;
 
 -- Expected Results:
-  -- first_name   Alice    Carol
-  -- last_name   Johnson   Davis
-  -- department    HR       HR
+  -- id            1       2          3          4          5
+  -- first_name  Alice     Bob       Carol       Dave       Eve
+  -- last_name   Johnson  Smith      Davis      Wilson     Taylor
+  -- department    HR      IT         HR         IT       Finance
+  -- role        Manager  Analyst  Assistant  Developer  Accountant
+  -- salary       75000    60000      50000     65000      75000
+  -- status      Active   Active    Inactive   Active      Active
+  -- high_salary  true     false      false     false       true
 
 __________________________________________________________________________
--- 2 Filter by inequality
--- What it does: Returns rows that do not match a specific value
--- Why use it: Exclude certain records from results
--- Syntax: SELECT columns FROM table_name WHERE column != value;
+-- 2 When to  use SELECT* vs column selection
+-- SELECT* Good for: quick exploration, small tables, debugging
+-- SELECT* Avoid for: production queries, large tables, 
+  -- performance-sensitivity tasks
+-- Column selection Good for: production queries, reports, performance
+  -- optimization, readability
 __________________________________________________________________________
 -- Problem:
-  -- Management wants all employees except those in Finance
+  -- Management wants to see first_name, role, and salary only
 
 --Solution:
-SELECT first_name, last_name, department
-FROM employees
-WHERE department != 'Finance';
+SELECT first_name, role, salary
+FROM employees;
 
 -- Expected Result:
   -- first_name  Alice    Bob   Carol   Dave    Eve
