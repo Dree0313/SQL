@@ -52,9 +52,9 @@ FROM employees
 WHERE department != 'Finance';
 
 -- Expected Result:
-  -- first_name  Alice    Bob   Carol   Dave    Eve
-  -- last_name  Johnson  Smith  Davis  Wilson  Taylor
-  -- department   HR      IT     HR      HR      IT
+  -- first_name  Alice    Bob   Carol   Dave
+  -- last_name  Johnson  Smith  Davis  Wilson
+  -- department   HR      IT     HR      HR
 
 __________________________________________________________________________
 -- 3 Multiple conditions with AND
