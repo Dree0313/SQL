@@ -28,7 +28,7 @@ __________________________________________________________________________
   -- the database
 
 -- Solution: 
-SELECT *
+SELECT*
 FROM employees;
 
 -- Expected Results:
