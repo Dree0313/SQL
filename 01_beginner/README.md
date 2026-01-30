@@ -22,7 +22,7 @@ At this stage, the emphasis is on:
 ### Sorting & Limiting
 - [`ORDER BY`](Sorting_&_Limiting/01_ORDER_BY.sql)
 - [`ASC` / `DESC`](Sorting_&_Limiting/02_ASC_DESC.sql)
-- `LIMIT`
+- [`LIMIT`](Sorting_&_Limiting/03_LIMIT.sql)
 
 ### Basic Data Modification
 - `INSERT`
