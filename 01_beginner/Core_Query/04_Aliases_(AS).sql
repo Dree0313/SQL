@@ -50,7 +50,7 @@ SELECT department Dept
 FROM employees;
 
 -- Expected Result:
-  -- Dept   HR      IT     HR      HR      IT  Finance
+  -- Dept   HR      IT     HR      IT  Finance
 
 __________________________________________________________________________
 -- 3 Aliases with Calculations
