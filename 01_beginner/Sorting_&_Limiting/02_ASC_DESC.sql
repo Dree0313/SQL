@@ -33,8 +33,8 @@ FROM employees
 ORDER BY last_name ASC;
 
 -- Expected Results:
-  -- First Name  Carol   Alice    Bob    Eve    Dave
-  -- Last Name   Davis  Johnson  Smith  Taylor  Wilson
+  -- first_name  Carol   Alice    Bob    Eve    Dave
+  -- last_name   Davis  Johnson  Smith  Taylor  Wilson
 
 __________________________________________________________________________
 -- 2 DESC (Descending Order)
