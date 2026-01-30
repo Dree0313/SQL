@@ -20,7 +20,7 @@ At this stage, the emphasis is on:
 - [Aliases (`AS`)](Core_Query/04_Aliases_(AS).sql)
 
 ### Sorting & Limiting
-- `ORDER BY`
+- [`ORDER BY`](Sorting & Limiting/01_ORDER_BY.sql)
 - `ASC` / `DESC`
 - `LIMIT`
 
