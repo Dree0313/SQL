@@ -103,7 +103,7 @@ __________________________________________________________________________
 -- Syntax: SELECT columns FROM table_name WHERE column BETWEEN low AND high;
 __________________________________________________________________________
 -- Problem:
-  -- HR wants a employees with salaries between 60000 and 70000
+  -- HR wants all employees with salaries between 60000 and 70000
 
 -- Solution:
 SELECT first_name, last_name, salary
