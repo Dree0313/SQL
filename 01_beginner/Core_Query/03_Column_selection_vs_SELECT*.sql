@@ -31,8 +31,8 @@ __________________________________________________________________________
     -- salary > 65000
 
 -- Solution: 
-SELECT*, salary > 65000 AS high_salary
-FROM employees;
+  SELECT*, salary > 65000 AS high_salary
+  FROM employees;
 
 -- Expected Results:
   -- id            1       2          3          4          5
@@ -56,8 +56,8 @@ __________________________________________________________________________
   -- Management wants to see first_name, role, and salary only
 
 --Solution:
-SELECT first_name, role, salary
-FROM employees;
+  SELECT first_name, role, salary
+  FROM employees;
 
 -- Expected Result:
   -- first_name  Alice    Bob      Carol       Dave        Eve
