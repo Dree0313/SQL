@@ -11,12 +11,12 @@ ________________________________________________________________________________
   -- column_name DECIMAL(10,2); -- Fixed-point (other DBs)
 _________________________________________________________________________________________________
 -- (SQLite)
-amount1 REAL;
-amount2 REAL;
+  amount1 REAL;
+  amount2 REAL; 
 
 -- (SQL)
-amount1 DECIMAL(10,2);
-amount2 DECIMAL(10,2);
+  amount1 DECIMAL(10,2);
+  amount2 DECIMAL(10,2);
 
 _________________________________________________________________________________________________
 -- 2 Enforce non-negative values
@@ -24,8 +24,8 @@ ________________________________________________________________________________
 -- Why use it: Ensures values follow business logic
 -- Syntax: CHECK (column_name >= 0)
 _________________________________________________________________________________________________
-CHECK(amount1 >= 0);
-CHECK(amount2 >= 0);
+  CHECK(amount1 >= 0);
+  CHECK(amount2 >= 0);
 
 _________________________________________________________________________________________________
 -- 3 Enforce logical relationships between columns
@@ -33,7 +33,7 @@ ________________________________________________________________________________
 -- Why use it: Maintains logical consistency
 -- Syntax: CHECK (column1 <= column2)
 _________________________________________________________________________________________________
-CHECK(amount3 >= amount2);
+  CHECK(amount3 >= amount2);
 
 _________________________________________________________________________________________________
 -- 4 Test inserting values
@@ -41,5 +41,5 @@ ________________________________________________________________________________
 -- Why use it: Practice seeing rules enforced
 -- Syntax: Use numeric values only
 _________________________________________________________________________________________________
-INSERT INTO amounts (amount1, amount2, amount 3)
-VALUES (100, 200, 500);
+  INSERT INTO amounts (amount1, amount2, amount 3)
+  VALUES (100, 200, 500);
