@@ -28,9 +28,9 @@ __________________________________________________________________________
   -- Management wants to see only employees in the HR department
 
 -- Solution: 
-SELECT first_name, last_name, department
-FROM employees
-WHERE department = 'HR';
+  SELECT first_name, last_name, department
+  FROM employees
+  WHERE department = 'HR';
 
 -- Expected Results:
   -- first_name   Alice    Carol
@@ -47,9 +47,9 @@ __________________________________________________________________________
   -- Management wants all employees except those in Finance
 
 --Solution:
-SELECT first_name, last_name, department
-FROM employees
-WHERE department != 'Finance';
+  SELECT first_name, last_name, department
+  FROM employees
+  WHERE department != 'Finance';
 
 -- Expected Result:
   -- first_name  Alice    Bob   Carol   Dave
@@ -66,9 +66,9 @@ __________________________________________________________________________
   -- Management wants employees in IT with a salary greater than 60000
 
 -- Solution:
-SELECT first_name, last_name, department, salary
-FROM employees
-WHERE department = 'IT' AND salary > 60000;
+  SELECT first_name, last_name, department, salary
+  FROM employees
+  WHERE department = 'IT' AND salary > 60000;
 
 -- Expected Result:
   -- first_name  Dave
@@ -86,9 +86,9 @@ __________________________________________________________________________
   -- Management wants employees in HR or with a salary above 70000
 
 -- Solution:
-SELECT first_name, last_name, department, salary
-FROM employees
-WHERE department = 'HR' OR salary > 70000;
+  SELECT first_name, last_name, department, salary
+  FROM employees
+  WHERE department = 'HR' OR salary > 70000;
 
 -- Expected Result:
   -- first_name  Alice   Carol   Eve
@@ -106,9 +106,9 @@ __________________________________________________________________________
   -- HR wants all employees with salaries between 60000 and 70000
 
 -- Solution:
-SELECT first_name, last_name, salary
-FROM employees
-WHERE salary BETWEEN 60000 AND 70000;
+  SELECT first_name, last_name, salary
+  FROM employees
+  WHERE salary BETWEEN 60000 AND 70000;
 
 -- Expected Result:
   -- first_name  Bob    Dave
@@ -124,9 +124,9 @@ __________________________________________________________________________
   -- Management wants employees in HR or IT
 
 -- Solution:
-SELECT first_name, last_name, department
-FROM employees
-WHERE department IN ('HR', 'IT');
+  SELECT first_name, last_name, department
+  FROM employees
+  WHERE department IN ('HR', 'IT');
 
 -- Expected Result:
   -- first_name  Alice    Bob   Carol   Dave
@@ -143,9 +143,9 @@ __________________________________________________________________________
   -- Management wants employees whose first name starts with 'D'
 
 -- Solution:
-SELECT first_name, last_name
-FROM employees
-WHERE first_name Like 'D%';
+  SELECT first_name, last_name
+  FROM employees
+  WHERE first_name Like 'D%';
 
 -- Expected Result:
   -- first_name  Dave
@@ -161,9 +161,9 @@ __________________________________________________________________________
   -- HR wants employees who have a department assigned (no NULLs)
 
 -- Solution:
-SELECT first_name, last_name, department
-FROM employees
-WHERE department IS NOT NULL;
+  SELECT first_name, last_name, department
+  FROM employees
+  WHERE department IS NOT NULL;
 
 -- Expected Result:
   -- first_name  Alice    Bob   Carol   Dave    Eve
