@@ -29,8 +29,8 @@ __________________________________________________________________________
     -- "Last Name"
 
 -- Solution: 
-SELECT first_name AS "First Name", last_name AS "Last Name"
-FROM employees;
+  SELECT first_name AS "First Name", last_name AS "Last Name"
+  FROM employees;
 
 -- Expected Results:
   -- First Name  Alice    Bob   Carol   Dave    Eve
@@ -46,8 +46,8 @@ __________________________________________________________________________
   -- Management wants department shown as Dept
 
 --Solution:
-SELECT department Dept
-FROM employees;
+  SELECT department Dept
+  FROM employees;
 
 -- Expected Result:
   -- Dept   HR      IT     HR      IT  Finance
@@ -62,8 +62,8 @@ __________________________________________________________________________
   -- Management wants to see annual salary labeled clearly
 
 -- Solution:
-SELECT first_name, salary * 1 AS annual_salary
-FROM employees;
+  SELECT first_name, salary * 1 AS annual_salary
+  FROM employees;
 
 -- Expected Result:
   -- first_name     Alice   Bob   Carol  Dave    Eve
@@ -80,8 +80,8 @@ __________________________________________________________________________
   -- Management wants employee names and departments using a table alias
 
 -- Solution:
-SELECT e.first_name, e.department
-FROM employees AS e;
+  SELECT e.first_name, e.department
+  FROM employees AS e;
 
 -- Expected Result:
   -- Table name: e
@@ -98,8 +98,8 @@ __________________________________________________________________________
   -- Management wants all employee data using a table alias
 
 -- Solution:
-SELECT e.*
-FROM employees AS e;
+  SELECT e.*
+  FROM employees AS e;
 
 -- Expected Result:
   -- id            1       2          3          4           5
