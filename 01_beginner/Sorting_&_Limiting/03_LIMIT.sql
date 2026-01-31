@@ -29,9 +29,9 @@ __________________________________________________________________________
   -- Management wants to see only the first 3 employees
 
 -- Solution: 
-SELECT first_name, last_name
-FROM employees
-LIMIT 3;
+  SELECT first_name, last_name
+  FROM employees
+  LIMIT 3;
 
 -- Expected Results:
   -- first_name  Alice    Bob   Carol
@@ -50,10 +50,10 @@ __________________________________________________________________________
   -- Management wants the top 2 highest-paid employees
 
 --Solution:
-SELECT first_name, salary
-FROM employees
-ORDER BY salary DESC
-LIMIT 2;
+  SELECT first_name, salary
+  FROM employees
+  ORDER BY salary DESC
+  LIMIT 2;
 
 -- Expected Result:
   -- first_name  Alice   Eve
@@ -70,10 +70,10 @@ __________________________________________________________________________
   -- Management wants the 2 lowest-paid employees
 
 -- Solution:
-SELECT first_name, salary
-FROM employees
-ORDER BY salary ASC
-LIMIT 2;
+  SELECT first_name, salary
+  FROM employees
+  ORDER BY salary ASC
+  LIMIT 2;
 
 -- Expected Result:
   -- first_name  Carol   Bob
@@ -91,10 +91,10 @@ __________________________________________________________________________
     -- alphabetically when salaries tie
 
 -- Solution:
-SELECT first_name, salary
-FROM employees
-ORDER BY salary DESC, first_name ASC
-LIMIT 3;
+  SELECT first_name, salary
+  FROM employees
+  ORDER BY salary DESC, first_name ASC
+  LIMIT 3;
 
 -- Expected Result:
   -- first_name  Alice   Eve   Dave
@@ -111,11 +111,11 @@ __________________________________________________________________________
   -- Management wants the top 2 highest-paid IT employees
 
 -- Solution:
-SELECT first_name, department, salary
-FROM employees
-WHERE department = 'IT'
-ORDER BY salary DESC
-LIMIT 2;
+  SELECT first_name, department, salary
+  FROM employees
+  WHERE department = 'IT'
+  ORDER BY salary DESC
+  LIMIT 2;
 
 -- Expected Result:
   -- first_name  Dave    Bob
@@ -133,10 +133,10 @@ __________________________________________________________________________
   -- Management wants the top 3 salaries using a readable column name
 
 -- Solution:
-SELECT first_name, salary AS Pay
-FROM employees
-ORDER BY Pay DESC
-LIMIT 3;
+  SELECT first_name, salary AS Pay
+  FROM employees
+  ORDER BY Pay DESC
+  LIMIT 3;
 
 -- Expected Result:
   -- first_name  Alice   Eve   Dave
