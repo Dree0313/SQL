@@ -28,8 +28,8 @@ __________________________________________________________________________
   -- the database
 
 -- Solution: 
-SELECT*
-FROM employees;
+  SELECT*
+  FROM employees;
 
 -- Expected Results:
   -- id            1       2          3          4          5
@@ -49,8 +49,8 @@ __________________________________________________________________________
   -- HR only wants first and last names to send birthday emails
 
 --Solution:
-SELECT first_name, last_name
-FROM employees;
+  SELECT first_name, last_name
+  FROM employees;
 
 -- Expected Result:
   -- first_name  Alice    Bob   Carol   Dave    Eve
@@ -66,8 +66,8 @@ __________________________________________________________________________
   -- HR wants a list of unique departments
 
 -- Solution:
-SELECT DISTINCT department
-FROM employees;
+  SELECT DISTINCT department
+  FROM employees;
 
 -- Expected Result:
   -- department  HR  IT  Finance
@@ -82,8 +82,8 @@ __________________________________________________________________________
   -- HR wants a list of employees with their roles labeled
 
 -- Solution:
-SELECT first_name, 'Employee' AS role
-FROM employees;
+  SELECT first_name, 'Employee' AS role
+  FROM employees;
 
 -- Expected Result:
   -- first_name  Alice      Bob      Carol      Dave      Eve
@@ -98,8 +98,8 @@ __________________________________________________________________________
   -- HR wants full names in one column
 
 -- Solution:
-SELECT first_name || ' ' || last_name AS full_name
-FROM employees;
+  SELECT first_name || ' ' || last_name AS full_name
+  FROM employees;
 
 -- Expected Result:
   -- full_name  Alice Johnson  Bob Smith  Carol Davis  Dave Wilson  Eve Taylor
