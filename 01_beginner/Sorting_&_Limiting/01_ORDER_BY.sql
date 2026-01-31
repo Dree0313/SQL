@@ -28,9 +28,9 @@ __________________________________________________________________________
   -- Management wants employees listed alphabetically by first name
 
 -- Solution: 
-SELECT first_name, last_name
-FROM employees
-ORDER BY first_name;
+  SELECT first_name, last_name
+  FROM employees
+  ORDER BY first_name;
 
 -- Expected Results:
   -- First Name  Alice    Bob   Carol   Dave    Eve
@@ -46,9 +46,9 @@ __________________________________________________________________________
   -- Management wants employees ordered by highest salary first
 
 --Solution:
-SELECT first_name, salary
-FROM employees
-ORDER BY salary DESC;
+  SELECT first_name, salary
+  FROM employees
+  ORDER BY salary DESC;
 
 -- Expected Result:
   -- first_name  Alice   Eve   Dave    Bob   Carol
@@ -64,9 +64,9 @@ __________________________________________________________________________
   -- Management wants employees ordered by salary from lowest to highest
 
 -- Solution:
-SELECT first_name, salary
-FROM employees
-ORDER BY salary ASC;
+  SELECT first_name, salary
+  FROM employees
+  ORDER BY salary ASC;
 
 -- Expected Result:
   -- first_name  Carol   Bob   Dave   Alice   Eve
@@ -82,9 +82,9 @@ __________________________________________________________________________
   -- Management wants employee sorted by department, then by last name
 
 -- Solution:
-SELECT first_name, last_name, department
-FROM employees
-ORDER BY department, last_name;
+  SELECT first_name, last_name, department
+  FROM employees
+  ORDER BY department, last_name;
 
 -- Expected Result:
   -- first_name   Eve     Alice   Carol   Bob    Dave
@@ -102,9 +102,9 @@ __________________________________________________________________________
     -- alphabetically within the same salary
 
 -- Solution:
-SELECT first_name, salary
-FROM employees
-ORDER BY salary DESC, first_name ASC;
+  SELECT first_name, salary
+  FROM employees
+  ORDER BY salary DESC, first_name ASC;
 
 -- Expected Result:
   -- first_name  Alice     Eve       Dave      Bob       Carol
@@ -120,9 +120,9 @@ __________________________________________________________________________
   -- Management wants salaries sorted using a column alias
 
 -- Solution:
-SELECT first_name, salary AS Pay
-FROM employees
-ORDER BY Pay DESC;
+  SELECT first_name, salary AS Pay
+  FROM employees
+  ORDER BY Pay DESC;
 
 -- Expected Result:
   -- first_name  Alice     Eve       Dave      Bob       Carol
