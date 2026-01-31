@@ -28,9 +28,9 @@ __________________________________________________________________________
   -- Management wants employees sorted alphabetically by last name
 
 -- Solution: 
-SELECT first_name, last_name
-FROM employees
-ORDER BY last_name ASC;
+  SELECT first_name, last_name
+  FROM employees
+  ORDER BY last_name ASC;
 
 -- Expected Results:
   -- first_name  Carol   Alice    Bob    Eve    Dave
@@ -46,9 +46,9 @@ __________________________________________________________________________
   -- Management wants highest-paid employees listed first
 
 --Solution:
-SELECT first_name, salary
-FROM employees
-ORDER BY salary DESC;
+  SELECT first_name, salary
+  FROM employees
+  ORDER BY salary DESC;
 
 -- Expected Result:
   -- first_name  Alice   Eve   Dave    Bob   Carol
@@ -64,9 +64,9 @@ __________________________________________________________________________
   -- Management wants employees sorted by department (default order)
 
 -- Solution:
-SELECT first_name, department
-FROM employees
-ORDER BY department;
+  SELECT first_name, department
+  FROM employees
+  ORDER BY department;
 
 -- Expected Result:
   -- first_name    Eve   Alice  Carol  Bob  Dave
@@ -83,9 +83,9 @@ __________________________________________________________________________
     -- salary listed first within each department
 
 -- Solution:
-SELECT first_name, department, salary
-FROM employees
-ORDER BY department ASC, salary DESC;
+  SELECT first_name, department, salary
+  FROM employees
+  ORDER BY department ASC, salary DESC;
 
 -- Expected Result:
   -- first_name    Eve    Alice  Carol  Dave   Bob
@@ -102,9 +102,9 @@ __________________________________________________________________________
   -- Management wants salaries sorted using a readable column name
 
 -- Solution:
-SELECT first_name, salary AS Pay
-FROM employees
-ORDER BY Pay DESC;
+  SELECT first_name, salary AS Pay
+  FROM employees
+  ORDER BY Pay DESC;
 
 -- Expected Result:
   -- first_name  Alice     Eve       Dave      Bob       Carol
