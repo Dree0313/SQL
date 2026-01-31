@@ -11,20 +11,20 @@ ________________________________________________________________________________
 -- Key point: Each table has a PRIMARY KEY and relevant attributes
 _________________________________________________________________________________________________
 -- (SQlite)
-CREATE TABLE Users (
-  user_id INTEGER PRIMARY KEY,  -- Unique identifier for each user
-  first_name TEXT NOT NULL,     -- First name of the user
-  last_name TEXT NOT NULL,      -- Last name of the user
-  signup_date TEXT NOT NULL     -- Date the user signed up
-);
+  CREATE TABLE Users (
+    user_id INTEGER PRIMARY KEY,  -- Unique identifier for each user
+    first_name TEXT NOT NULL,     -- First name of the user
+    last_name TEXT NOT NULL,      -- Last name of the user
+    signup_date TEXT NOT NULL     -- Date the user signed up
+  );
 
 -- (SQL)
-CREATE TABLE Users (
-  user_id INT PRIMARY KEY,          --Unique identifier for each user
-  first_name VARCHAR(50) NOT NULL,  -- First name of the user
-  last_name VARCHAR(50) NOT NULL,   -- Last name of the user
-  signup_date DATE NOT NULL         -- Date the user signed up
-);
+  CREATE TABLE Users (
+    user_id INT PRIMARY KEY,          --Unique identifier for each user
+    first_name VARCHAR(50) NOT NULL,  -- First name of the user
+    last_name VARCHAR(50) NOT NULL,   -- Last name of the user
+    signup_date DATE NOT NULL         -- Date the user signed up
+  );
 
 _________________________________________________________________________________________________
 -- 2 Relationships between entities
@@ -32,11 +32,11 @@ ________________________________________________________________________________
 -- Why use it: Allows multiple tables to be joined and queried efficiently
 -- Syntax: FOREIGN KEY (column) REFERENCES other_table(column)
 _________________________________________________________________________________________________
-ALTER TABLE Products
-ADD COLUMN user_id INTEGER;
-
-ALTER TABLE Products
-ADD FOREIGN KEY (user_id) REFERENCES Users(user_id);
+  ALTER TABLE Products
+  ADD COLUMN user_id INTEGER;
+  
+  ALTER TABLE Products
+  ADD FOREIGN KEY (user_id) REFERENCES Users(user_id);
 
 _________________________________________________________________________________________________
 -- 3 Atomic columns (1NF)
@@ -44,11 +44,11 @@ ________________________________________________________________________________
 -- Why use it: Prevents storing multiple values in one field
 -- Syntax: Define one column per attribute
 _________________________________________________________________________________________________
-CREATE TABLE ProductCategories (
-  product_id INTEGER,
-  category_id INTEGER,
-  PRIMARY KEY(product_id, category_id)
-);
+  CREATE TABLE ProductCategories (
+    product_id INTEGER,
+    category_id INTEGER,
+    PRIMARY KEY(product_id, category_id)
+  );
 
 _________________________________________________________________________________________________
 -- 4 Thinking beyond convenience
@@ -84,19 +84,19 @@ __________________________________________________________________________
 __________________________________________________________________________
 
 -- Users table
-CREATE TABLE Users (
-    user_id INTEGER PRIMARY KEY,
-    first_name TEXT NOT NULL,
-    last_name TEXT NOT NULL
-);
+  CREATE TABLE Users (
+      user_id INTEGER PRIMARY KEY,
+      first_name TEXT NOT NULL,
+      last_name TEXT NOT NULL
+  );
 
 -- Orders table
-CREATE TABLE Orders (
-    order_id INTEGER PRIMARY KEY,
-    user_id INTEGER NOT NULL,
-    order_date TEXT NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES Users(user_id)
-);
+  CREATE TABLE Orders (
+      order_id INTEGER PRIMARY KEY,
+      user_id INTEGER NOT NULL,
+      order_date TEXT NOT NULL,
+      FOREIGN KEY (user_id) REFERENCES Users(user_id)
+  );
 
 -- Now:
 -- - User data is stored once
@@ -126,8 +126,8 @@ __________________________________________________________________________
 -- - Keep each column atomic
 __________________________________________________________________________
 -- Example starter:
-CREATE TABLE YourEntityHere (
-    entity_id INTEGER PRIMARY KEY,
-    column1 TEXT NOT NULL,
-    column2 REAL
-);
+  CREATE TABLE YourEntityHere (
+      entity_id INTEGER PRIMARY KEY,
+      column1 TEXT NOT NULL,
+      column2 REAL
+  );
