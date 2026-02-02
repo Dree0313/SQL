@@ -72,6 +72,7 @@ __________________________________________________________________________
 
 -- *This requires values for ALL columns in the correct order
 -- *Best practice: Always specify column names
+
 __________________________________________________________________________
 -- 3 INSERT Multiple Rows
 -- What it does: Inserts muliple records in one statement
@@ -120,6 +121,7 @@ __________________________________________________________________________
   -- status      Active   Active    Inactive   Active      Active     Active
 
 -- *Assumptions: status column has a DEFAULT value of 'Active'
+
 __________________________________________________________________________
 -- 5 INSERT Using SELECT
 -- What it does: Inserts data from another table
