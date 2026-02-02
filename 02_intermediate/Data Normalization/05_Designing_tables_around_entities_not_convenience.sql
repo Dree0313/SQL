@@ -33,10 +33,10 @@ ________________________________________________________________________________
 -- Syntax: FOREIGN KEY (column) REFERENCES other_table(column)
 _________________________________________________________________________________________________
   ALTER TABLE Products
-  ADD COLUMN user_id INTEGER;
+    ADD COLUMN user_id INTEGER;
   
   ALTER TABLE Products
-  ADD FOREIGN KEY (user_id) REFERENCES Users(user_id);
+    ADD FOREIGN KEY (user_id) REFERENCES Users(user_id);
 
 _________________________________________________________________________________________________
 -- 3 Atomic columns (1NF)
