@@ -70,5 +70,14 @@ Tier 1 - Core Querying
 
 -- INSERT
   -- 1. Insert a new member
-
+    INSERT INTO Members (first_name, last_name, status) VALUES ('Jane', 'Doe', 'Inactive');
+    SELECT * FROM Members;
+      member_id  first_name  last_name  status
+      ---------  ----------  ---------  --------
+      1          Alice       Johnson    Active
+      2          Bob         Smith      Active
+      3          Carol       Davis      Inactive
+      4          David       Brown      Active
+      5          Eva         Miller     Active
+      6          Jane        Doe        Inactive
   -- 2. Insert an associated account
