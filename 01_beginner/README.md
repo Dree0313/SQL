@@ -26,7 +26,7 @@ At this stage, the emphasis is on:
 
 ### Basic Data Modification
 - [`INSERT`](03_Basic_Data_Modification/01_INSERT.sql)
-- `UPDATE`
+- [`UPDATE`](03_Basic_Data_Modification/02_UPDATE.sql)
 - `DELETE`
 - Using `WHERE` safely with write operations
 
