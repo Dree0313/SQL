@@ -81,3 +81,43 @@ Tier 1 - Core Querying
       5          Eva         Miller     Active
       6          Jane        Doe        Inactive
   -- 2. Insert an associated account
+    UPDATE Accounts SET open_date = '2026-02-02' WHERE member_id = 6;
+    SELECT * FROM Accounts;
+      account_id  member_id  account_type  balance  open_date
+      ----------  ---------  ------------  -------  ----------
+      101         1          Checking      2500.0   2023-01-10
+      102         1          Savings       5000.0   2022-06-15
+      103         2          Checking      1500.0   2021-03-20
+      104         2          Savings       3500.0   2021-03-20
+      105         3          Checking      0.0      2020-11-11
+      106         4          Savings       7800.0   2024-02-01
+      107         5          Checking      1200.0   2023-12-25
+      108         6          Checking      200.0    2026-02-02
+
+-- UPDATE
+  -- 1. Update an account balance after a transaction
+    UPDATE Accounts SET balance = 2000.00 WHERE member_id = 6;
+    SELECT * FROM Accounts;
+      account_id  member_id  account_type  balance  open_date
+      ----------  ---------  ------------  -------  ----------
+      101         1          Checking      2400.0   2023-01-10
+      102         1          Savings       5000.0   2022-06-15
+      103         2          Checking      1500.0   2021-03-20
+      104         2          Savings       3500.0   2021-03-20
+      105         3          Checking      0.0      2020-11-11
+      106         4          Savings       7800.0   2024-02-01
+      107         5          Checking      1200.0   2023-12-25
+      108         6          Checking      2000.0   2026-02-02
+  -- 2. Use WHERE safely to avoid unintended updates
+    UPDATE Accounts SET balance = 2400.00 WHERE member_id = 1 AND account_type = 'Checking';
+    SELECT * FROM Accounts;
+      account_id  member_id  account_type  balance  open_date
+      ----------  ---------  ------------  -------  ----------
+      101         1          Checking      2400.0   2023-01-10
+      102         1          Savings       5000.0   2022-06-15
+      103         2          Checking      1500.0   2021-03-20
+      104         2          Savings       3500.0   2021-03-20
+      105         3          Checking      0.0      2020-11-11
+      106         4          Savings       7800.0   2024-02-01
+      107         5          Checking      1200.0   2023-12-25
+      108         6          Checking      200.0    2026-02-02
