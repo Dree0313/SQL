@@ -133,7 +133,7 @@ __________________________________________________________________________
 -- Solution:
   INSERT INTO employees (first_name, department, role, salary, staus)
     SELECT first_name, last_name, department, 'Junior Developer', salary,
-    'Acitve')
+    'Acitve'
     FROM interns
     WHERE department = 'IT';
 
