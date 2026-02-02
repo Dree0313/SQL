@@ -29,7 +29,7 @@ __________________________________________________________________________
 
 -- Solution: 
   SELECT*
-  FROM employees;
+    FROM employees;
 
 -- Expected Results:
   -- id            1       2          3          4          5
@@ -50,7 +50,7 @@ __________________________________________________________________________
 
 --Solution:
   SELECT first_name, last_name
-  FROM employees;
+    FROM employees;
 
 -- Expected Result:
   -- first_name  Alice    Bob   Carol   Dave    Eve
@@ -67,7 +67,7 @@ __________________________________________________________________________
 
 -- Solution:
   SELECT DISTINCT department
-  FROM employees;
+    FROM employees;
 
 -- Expected Result:
   -- department  HR  IT  Finance
@@ -83,7 +83,7 @@ __________________________________________________________________________
 
 -- Solution:
   SELECT first_name, 'Employee' AS role
-  FROM employees;
+    FROM employees;
 
 -- Expected Result:
   -- first_name  Alice      Bob      Carol      Dave      Eve
@@ -99,7 +99,7 @@ __________________________________________________________________________
 
 -- Solution:
   SELECT first_name || ' ' || last_name AS full_name
-  FROM employees;
+    FROM employees;
 
 -- Expected Result:
   -- full_name  Alice Johnson  Bob Smith  Carol Davis  Dave Wilson  Eve Taylor
