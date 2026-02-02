@@ -18,6 +18,11 @@ __________________________________________________________________________
     -- salary       75000    60000      50000     65000      75000
     -- status      Active   Active    Inactive   Active      Active
 
+  -- Table: interns
+    -- first_name  Kevin
+    -- last_name  Moore
+    -- department  IT
+    -- salary   48000
   
 __________________________________________________________________________
 -- 1️ Basic INSERT
@@ -35,7 +40,13 @@ __________________________________________________________________________
     VALUES ('Frank', 'Miller', 'IT', 'Support', 55000, 'Active');
 
 -- Expected Results:
-  -- A new role is added to the employees table with Frank's information
+  -- id            1       2          3          4          5          6
+  -- first_name  Alice     Bob       Carol       Dave       Eve       Frank
+  -- last_name   Johnson  Smith      Davis      Wilson     Taylor     Miller
+  -- department    HR      IT         HR         IT       Finance      IT
+  -- role        Manager  Analyst  Assistant  Developer  Accountant  Support
+  -- salary       75000    60000      50000     65000      75000      55000
+  -- status      Active   Active    Inactive   Active      Active     Active
 
 __________________________________________________________________________
 -- 2 INSERT Without Column List
@@ -51,89 +62,109 @@ __________________________________________________________________________
     VALUES (6, 'Grace', 'Lee', 'Finance', 'Analyst', 62000, 'Active');
 
 -- Expected Result:
-  -- first_name  Alice   Eve
-  -- salary      75000  75000
+  -- id            1       2          3          4          5          6
+  -- first_name  Alice     Bob       Carol       Dave       Eve       Grace
+  -- last_name   Johnson  Smith      Davis      Wilson     Taylor      Lee
+  -- department    HR      IT         HR         IT       Finance    Finance
+  -- role        Manager  Analyst  Assistant  Developer  Accountant  Analyst
+  -- salary       75000    60000      50000     65000      75000      62000
+  -- status      Active   Active    Inactive   Active      Active     Active
 
 -- *This requires values for ALL columns in the correct order
+-- *Best practice: Always specify column names
 __________________________________________________________________________
--- 3 LIMIT with ASC (Lowest Values)
--- What it does: Returns the lowest N values
--- Why use it: Find bottom values or minimum records
--- Syntax: SELECT columns FROM table_name ORDER BY column ASC LIMIT 
-  -- number;
-__________________________________________________________________________
--- Problem:
-  -- Management wants the 2 lowest-paid employees
-
--- Solution:
-  SELECT first_name, salary
-  FROM employees
-  ORDER BY salary ASC
-  LIMIT 2;
-
--- Expected Result:
-  -- first_name  Carol   Bob
-  -- salary      50000  60000
-
-__________________________________________________________________________
--- 4 LIMIT with Multiple Sort Rules
--- What it does: Applies LIMIT after multi-column sorting
--- Why use it: Precise ranking and filtering
--- Syntax: SELECT columns FROM table_name ORDER BY col1 DESC, col2 ASC 
-  -- LIMIT number;
+-- 3 INSERT Multiple Rows
+-- What it does: Inserts muliple records in one statement
+-- Why use it: Faster and more efficient
+-- Syntax: INSERT INTO table_name (columns) VALUES (row1_values, 
+  -- (row2_values);
 __________________________________________________________________________
 -- Problem:
-  -- Management wants the top 3 highest-paid employees, sorted
-    -- alphabetically when salaries tie
+  -- Management wants to add two new HR employees at once
 
 -- Solution:
-  SELECT first_name, salary
-  FROM employees
-  ORDER BY salary DESC, first_name ASC
-  LIMIT 3;
+  INSERT INTO employees (first_name, last_name, department, role, salary,
+    status)
+    VALUES ('Hannah', 'Brown', 'HR', 'Recruiter', 58000, 'Active'), ('Ian',
+    'Clark', 'HR', 'Coordinator', 52000, 'Active');
 
 -- Expected Result:
-  -- first_name  Alice   Eve   Dave
-  -- salary      75000  75000  65000
+  -- id            1       2          3          4          5          6             7
+  -- first_name  Alice     Bob       Carol       Dave       Eve      Hannah         Ian
+  -- last_name   Johnson  Smith      Davis      Wilson     Taylor     Brown        Clark
+  -- department    HR      IT         HR         IT       Finance      HR            HR
+  -- role        Manager  Analyst  Assistant  Developer  Accountant  Recruiter  Coordinator
+  -- salary       75000    60000      50000     65000      75000      58000        52000
+  -- status      Active   Active    Inactive   Active      Active     Active       Active
 
 __________________________________________________________________________
--- 5 LIMIT with WHERE
--- What it does: Limits results after filtering
--- Why use it: Focus on a subset of data
--- Syntax: SELECT columns FROM table_name WHERE condition ORDER BY column
-  -- LIMIT number;
+-- 4 INSERT with Default Values
+-- What it does: Uses default values defined in the table
+-- Why use it: Avoids manually setting common fields
+-- Syntax: INSERT INTO table_name (columns) VALUES (values);
 __________________________________________________________________________
 -- Problem:
-  -- Management wants the top 2 highest-paid IT employees
+  -- Management wants to add Julia Adams without specifying status
 
 -- Solution:
-  SELECT first_name, department, salary
-  FROM employees
-  WHERE department = 'IT'
-  ORDER BY salary DESC
-  LIMIT 2;
+  INSERT INTO employees (first_name, last_name, department, role, salary)
+    VALUES ('Julia', 'Adams', 'IT', 'Developer', 70000);
 
 -- Expected Result:
-  -- first_name  Dave    Bob
-  -- department   IT     IT
-  -- salary      65000  60000
+  -- id            1       2          3          4          5          6
+  -- first_name  Alice     Bob       Carol       Dave       Eve       Julia
+  -- last_name   Johnson  Smith      Davis      Wilson     Taylor     Adams
+  -- department    HR      IT         HR         IT       Finance      IT
+  -- role        Manager  Analyst  Assistant  Developer  Accountant  Developer
+  -- salary       75000    60000      50000     65000      75000      70000
+  -- status      Active   Active    Inactive   Active      Active     Active
 
+-- *Assumptions: status column has a DEFAULT value of 'Active'
 __________________________________________________________________________
--- 6 LIMIT with Aliases
--- What it does: Uses renamed colums in sorting and limiting
--- Why use it: Cleaner and more readable queries
--- Syntax: SELECT columns AS alias FROM table_name ORDER BY alias DESC
-  -- LIMIT number;
+-- 5 INSERT Using SELECT
+-- What it does: Inserts data from another table
+-- Why use it: Copy or move data efficiently
+-- Syntax: INSERT INTO table_name (columns) SELECT columns FROM 
+  -- other_table WHERE condition;
 __________________________________________________________________________
 -- Problem:
-  -- Management wants the top 3 salaries using a readable column name
+  -- Management wants to promote interns into full employees
 
 -- Solution:
-  SELECT first_name, salary AS Pay
-  FROM employees
-  ORDER BY Pay DESC
-  LIMIT 3;
+  INSERT INTO employees (first_name, department, role, salary, staus)
+    SELECT first_name, last_name, department, 'Junior Developer', salary,
+    'Acitve')
+    FROM interns
+    WHERE department = 'IT';
 
 -- Expected Result:
-  -- first_name  Alice   Eve   Dave
-  -- Pay         75000  75000  65000
+  -- id            1       2          3          4          5             6
+  -- first_name  Alice     Bob       Carol       Dave       Eve          Kevin
+  -- last_name   Johnson  Smith      Davis      Wilson     Taylor        Moore
+  -- department    HR      IT         HR         IT       Finance         IT
+  -- role        Manager  Analyst  Assistant  Developer  Accountant  Junior Developer
+  -- salary       75000    60000      50000     65000      75000         48000
+  -- status      Active   Active    Inactive   Active      Active        Active
+
+__________________________________________________________________________
+-- 6 INSERT with NULL Values
+-- What it does: Inserts missing or unknown values
+-- Why use it: Some data may not be available yet
+-- Syntax: INSERT INTO table_name (columns) VALUES (value, NULL);
+__________________________________________________________________________
+-- Problem:
+  -- Management wants to add an employee without a salary yet
+
+-- Solution:
+  INSERT INTO employees (first_name, last_name, department, role, salary, 
+    status)
+    VALUES ('Liam', 'Scott', 'Finance', 'Trainee', NULL, 'Active');
+
+-- Expected Result:
+  -- id            1       2          3          4          5          6
+  -- first_name  Alice     Bob       Carol       Dave       Eve       Liam
+  -- last_name   Johnson  Smith      Davis      Wilson     Taylor     Scott
+  -- department    HR      IT         HR         IT       Finance    Finance
+  -- role        Manager  Analyst  Assistant  Developer  Accountant  Trainee
+  -- salary       75000    60000      50000     65000      75000       NULL
+  -- status      Active   Active    Inactive   Active      Active     Active
