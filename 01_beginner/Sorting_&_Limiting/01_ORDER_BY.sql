@@ -29,8 +29,8 @@ __________________________________________________________________________
 
 -- Solution: 
   SELECT first_name, last_name
-  FROM employees
-  ORDER BY first_name;
+    FROM employees
+    ORDER BY first_name;
 
 -- Expected Results:
   -- First Name  Alice    Bob   Carol   Dave    Eve
@@ -47,8 +47,8 @@ __________________________________________________________________________
 
 --Solution:
   SELECT first_name, salary
-  FROM employees
-  ORDER BY salary DESC;
+    FROM employees
+    ORDER BY salary DESC;
 
 -- Expected Result:
   -- first_name  Alice   Eve   Dave    Bob   Carol
@@ -65,8 +65,8 @@ __________________________________________________________________________
 
 -- Solution:
   SELECT first_name, salary
-  FROM employees
-  ORDER BY salary ASC;
+    FROM employees
+    ORDER BY salary ASC;
 
 -- Expected Result:
   -- first_name  Carol   Bob   Dave   Alice   Eve
@@ -83,8 +83,8 @@ __________________________________________________________________________
 
 -- Solution:
   SELECT first_name, last_name, department
-  FROM employees
-  ORDER BY department, last_name;
+    FROM employees
+    ORDER BY department, last_name;
 
 -- Expected Result:
   -- first_name   Eve     Alice   Carol   Bob    Dave
@@ -103,8 +103,8 @@ __________________________________________________________________________
 
 -- Solution:
   SELECT first_name, salary
-  FROM employees
-  ORDER BY salary DESC, first_name ASC;
+    FROM employees
+    ORDER BY salary DESC, first_name ASC;
 
 -- Expected Result:
   -- first_name  Alice     Eve       Dave      Bob       Carol
@@ -121,8 +121,8 @@ __________________________________________________________________________
 
 -- Solution:
   SELECT first_name, salary AS Pay
-  FROM employees
-  ORDER BY Pay DESC;
+    FROM employees
+    ORDER BY Pay DESC;
 
 -- Expected Result:
   -- first_name  Alice     Eve       Dave      Bob       Carol
