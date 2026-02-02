@@ -30,8 +30,8 @@ __________________________________________________________________________
 
 -- Solution: 
   SELECT first_name, last_name
-  FROM employees
-  LIMIT 3;
+    FROM employees
+    LIMIT 3;
 
 -- Expected Results:
   -- first_name  Alice    Bob   Carol
@@ -51,9 +51,9 @@ __________________________________________________________________________
 
 --Solution:
   SELECT first_name, salary
-  FROM employees
-  ORDER BY salary DESC
-  LIMIT 2;
+    FROM employees
+    ORDER BY salary DESC
+    LIMIT 2;
 
 -- Expected Result:
   -- first_name  Alice   Eve
@@ -71,9 +71,9 @@ __________________________________________________________________________
 
 -- Solution:
   SELECT first_name, salary
-  FROM employees
-  ORDER BY salary ASC
-  LIMIT 2;
+    FROM employees
+    ORDER BY salary ASC
+    LIMIT 2;
 
 -- Expected Result:
   -- first_name  Carol   Bob
@@ -92,9 +92,9 @@ __________________________________________________________________________
 
 -- Solution:
   SELECT first_name, salary
-  FROM employees
-  ORDER BY salary DESC, first_name ASC
-  LIMIT 3;
+    FROM employees
+    ORDER BY salary DESC, first_name ASC
+    LIMIT 3;
 
 -- Expected Result:
   -- first_name  Alice   Eve   Dave
@@ -112,10 +112,10 @@ __________________________________________________________________________
 
 -- Solution:
   SELECT first_name, department, salary
-  FROM employees
-  WHERE department = 'IT'
-  ORDER BY salary DESC
-  LIMIT 2;
+    FROM employees
+    WHERE department = 'IT'
+    ORDER BY salary DESC
+    LIMIT 2;
 
 -- Expected Result:
   -- first_name  Dave    Bob
@@ -134,9 +134,9 @@ __________________________________________________________________________
 
 -- Solution:
   SELECT first_name, salary AS Pay
-  FROM employees
-  ORDER BY Pay DESC
-  LIMIT 3;
+    FROM employees
+    ORDER BY Pay DESC
+    LIMIT 3;
 
 -- Expected Result:
   -- first_name  Alice   Eve   Dave
