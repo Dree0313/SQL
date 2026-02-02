@@ -14,18 +14,18 @@ At this stage, the emphasis is on:
 ## Concepts Covered
 
 ### Core Querying
-- [`SELECT`](Core_Query/01_select.sql)
-- [`WHERE`](Core_Query/02_where.sql)
-- [Column selection vs `SELECT *`](Core_Query/03_Column_selection_vs_SELECT*.sql)
-- [Aliases (`AS`)](Core_Query/04_Aliases_(AS).sql)
+- [`SELECT`](01_Core_Query/01_select.sql)
+- [`WHERE`](01_Core_Query/02_where.sql)
+- [Column selection vs `SELECT *`](01_Core_Query/03_Column_selection_vs_SELECT*.sql)
+- [Aliases (`AS`)](01_Core_Query/04_Aliases_(AS).sql)
 
 ### Sorting & Limiting
-- [`ORDER BY`](Sorting_&_Limiting/01_ORDER_BY.sql)
-- [`ASC` / `DESC`](Sorting_&_Limiting/02_ASC_DESC.sql)
-- [`LIMIT`](Sorting_&_Limiting/03_LIMIT.sql)
+- [`ORDER BY`](02_Sorting_&_Limiting/01_ORDER_BY.sql)
+- [`ASC` / `DESC`](02_Sorting_&_Limiting/02_ASC_DESC.sql)
+- [`LIMIT`](02_Sorting_&_Limiting/03_LIMIT.sql)
 
 ### Basic Data Modification
-- `INSERT`
+- [`INSERT`](03_Basic_Data_Modification/INSERT.sql)
 - `UPDATE`
 - `DELETE`
 - Using `WHERE` safely with write operations
