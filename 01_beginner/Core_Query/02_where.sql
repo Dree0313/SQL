@@ -29,8 +29,8 @@ __________________________________________________________________________
 
 -- Solution: 
   SELECT first_name, last_name, department
-  FROM employees
-  WHERE department = 'HR';
+    FROM employees
+    WHERE department = 'HR';
 
 -- Expected Results:
   -- first_name   Alice    Carol
@@ -48,8 +48,8 @@ __________________________________________________________________________
 
 --Solution:
   SELECT first_name, last_name, department
-  FROM employees
-  WHERE department != 'Finance';
+    FROM employees
+    WHERE department != 'Finance';
 
 -- Expected Result:
   -- first_name  Alice    Bob   Carol   Dave
@@ -67,8 +67,8 @@ __________________________________________________________________________
 
 -- Solution:
   SELECT first_name, last_name, department, salary
-  FROM employees
-  WHERE department = 'IT' AND salary > 60000;
+    FROM employees
+    WHERE department = 'IT' AND salary > 60000;
 
 -- Expected Result:
   -- first_name  Dave
@@ -87,8 +87,8 @@ __________________________________________________________________________
 
 -- Solution:
   SELECT first_name, last_name, department, salary
-  FROM employees
-  WHERE department = 'HR' OR salary > 70000;
+    FROM employees
+    WHERE department = 'HR' OR salary > 70000;
 
 -- Expected Result:
   -- first_name  Alice   Carol   Eve
@@ -107,8 +107,8 @@ __________________________________________________________________________
 
 -- Solution:
   SELECT first_name, last_name, salary
-  FROM employees
-  WHERE salary BETWEEN 60000 AND 70000;
+    FROM employees
+    WHERE salary BETWEEN 60000 AND 70000;
 
 -- Expected Result:
   -- first_name  Bob    Dave
@@ -125,8 +125,8 @@ __________________________________________________________________________
 
 -- Solution:
   SELECT first_name, last_name, department
-  FROM employees
-  WHERE department IN ('HR', 'IT');
+    FROM employees
+    WHERE department IN ('HR', 'IT');
 
 -- Expected Result:
   -- first_name  Alice    Bob   Carol   Dave
@@ -144,8 +144,8 @@ __________________________________________________________________________
 
 -- Solution:
   SELECT first_name, last_name
-  FROM employees
-  WHERE first_name Like 'D%';
+    FROM employees
+    WHERE first_name Like 'D%';
 
 -- Expected Result:
   -- first_name  Dave
@@ -162,8 +162,8 @@ __________________________________________________________________________
 
 -- Solution:
   SELECT first_name, last_name, department
-  FROM employees
-  WHERE department IS NOT NULL;
+    FROM employees
+    WHERE department IS NOT NULL;
 
 -- Expected Result:
   -- first_name  Alice    Bob   Carol   Dave    Eve
