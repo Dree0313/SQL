@@ -25,7 +25,7 @@ At this stage, the emphasis is on:
 - [`LIMIT`](02_Sorting_&_Limiting/03_LIMIT.sql)
 
 ### Basic Data Modification
-- [`INSERT`](03_Basic_Data_Modification/INSERT.sql)
+- [`INSERT`](03_Basic_Data_Modification/01_INSERT.sql)
 - `UPDATE`
 - `DELETE`
 - Using `WHERE` safely with write operations
