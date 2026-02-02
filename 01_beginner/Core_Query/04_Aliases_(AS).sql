@@ -30,7 +30,7 @@ __________________________________________________________________________
 
 -- Solution: 
   SELECT first_name AS "First Name", last_name AS "Last Name"
-  FROM employees;
+    FROM employees;
 
 -- Expected Results:
   -- First Name  Alice    Bob   Carol   Dave    Eve
@@ -47,7 +47,7 @@ __________________________________________________________________________
 
 --Solution:
   SELECT department Dept
-  FROM employees;
+    FROM employees;
 
 -- Expected Result:
   -- Dept   HR      IT     HR      IT  Finance
@@ -63,7 +63,7 @@ __________________________________________________________________________
 
 -- Solution:
   SELECT first_name, salary * 1 AS annual_salary
-  FROM employees;
+    FROM employees;
 
 -- Expected Result:
   -- first_name     Alice   Bob   Carol  Dave    Eve
@@ -81,7 +81,7 @@ __________________________________________________________________________
 
 -- Solution:
   SELECT e.first_name, e.department
-  FROM employees AS e;
+    FROM employees AS e;
 
 -- Expected Result:
   -- Table name: e
@@ -99,7 +99,7 @@ __________________________________________________________________________
 
 -- Solution:
   SELECT e.*
-  FROM employees AS e;
+    FROM employees AS e;
 
 -- Expected Result:
   -- id            1       2          3          4           5
