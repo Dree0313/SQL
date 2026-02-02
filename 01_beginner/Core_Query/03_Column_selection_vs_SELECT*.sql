@@ -32,7 +32,7 @@ __________________________________________________________________________
 
 -- Solution: 
   SELECT*, salary > 65000 AS high_salary
-  FROM employees;
+    FROM employees;
 
 -- Expected Results:
   -- id            1       2          3          4          5
@@ -57,7 +57,7 @@ __________________________________________________________________________
 
 --Solution:
   SELECT first_name, role, salary
-  FROM employees;
+    FROM employees;
 
 -- Expected Result:
   -- first_name  Alice    Bob      Carol       Dave        Eve
