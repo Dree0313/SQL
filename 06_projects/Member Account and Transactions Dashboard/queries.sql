@@ -121,3 +121,7 @@ Tier 1 - Core Querying
       106         4          Savings       7800.0   2024-02-01
       107         5          Checking      1200.0   2023-12-25
       108         6          Checking      200.0    2026-02-02
+
+-- DELETE
+  -- 1. Delete test data only
+  -- 2. Delete records based on date conditions
