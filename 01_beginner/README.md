@@ -15,7 +15,7 @@ At this stage, the emphasis is on:
 
 ### Core Querying
 - [`SELECT`](Core_Query/01_select.sql)
-- [`WHERE`](Core_Query/01_where.sql)
+- [`WHERE`](Core_Query/02_where.sql)
 - [Column selection vs `SELECT *`](Core_Query/03_Column_selection_vs_SELECT*.sql)
 - [Aliases (`AS`)](Core_Query/04_Aliases_(AS).sql)
 
