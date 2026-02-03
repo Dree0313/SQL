@@ -28,7 +28,7 @@ At this stage, the emphasis is on:
 - [`INSERT`](03_Basic_Data_Modification/01_INSERT.sql)
 - [`UPDATE`](03_Basic_Data_Modification/02_UPDATE.sql)
 - [`DELETE`](03_Basic_Data_Modification/03_DELETE.sql)
-- Using `WHERE` safely with write operations
+- [Using `WHERE` safely with write operations](03_Basic_Data_Modification/04_Using_WHERE_safely_with_write_operations.sql)
 
 ### Simple Aggregations
 - `COUNT`
