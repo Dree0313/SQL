@@ -54,17 +54,17 @@ __________________________________________________________________________
 
 --Solution:
   UPDATE employees
-    SET role = 'Senior Developer', salary = 70000
+    SET role = 'Developer', salary = 70000
     WHERE first_name = 'Dave' AND last_name = 'Wilson';
 
 -- Expected Result:
-  -- id            1       2          3            4               5
-  -- first_name  Alice     Bob       Carol        Dave            Eve
-  -- last_name   Johnson  Smith      Davis        Wilson         Taylor
-  -- department    HR      IT         HR           IT            Finance
-  -- role        Manager  Analyst  Assistant  Senior Developer  Accountant
-  -- salary       75000    60000      50000       70000            75000
-  -- status      Active   Active    Inactive      Active           Active
+  -- id            1       2          3          4          5
+  -- first_name  Alice     Bob       Carol      Dave       Eve
+  -- last_name   Johnson  Smith      Davis     Wilson     Taylor
+  -- department    HR      IT         HR         IT       Finance
+  -- role        Manager  Analyst  Assistant  Developer  Accountant
+  -- salary       75000    60000      50000     70000      75000
+  -- status      Active   Active    Inactive    Active     Active
 
 __________________________________________________________________________
 -- 3 UPDATE with WHERE Multiple Conditions
