@@ -124,4 +124,31 @@ Tier 1 - Core Querying
 
 -- DELETE
   -- 1. Delete test data only
+    BEGIN TRANSACTION;
+    DELETE FROM Members WHERE first_name = 'Jane' AND last_name = 'Doe';
+      member_id  first_name  last_name  status
+      ---------  ----------  ---------  --------
+      1          Alice       Johnson    Active
+      2          Bob         Smith      Active
+      3          Carol       Davis      Inactive
+      4          David       Brown      Active
+      5          Eva         Miller     Active
   -- 2. Delete records based on date conditions
+    BEGIN TRANSACTION;
+    DELETE FROM Accounts WHERE open_date = '2026-02-02';
+    SELECT * FROM Accounts;
+      account_id  member_id  account_type  balance  open_date
+      ----------  ---------  ------------  -------  ----------
+      101         1          Checking      2400.0   2023-01-10
+      102         1          Savings       5000.0   2022-06-15
+      103         2          Checking      1500.0   2021-03-20
+      104         2          Savings       3500.0   2021-03-20
+      105         3          Checking      0.0      2020-11-11
+      106         4          Savings       7800.0   2024-02-01
+      107         5          Checking      1200.0   2023-12-25
+
+-- Aggregate Functions
+  -- 1. Total balance per member (SUM)
+  -- 2. Average transaction amount per account (AVG)
+  -- 3. Count of transactions per account (Count)
+  -- 4. Highest and lowest transaction values (Max, Min)
