@@ -148,7 +148,7 @@ Tier 1
       107         5          Checking      1200.0   2023-12-25
 
 -- Aggregate Functions
-  -- 1. Total balance per member (SUM)
+  -- 1. Total balance for all member accounts (SUM)
 
   -- 2. Average transaction amount per account (AVG)
   -- 3. Count of transactions per account (Count)
