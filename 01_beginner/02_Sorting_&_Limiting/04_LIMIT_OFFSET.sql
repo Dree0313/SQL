@@ -1,13 +1,13 @@
 __________________________________________________________________________
--- Beginner SQL: LIMIT
+-- Beginner SQL: LIMIT / OFFSET
 -- Purpose: Learn how to restricet the number of rows returned
 __________________________________________________________________________
 
 -- Scenerio:
   -- You are a junior database developer at a company. Managment only
   -- wants to see a small number or records, such as top earners or a 
-  -- quick preview of the data. You will use LIMIT to control how many
-  -- rows are returned
+  -- quick preview of the data. You will use LIMIT and OFFSET to control how many
+  -- rows are returned and where the results start.
 
   -- Table: employees
     -- id            1       2          3          4          5
@@ -141,3 +141,52 @@ __________________________________________________________________________
 -- Expected Result:
   -- first_name  Alice   Eve   Dave
   -- Pay         75000  75000  65000
+
+__________________________________________________________________________
+-- 7 OFFSET (Skipping Rows)
+-- What it does: Skips a specific number of rows before returning results
+-- Why use it: Pagination and ranked result sets
+-- Syntax: SELECT columns FROM table_name ORDER BY column LIMIT number
+  -- OFFSET number;
+__________________________________________________________________________
+-- Problem:
+  -- Management wants to skip the highest-paid employee and see the next 2
+
+-- Solution:
+  SELECT first_name, salary
+    FROM employees
+    ORDER BY salary DESC
+    LIMIT 2 OFFSET 1;
+
+-- Expected Result:
+  -- first_name  Eve   Dave
+  -- salary      75000  65000
+
+__________________________________________________________________________
+-- 8 LIMIT + OFFSET for Pagination
+-- What it does: Returns a specific "page" of results
+-- Why use it: Common in applications and reports
+__________________________________________________________________________
+-- Problem:
+  -- Page size is 2 employees per page
+  -- Show page 2 (skip first 2, show next 2)
+
+-- Solution:
+  SELECT first_name, last_name
+    FROM employees
+    ORDER BY id
+    LIMIT 2 OFFSET 2;
+
+-- Expected Result:
+  -- first_name  Carol  Dave
+  -- last_name   Davis  Wilson
+
+__________________________________________________________________________
+-- 9 OFFSET without ORDER BY (Why It's Dangerous)
+-- OFFSET always assumes a stable order
+-- Without ORDER BY, skipped rows are unpredictable
+__________________________________________________________________________
+-- Avoid this:
+  SELECT first_name
+  FROM employees
+  LIMIT 2 OFFSET 2;
