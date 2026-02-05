@@ -149,7 +149,10 @@ Tier 1
 
 -- Aggregate Functions
   -- 1. Total balance for all member accounts (SUM)
-
+    SELECT SUM(balance) AS Total_Balance FROM Accounts;
+      Total_Balance
+      -------------
+      21400.0
   -- 2. Average transaction amount per account (AVG)
   -- 3. Count of transactions per account (Count)
   -- 4. Highest and lowest transaction values (Max, Min)
