@@ -1,4 +1,4 @@
-Tier 1 - Core Querying
+Tier 1
 
 -- Basic SELECT Usage
   -- 1. List all members
@@ -149,6 +149,7 @@ Tier 1 - Core Querying
 
 -- Aggregate Functions
   -- 1. Total balance per member (SUM)
+
   -- 2. Average transaction amount per account (AVG)
   -- 3. Count of transactions per account (Count)
   -- 4. Highest and lowest transaction values (Max, Min)
