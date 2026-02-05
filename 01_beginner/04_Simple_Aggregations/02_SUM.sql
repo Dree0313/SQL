@@ -56,7 +56,7 @@ __________________________________________________________________________
 -- 3 SUM with Multiple Conditions
 -- What it does: Adds up values that meet multiple criteria
 -- Why use it: Precise totals for filtered subsets
--- Syntax: SELECT SUM(column_name FROM table_name WHERE condition1 AND
+-- Syntax: SELECT SUM(column_name) FROM table_name WHERE condition1 AND
   -- condition2;
 __________________________________________________________________________
 -- Problem:
