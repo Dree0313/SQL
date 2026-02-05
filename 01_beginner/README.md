@@ -22,8 +22,8 @@ At this stage, the emphasis is on:
 ### Sorting & Limiting
 - [`ORDER BY`](02_Sorting_&_Limiting/01_ORDER_BY.sql)
 - [`ASC` / `DESC`](02_Sorting_&_Limiting/02_ASC_DESC.sql)
-- [`TOP`]()
-- [`LIMIT` / `OFFSET`](02_Sorting_&_Limiting/04_LIMIT_OFFSET.sql)
+- [`TOP`](02_Sorting_&_Limiting/03_TOP.sql) (SQL Server)
+- [`LIMIT` / `OFFSET`](02_Sorting_&_Limiting/04_LIMIT_OFFSET.sql) (MySQL / PostgreSQL)
 
 ### Basic Data Modification
 - [`INSERT`](03_Basic_Data_Modification/01_INSERT.sql)
