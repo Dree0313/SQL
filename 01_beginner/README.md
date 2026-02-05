@@ -32,7 +32,7 @@ At this stage, the emphasis is on:
 - [Using `WHERE` safely with write operations](03_Basic_Data_Modification/04_Using_WHERE_safely_with_write_operations.sql)
 
 ### Simple Aggregations
-- `COUNT`
+- [`COUNT`](04_Simple_Aggregations/01_COUNT.sql)
 - `SUM`
 - `MIN`
 - `MAX`
