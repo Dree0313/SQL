@@ -97,6 +97,7 @@ __________________________________________________________________________
 __________________________________________________________________________
 -- Problem: 
   -- Management wants the maximum salary labeled as "HighestPay"
+
 -- Solution: 
   SELECT MAX(salary) AS HighestPay
     FROM employees;
