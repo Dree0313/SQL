@@ -101,3 +101,103 @@ After completing this tier, I should be able to:
 - Use advanced SQL features for analytics and reporting
 - Make informed tradeoffs between correctness, speed, and complexity
 - Think like a database-aware software engineer, not just a query writer
+
+
+
+Tier 4: Expert (Database Engineering)
+
+Now SQL becomes part of a system, not the star.
+
+Subjects
+
+Database internals
+
+Query planners & optimizers
+
+Cost-based optimization
+
+MVCC (Multi-Version Concurrency Control)
+
+Write-ahead logging (WAL)
+
+Replication strategies
+
+Sharding
+
+Fault tolerance
+
+Distributed SQL systems (Spanner, CockroachDB)
+
+Schema evolution at scale
+
+Backups & disaster recovery
+
+🧠 This is knowing what the database engine is doing behind the scenes.
+
+Tier 5: Research / PhD-Level (Database Science)
+
+🔥 This is where “PhD level” actually lives.
+
+SQL becomes secondary.
+
+Core Subjects (ALL of these matter)
+📐 Theory
+
+Relational algebra
+
+Relational calculus
+
+Query equivalence
+
+Normal form proofs
+
+Functional dependencies
+
+Constraint satisfaction
+
+Formal query languages
+
+⚙️ Systems
+
+Query optimizer design
+
+Index structure research (B-trees, LSM trees)
+
+Storage engines
+
+Distributed consensus (Paxos, Raft)
+
+CAP theorem tradeoffs
+
+Transaction correctness proofs
+
+Snapshot isolation models
+
+📊 Data Science + Databases
+
+Columnar storage
+
+Vectorized execution
+
+Analytical vs OLTP engines
+
+Approximate query processing
+
+Streaming SQL
+
+Temporal databases
+
+Graph databases & extensions
+
+🧪 Research & Innovation
+
+Designing new SQL dialects
+
+Query language evolution
+
+Database benchmarking research
+
+New data models (beyond relational)
+
+Performance modeling
+
