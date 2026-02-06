@@ -92,7 +92,8 @@ __________________________________________________________________________
 __________________________________________________________________________
 -- 5 SUM with Aliases
 -- What it does: Uses a readable name for the total
--- Why use it: SELECT SUM(column_name) AS AliasName FROM table_name;
+-- Why use it: Makes reports and queries easier to understand
+-- Syntax: SELECT SUM(column_name) AS AliasName FROM table_name;
 __________________________________________________________________________
 -- Problem: 
   -- Management wants the total payroll labeled as "PayrollTotal"
