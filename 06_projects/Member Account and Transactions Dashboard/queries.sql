@@ -172,3 +172,8 @@ Tier 1
       Lowest_balance
       --------------
       0.0
+
+--Conditional Filters
+  -- 1. Transactions above or below thresholds
+  -- 2. Transactions within a date range
+  -- 3. Filter records using IS NULL / IS NOT NULL
