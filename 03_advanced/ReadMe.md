@@ -1,80 +1,102 @@
-# Tier 2: Intermediate — Relational Thinking
+# Tier 3: Advanced — Professional Engineer Level
 
 ## Purpose
-This section focuses on how data relates across tables and how real-world business rules are expressed through SQL.
+This section focuses on performance, correctness under load, and real-world operational behavior of SQL systems.
 
-The goal is to move beyond single-table queries and begin thinking in terms of:
-- Relationships between entities
-- Aggregations across datasets
-- Enforcing correctness through constraints
+The goal is to move beyond "does this query work" and begin thinking in terms of:
+- How queries behave at scale
+- How concurrent users affect data correctness
+- How database design choices impact performance and reliability
+- How SQL fits into larger production systems
 
 ---
 
 ## Concepts Covered
 
-### Multiple-Table Querying
-- `INNER JOIN`
-- `LEFT JOIN`
-- Joining tables using primary and forein keys
-- Understanding join cardinality
+### Window Functions & Analytical Queries
+- Window functions vs aggregate functions
+- `LAG`, `LEAD`
+- Ranking functions (`RANK`, `DENSE_RANK`, `ROW_NUMBER`)
+- Partitioning result sets with `OVER (PARTITION BY ...)`
+- Running totals, moving averages, and time-based analysis
+- When window functions replace subqueries or self-joins
 
-### Aggregations & Grouping
-- `GROUP BY`
-- `HAVING`
-- Aggregating across related tables
+### Query Optimization & Performance
+- Understanding why two "correct" queries can have very different performance
+- Avoiding unnecessary scans and computations
+- Reducting data movement and intermediate result sizes
+- Recognizing anti-patterns (overuse of subqueries, SELECT *)
+- Writing SQL with the optimizer in mind
 
-### Subqueries
-- Subqueries in `SELECT`
-- Subqueries in `WHERE`
-- Correlated vs non-correlated subqueries
-- When a subquery is more readable than a join
+### Execution Plans
+- Reading and interpreting execution plans
+- Sequential scans vs index scans
+- Join algorithms (nested loop, hash join, merge join)
+- Cost estimates vs actual execution behavior
+- Identifying bottlenecks in real queries
+- Knowing when the optimizer is wrong and why
 
-### Common Table Expressions (CTEs)
-- `WITH` clauses
-- Breaking complex queries into logical steps
-- Improving readability and maintainability
-- Using CTEs for intermediate calculations
+### Index Strategies
+- Single-column vs composite indexes
+- Index selectivity and cardinality
+- Covering indexes
+- When indexes help vs hurt
+- Index maintenance costs on write-heavy systems
+- Indexing for joins, filterrs, and sorting
+- Understanding how indexes affect execution plans
 
-### Constraints & Data Integrity
-- Primary Keys (`PRIMARY KEY`)
-- Foreign Keys (`FOREIGN KEY`)
-- `CHECK` constraints
-- Preventing invalid or contradictory data
-- Understanding what belongs in schema vs logic
+### Transaction & Isolation Levels
+- What a transaction actually guarantees
+- ACID properties in practice
+- Autocommit vs explicit transactions
+- Isolation levels:
+  - Read Uncommitted
+  - Read Committed
+  - Repeatable Read
+  - Serializable
+- Tradeoffs between consistency and concurrency
+- Preventing partial updates and data corruption
 
-### Data Normalization
-- First Normal Form (1NF)
-- Second Normal Form (2NF)
-- Third Normal Form (3NF)
-- Eliminating redundancy
-- Designing tables around entities, not convenience
+### Locks & Concurrency
+- How databases prevent conflicting writes
+- Shared vs exclusive locks
+- Row-level vs table-level locking
+- Deadlocks: why they happen and how to avoid them
+- Blocking vs non-blocking reads
+- Writing queries that behave correctly under concurrent access
 
-### Views
-- Creating `VIEW`s
-- Abstracting complex queries
-- Presenting simplified, business-friendly datasets
-- Using views for reporting and consistency
+### Stored Procedures & Triggers
+- Encapsulating logic inside the database
+- Stored procedures vs application-layered logic
+- Triggeres for enforcing business rules
+- Risks of hidden logic and side effects
+- When database logic improves safety
+- When it becomes a maintenance liability
 
-### Basic Indexing
-- What indexes are
-- When indexing helps
-- Tradeoffs between read speed and write cost
-- Indexing foreign keys and frequently filtering columns
+### Patitioning & Large Datasets
+- Horizontal partitioning strategies
+- Partitioning by date, range, or key
+- How partitioning affects query planning
+- Pruning partitions for performance
+- Tradeoffs between complexity and scalability
+- Managing historical vs active data
 
-### Translating Business Rules → SQL
-- Converting written requirements into contraints
-- Expressing rules like:
-  - Eligibility
-  - Status-based restrictions
-  - Financial limits
-- Understanding the difference between data correctness and application logic
+### Denormalization Tradeoffs
+- When normalization becomes a performance problem
+- Strategic duplication for read-heavy workloads
+- Balancing write complexity vs read speed
+- Preventing data drift and inconsistency
+- Documenting denormalization assumptions
+- Understanding why a system breaks normalizaiton rules
 
 ---
 
 ## Expected Outcome
 After completing this tier, I should be able to:
-- Write queries that span multiple related tables
-- Aggregate and summarize data in meaningful ways
-- Design schemas that reflect real-world entities
-- Enforce business rules using constraints and SQL logic
-- Read and reason about non-trivial SQL queries with confidence
+- Write SQL that is correct and performant at scale
+- Diagnose slow queries using execution plans
+- Design indexing strategies aligned with access patterns
+- Reason about concurrency, locking, and isolation issues
+- Use advanced SQL features for analytics and reporting
+- Make informed tradeoffs between correctness, speed, and complexity
+- Think like a database-aware software engineer, not just a query writer
