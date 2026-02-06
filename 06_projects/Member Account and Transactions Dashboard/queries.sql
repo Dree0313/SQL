@@ -168,6 +168,7 @@ Tier 1
       Highest_balance
       ---------------
       7800.0
+        
     SELECT MIN(balance) AS Lowest_balance FROM Accounts;
       Lowest_balance
       --------------
@@ -175,5 +176,20 @@ Tier 1
 
 --Conditional Filters
   -- 1. Transactions above or below thresholds
+    SELECT * FROM Accounts WHERE balance > 2000.00;
+      account_id  member_id  account_type  balance  open_date
+      ----------  ---------  ------------  -------  ----------
+      101         1          Checking      2400.0   2023-01-10
+      102         1          Savings       5000.0   2022-06-15
+      104         2          Savings       3500.0   2021-03-20
+      106         4          Savings       7800.0   2024-02-01
+        
+    SELECT * FROM Accounts WHERE balance <= 2000.00;
+      account_id  member_id  account_type  balance  open_date
+      ----------  ---------  ------------  -------  ----------
+      103         2          Checking      1500.0   2021-03-20
+      105         3          Checking      0.0      2020-11-11
+      107         5          Checking      1200.0   2023-12-25
+
   -- 2. Transactions within a date range
   -- 3. Filter records using IS NULL / IS NOT NULL
