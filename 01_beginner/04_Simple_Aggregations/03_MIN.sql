@@ -28,7 +28,7 @@ __________________________________________________________________________
   -- Management wants to know the lowest salary in the company
 
 -- Solution: 
-  SELECT MINlary) AS MinSalary
+  SELECT MIN(salary) AS MinSalary
     FROM employees;
 
 -- Expected Results:
