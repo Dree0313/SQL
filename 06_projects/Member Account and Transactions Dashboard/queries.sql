@@ -153,6 +153,22 @@ Tier 1
       Total_Balance
       -------------
       21400.0
-  -- 2. Average transaction amount per account (AVG)
-  -- 3. Count of transactions per account (Count)
+  -- 2. Average transaction amount for all accounts (AVG)
+     SELECT AVG(balance) AS Avg_Balance FROM Accounts;
+      Avg_Balance
+      ----------------
+      3057.14
+  -- 3. Count of all accounts (Count)
+    SELECT COUNT(*) AS Total_Accounts FROM Accounts;
+      Total_Accounts
+      --------------
+      7
   -- 4. Highest and lowest transaction values (Max, Min)
+    SELECT MAX(balance) AS Highest_balance FROM Accounts;
+      Highest_balance
+      ---------------
+      7800.0
+    SELECT MIN(balance) AS Lowest_balance FROM Accounts;
+      Lowest_balance
+      --------------
+      0.0
