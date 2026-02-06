@@ -35,7 +35,7 @@ At this stage, the emphasis is on:
 - [`COUNT`](04_Simple_Aggregations/01_COUNT.sql)
 - [`SUM`](04_Simple_Aggregations/02_SUM.sql)
 - [`MIN`](04_Simple_Aggregations/03_MIN.sql)
-- `MAX`
+- [`MAX`](04_Simple_Aggregations/04_MAX.sql)
 - `AVG`
 
 ### Basic Filtering Logic
