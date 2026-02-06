@@ -38,7 +38,7 @@ __________________________________________________________________________
 
 __________________________________________________________________________
 -- 2 AVG with WHERE
--- What it does: calculates the average for rows matching a condition
+-- What it does: Calculates the average for rows matching a condition
 -- Why use it: Focuses on a specific subset of the data
 -- Syntax: SELECT AVG(column_name) FROM table_name WHERE condition;
 __________________________________________________________________________
