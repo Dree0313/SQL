@@ -40,7 +40,7 @@ At this stage, the emphasis is on:
 - [`AVG`](04_Simple_Aggregations/05_AVG.sql)
 
 ### Basic Filtering Logic
-- Comparison operators (`=`, `!=`, `<`, `>`, `<=`, `>=`)
+- [Comparison operators (`=`, `!=`, `<`, `>`, `<=`, `>=`)](05_Basic_Filtering_Logic/01_Comparison_operators_(=,_!=,_<,_>,_<=,_>=).sql)
 - Logical operators (`AND`, `OR`)
 - `IN`
 - `BETWEEN`
