@@ -34,7 +34,7 @@ At this stage, the emphasis is on:
 ### Simple Aggregations
 - [`COUNT`](04_Simple_Aggregations/01_COUNT.sql)
 - [`SUM`](04_Simple_Aggregations/02_SUM.sql)
-- `MIN`
+- [`MIN`](04_Simple_Aggregations/03_MIN.sql)
 - `MAX`
 - `AVG`
 
