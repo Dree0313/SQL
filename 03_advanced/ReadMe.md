@@ -56,7 +56,7 @@ The goal is to move beyond "does this query work" and begin thinking in terms of
   - Serializable
 - Tradeoffs between consistency and concurrency
 - Preventing partial updates and data corruption
-- `TRUNCATE`
+- [`TRUNCATE`](05_Transaction_&_Isolation_Levels/10_TRUNCATE.sql)
 
 ### Locks & Concurrency
 - How databases prevent conflicting writes
