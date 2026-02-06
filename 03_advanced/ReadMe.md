@@ -1,0 +1,80 @@
+# Tier 2: Intermediate — Relational Thinking
+
+## Purpose
+This section focuses on how data relates across tables and how real-world business rules are expressed through SQL.
+
+The goal is to move beyond single-table queries and begin thinking in terms of:
+- Relationships between entities
+- Aggregations across datasets
+- Enforcing correctness through constraints
+
+---
+
+## Concepts Covered
+
+### Multiple-Table Querying
+- `INNER JOIN`
+- `LEFT JOIN`
+- Joining tables using primary and forein keys
+- Understanding join cardinality
+
+### Aggregations & Grouping
+- `GROUP BY`
+- `HAVING`
+- Aggregating across related tables
+
+### Subqueries
+- Subqueries in `SELECT`
+- Subqueries in `WHERE`
+- Correlated vs non-correlated subqueries
+- When a subquery is more readable than a join
+
+### Common Table Expressions (CTEs)
+- `WITH` clauses
+- Breaking complex queries into logical steps
+- Improving readability and maintainability
+- Using CTEs for intermediate calculations
+
+### Constraints & Data Integrity
+- Primary Keys (`PRIMARY KEY`)
+- Foreign Keys (`FOREIGN KEY`)
+- `CHECK` constraints
+- Preventing invalid or contradictory data
+- Understanding what belongs in schema vs logic
+
+### Data Normalization
+- First Normal Form (1NF)
+- Second Normal Form (2NF)
+- Third Normal Form (3NF)
+- Eliminating redundancy
+- Designing tables around entities, not convenience
+
+### Views
+- Creating `VIEW`s
+- Abstracting complex queries
+- Presenting simplified, business-friendly datasets
+- Using views for reporting and consistency
+
+### Basic Indexing
+- What indexes are
+- When indexing helps
+- Tradeoffs between read speed and write cost
+- Indexing foreign keys and frequently filtering columns
+
+### Translating Business Rules → SQL
+- Converting written requirements into contraints
+- Expressing rules like:
+  - Eligibility
+  - Status-based restrictions
+  - Financial limits
+- Understanding the difference between data correctness and application logic
+
+---
+
+## Expected Outcome
+After completing this tier, I should be able to:
+- Write queries that span multiple related tables
+- Aggregate and summarize data in meaningful ways
+- Design schemas that reflect real-world entities
+- Enforce business rules using constraints and SQL logic
+- Read and reason about non-trivial SQL queries with confidence
