@@ -17,7 +17,8 @@ At this stage, the emphasis is on:
 - [`SELECT`](01_Core_Query/01_select.sql)
 - [`WHERE`](01_Core_Query/02_where.sql)
 - [Column selection vs `SELECT *`](01_Core_Query/03_Column_selection_vs_SELECT*.sql)
-- [Aliases (`AS`)](01_Core_Query/04_Aliases_(AS).sql)
+- [`DISTINCT`]()
+- [Aliases (`AS`)](01_Core_Query/05_Aliases_(AS).sql)
 
 ### Sorting & Limiting
 - [`ORDER BY`](02_Sorting_&_Limiting/01_ORDER_BY.sql)
