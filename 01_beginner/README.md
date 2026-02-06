@@ -36,7 +36,7 @@ At this stage, the emphasis is on:
 - [`SUM`](04_Simple_Aggregations/02_SUM.sql)
 - [`MIN`](04_Simple_Aggregations/03_MIN.sql)
 - [`MAX`](04_Simple_Aggregations/04_MAX.sql)
-- `AVG`
+- [`AVG`](04_Simple_Aggregations/05_AVG.sql)
 
 ### Basic Filtering Logic
 - Comparison operators (`=`, `!=`, `<`, `>`, `<=`, `>=`)
