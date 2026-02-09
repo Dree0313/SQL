@@ -96,7 +96,9 @@ Tier 1
 
 -- UPDATE
   -- 1. Update an account balance after a transaction
-    UPDATE Accounts SET balance = 2000.00 WHERE member_id = 6;
+    INSERT INTO Transactions (transaction_id, account_id, transaction_date, amount, description) 
+        VALUES (1011, 108, '2026-02-02', 200, 'Bonus');
+    UPDATE Accounts SET balance = 200.00 WHERE member_id = 6;
     SELECT * FROM Accounts;
       account_id  member_id  account_type  balance  open_date
       ----------  ---------  ------------  -------  ----------
@@ -107,7 +109,7 @@ Tier 1
       105         3          Checking      0.0      2020-11-11
       106         4          Savings       7800.0   2024-02-01
       107         5          Checking      1200.0   2023-12-25
-      108         6          Checking      2000.0   2026-02-02
+      108         6          Checking      200.0   2026-02-02
   -- 2. Use WHERE safely to avoid unintended updates
     UPDATE Accounts SET balance = 2400.00 WHERE member_id = 1 AND account_type = 'Checking';
     SELECT * FROM Accounts;
@@ -176,20 +178,82 @@ Tier 1
 
 --Conditional Filters
   -- 1. Transactions above or below thresholds
-    SELECT * FROM Accounts WHERE balance > 2000.00;
-      account_id  member_id  account_type  balance  open_date
-      ----------  ---------  ------------  -------  ----------
-      101         1          Checking      2400.0   2023-01-10
-      102         1          Savings       5000.0   2022-06-15
-      104         2          Savings       3500.0   2021-03-20
-      106         4          Savings       7800.0   2024-02-01
-        
-    SELECT * FROM Accounts WHERE balance <= 2000.00;
-      account_id  member_id  account_type  balance  open_date
-      ----------  ---------  ------------  -------  ----------
-      103         2          Checking      1500.0   2021-03-20
-      105         3          Checking      0.0      2020-11-11
-      107         5          Checking      1200.0   2023-12-25
+    SELECT * FROM Transactions WHERE amount > 300.00 OR amount < 100;
+      transaction_id  account_id  transaction_date  amount  description
+      --------------  ----------  ----------------  ------  ------------
+      1001            101         2026-01-10        1000.0  Paycheck  
+      1003            102         2026-01-05        500.0   Gift      
+      1006            104         2026-01-09        50.0    Coffee    
+      1007            106         2026-01-15        1000.0  Bonus     
+      1009            101         2026-01-17        50.0    Subscription
 
   -- 2. Transactions within a date range
+    SELECT * FROM Transactions WHERE transaction_date < '2026-01-07' OR transaction_date > '2026-01-15';
+      transaction_id  account_id  transaction_date  amount  description
+      --------------  ----------  ----------------  ------  -----------------
+      1003            102         2026-01-05        500.0   Gift      
+      1008            107         2026-01-16        100.0   Restaurant
+      1009            101         2026-01-17        50.0    Subscription
+      1010            102         2026-01-18        200.0   Freelance Payment
+      1011            108         2026-02-02        200.0   Bonus     
   -- 3. Filter records using IS NULL / IS NOT NULL
+     SELECT * FROM Transactions WHERE description IS NULL;
+      transaction_id  account_id  transaction_date  amount  description
+      --------------  ----------  ----------------  ------  -----------
+      1012            108         2026-02-09        100.0             
+    SELECT * FROM Transactions WHERE description IS NOT NULL;
+      transaction_id  account_id  transaction_date  amount  description
+      --------------  ----------  ----------------  ------  -----------------
+      1001            101         2026-01-10        1000.0  Paycheck  
+      1002            101         2026-01-12        200.0   Groceries 
+      1003            102         2026-01-05        500.0   Gift      
+      1004            103         2026-01-07        150.0   Gas       
+      1005            104         2026-01-08        300.0   Refund    
+      1006            104         2026-01-09        50.0    Coffee    
+      1007            106         2026-01-15        1000.0  Bonus     
+      1008            107         2026-01-16        100.0   Restaurant
+      1009            101         2026-01-17        50.0    Subscription
+      1010            102         2026-01-18        200.0   Freelance Payment
+      1011            108         2026-02-02        200.0   Bonus  
+
+Tier 2
+
+-- JOIN Operations
+  -- 1. Join members to accounts
+  -- 2. Join accounts to transactions
+  -- 3. Retrieve full member transaction history
+
+-- LEFT JOIN Logic
+  -- 1. Identify members with no associated accounts
+  -- 2. Understand join cardinality and missing relationships
+
+-- Non-Correlated Subqueries
+  -- 1. Identify members exceeding a transaction total threshold
+
+-- Correlated Subqueries
+  -- 1. Retrieve the most recent transaction per account
+
+-- WITH Clauses
+  -- 1. Calculate running balances per account
+  -- 2. Generate summarized member-level data
+
+-- Primary Keys
+  -- 1. Unique identifiers for all tables
+
+-- Foreign Keys
+  -- 1. Enforce valid relationships between tables
+
+-- CHECK Constraints
+  -- 1. Restrict valid statuses
+  -- 2. Restrict valid account types
+
+-- Reporting Views
+  -- 1. Member summary view (status, totals)
+  -- 2. Recent transactions view (time-based filtering)
+
+Tier 3
+
+-- Indexing
+  -- 1. Index frequently joined foreign keys
+  -- 2. Index frequently filtered columns
+
