@@ -1,13 +1,13 @@
 __________________________________________________________________________
--- Beginner SQL: IS NULL / IS NOT NULL
--- Purpose: Learn how to filter rows with missing (NULL) values
+-- Beginner SQL: Understanding How NULL Behaves in Queries
+-- Purpose: Learn how NULL affects comparisons, filtering, and results
 __________________________________________________________________________
 
 -- Scenerio:
-  -- You are a junior database developer at a company. Managment needs
-  -- reports that identify missing or incomplete employee data (such as
-  -- missing salaries or roles). You will use IS NULL and IS NOT NULL to 
-  -- correctly filter these records
+  -- You are a junior database developer at a company. Managment has 
+  -- noticed inconsistencies in reports caused by missing data. To prevent
+  -- bugs and incorrect results, you must understand how NULL behaves in
+  -- SQL querries and why it requires special handling.
 
   -- Table: employees
     -- id            1       2          3          4          5
@@ -19,94 +19,114 @@ __________________________________________________________________________
     -- status      Active   Active    Inactive   Active      Active
   
 __________________________________________________________________________
--- 1️ Basic IS NULL
--- What it does: Filters rows where column has no value
--- Why use it: Finds missing or incomplete data
--- Syntax: WHERE column_name IS NULL
+-- 1️ NULL Is Not a Value
+-- What it does: Demonstrates that NULL means "unknown", not zero or empty
+-- Why use it: Prevents incorrect assumptions about missing data
 __________________________________________________________________________
 -- Problem: 
-  -- Management wants employees with missing salary information
+  -- Management asks if any employee has a salary of 0
 
 -- Solution: 
   SELECT first_name, salary
     FROM employees
-    WHERE salary IS NULL;
+    WHERE salary = 0;
 
 -- Expected Results:
-  -- first_name  Eve
-  -- salary      NULL
+  -- No rows returned
+  -- NULL does not equal 0, empty, or any number
 
 __________________________________________________________________________
--- 2 IS NOT NULL
--- What it does: Filters rows where a column has a value
--- Why use it: Ensures only complete records are returned
--- Syntax: WHERE column_name IS NOT NULL
+-- 2 NULL Breaks Comparison Operators
+-- What it does: Shows how comparisons with NULL always return UNKNOWN
+-- Why use it: Explains why rows disappear unexpectedly
 __________________________________________________________________________
 -- Problem:
-  -- Management wants employees with known salaries
+  -- Management wants employees earning more than 60000
 
 -- Solution:
   SELECT first_name, salary
     FROM employees
-    WHERE salary IS NOT NULL;
+    WHERE salary > 60000;
 
 -- Expected Result:
-  -- first_name  Alice   Bob   Carol  Dave
-  -- salary      75000  60000  50000  65000
+  -- first_name  Alice   Dave
+  -- salary      75000  65000
+
+  -- Eve is excluded because NULL > 60000 is UNKNOWN, not TRUE
 
 __________________________________________________________________________
--- 3 NULL vs Comparison Operators
--- What it does: Shows why NULL cannot be compared using = or !=
--- Why use it: Prevents common beginner mistake
+-- 3 NULL and NOT Conditions
+-- What it does: Shows how NULL behaves with NOT
+-- Why use it: Avoids missing rows in exclusion filters
 __________________________________________________________________________
 -- Problem: 
-  -- A developer tries to find missing salaries using = NULL (this is 
-    -- wrong)
+  -- Management wants employees NOT earning more than 60000
 
--- Incorrect: 
-  SELECT first_name
+-- Solution: 
+  SELECT first_name, salary
     FROM employees
-    WHERE salary = NULL;
-
--- Solution:
-  SELECT first_name
-    FROM employees
-    WHERE salary IS NULL;
+    WHERE NOT (salary > 60000);
 
 -- Expected Results:
-  -- first_name   Eve
+  -- first_name   Carol
+  -- salary       50000
+
+  -- Bob (60000) and Eve (NULL) are excluded
+  -- NOT UNKNOWN is still UNKNOWN
 
 __________________________________________________________________________
--- 4 IS NULL with Logical Conditions
--- What it does: Combines NULL checks with other filters
--- Why use it: Models real-world business logic
+-- 4 NULL in Logical AND / OR
+-- What it does: Demonstrates how NULL affects logical experessions
+-- Why use it: Prevents faulty business logic
 __________________________________________________________________________
 -- Problem:
-  -- Management wants active employees who are missing salary data
+  -- Management wants employees who are Active AND earn more than 60000
 
 -- Solution:
   SELECT first_name, status, salary
     FROM employees
-    WHERE status = 'Active' AND salary IS NULL;
+    WHERE status = 'Active' AND salary > 60000;
 
 -- Expected Result:
-  -- first_name  Eve
-  -- status     Active
-  -- salary      NULL
+  -- first_name  Alice  Dave
+  -- status     Active  Active
+  -- salary      75000  65000
+
+  -- Eve is Active, but salary is NULL
+  -- TRUE AND UNKNOWN = UNKNOWN → row excluded
 
 __________________________________________________________________________
--- 5 IS NULL vs Empty Strings
--- What it does: Explains the difference between NULL and empty text
--- Why use it: Avoids data quality bugs
+-- 5 NULL and Aggregate Functions
+-- What it does: Shows how NULL is handled in COUNT
+-- Why use it: Prevents incorrect totals
 __________________________________________________________________________
 -- Problem: 
-  -- Management wants employees whose role is missing
+  -- Management wants to count how many employees have salaries
 
 -- Solution: 
-  SELECT first_name, role
-    FROM employees
-    WHERE role IS NULL;
+  SELECT COUNT(salary) AS salary_count
+    FROM employees;
 
 -- Expected Results:
-  -- first_name  Carol
-  -- role         NULL
+  -- salary_count  4
+
+  -- COUNT(column) ignores NULL values
+  -- COUNT(*) counts all rows
+
+__________________________________________________________________________
+-- 6 Handling NULL Safely
+-- What it does: Introduces safe NULL handling using IS NULL
+-- Why use it: Ensures accurate filtering
+__________________________________________________________________________
+-- Problem: 
+  -- Management wants to employees with missing roles or salaries
+
+-- Solution: 
+  SELECT first_name, role, salary
+    FROM employees
+    WHERE role IS NULL OR salary IS NULL;
+
+-- Expected Results:
+  -- first_name  Carol     Eve
+  -- role         NULL  Accountant
+  -- salary      50000     NULL
