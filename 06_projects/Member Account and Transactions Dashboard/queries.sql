@@ -230,27 +230,21 @@ Tier 2
       4          David       Brown      Active  106         4          Savings       7800.0   2024-02-01
       5          Eva         Miller     Active  107         5          Checking      1200.0   2023-12-25
   -- 2. Join accounts to transactions
-    SELECT * FROM Accounts AS a INNER JOIN Transactions AS t ON a.account_id = t.account_id WHERE amount > 600 ORDER BY member_id;
+    SELECT * FROM Accounts AS a INNER JOIN Transactions AS t ON a.account_id = t.account_id WHERE amount > 600 ORDER BY m.member_id;
       account_id  member_id  account_type  balance  open_date   transaction_id  account_id  transaction_date  amount  description
       ----------  ---------  ------------  -------  ----------  --------------  ----------  ----------------  ------  -----------
       101         1          Checking      2400.0   2023-01-10  1001            101         2026-01-10        1000.0  Paycheck
       106         4          Savings       7800.0   2024-02-01  1007            106         2026-01-15        1000.0  Bonus 
-  -- 3. Retrieve full member transaction history for Alice
-    SELECT * FROM Members INNER JOIN Transactions WHERE first_name = 'Alice';
+  -- 3. Retrieve full member transaction history for Alice ordered by dates
+    SELECT m.member_id, m.first_name, m.last_name, m.status, t.transaction_id, t.account_id, t.transaction_date, t.amount, t.description 
+        FROM Members m INNER JOIN Accounts a ON a.member_id = m.member_id INNER JOIN Transactions t ON t.account_id = a.account_id WHERE first_name = 'Alice' ORDER BY t.transaction_date;
       member_id  first_name  last_name  status  transaction_id  account_id  transaction_date  amount  description
       ---------  ----------  ---------  ------  --------------  ----------  ----------------  ------  -----------------
+      1          Alice       Johnson    Active  1003            102         2026-01-05        500.0   Gift
       1          Alice       Johnson    Active  1001            101         2026-01-10        1000.0  Paycheck
       1          Alice       Johnson    Active  1002            101         2026-01-12        200.0   Groceries
-      1          Alice       Johnson    Active  1003            102         2026-01-05        500.0   Gift
-      1          Alice       Johnson    Active  1004            103         2026-01-07        150.0   Gas
-      1          Alice       Johnson    Active  1005            104         2026-01-08        300.0   Refund
-      1          Alice       Johnson    Active  1006            104         2026-01-09        50.0    Coffee
-      1          Alice       Johnson    Active  1007            106         2026-01-15        1000.0  Bonus
-      1          Alice       Johnson    Active  1008            107         2026-01-16        100.0   Restaurant
       1          Alice       Johnson    Active  1009            101         2026-01-17        50.0    Subscription
       1          Alice       Johnson    Active  1010            102         2026-01-18        200.0   Freelance Payment
-      1          Alice       Johnson    Active  1011            108         2026-02-02        200.0   Bonus
-      1          Alice       Johnson    Active  1012            108         2026-02-09        100.0
 -- LEFT JOIN Logic
   -- 1. Identify members with no associated accounts
   -- 2. Understand join cardinality and missing relationships
