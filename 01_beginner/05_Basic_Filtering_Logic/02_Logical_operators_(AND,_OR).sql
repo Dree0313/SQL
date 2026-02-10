@@ -110,6 +110,6 @@ __________________________________________________________________________
 
 -- Expected Results:
   -- first_name  Alice  Bob  Dave
-    -- department  HR    IT   IT
+  -- department    HR    IT   IT
 
 -- *Note: Parentheses control evaluation order
