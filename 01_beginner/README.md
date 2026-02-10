@@ -44,7 +44,7 @@ At this stage, the emphasis is on:
 - [Logical operators (`AND`, `OR`)](05_Basic_Filtering_Logic/02_Logical_operators_(AND,_OR).sql)
 - [`IN`](05_Basic_Filtering_Logic/03_IN.sql)
 - [`BETWEEN`](05_Basic_Filtering_Logic/04_BETWEEN.sql)
-- `LIKE`
+- [`LIKE`](05_Basic_Filtering_Logic/05_LIKE.sql)
 
 ### NULL Handling
 - `IS NULL`
