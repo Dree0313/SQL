@@ -109,7 +109,7 @@ __________________________________________________________________________
     WHERE (department = 'HR' OR department = 'IT') AND status = 'Active';
 
 -- Expected Results:
-  -- first_name  Alice  Dave  Eve
+  -- first_name  Alice  Bob  Dave
     -- department  HR    IT   IT
 
 -- *Note: Parentheses control evaluation order
