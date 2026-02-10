@@ -42,7 +42,7 @@ At this stage, the emphasis is on:
 ### Basic Filtering Logic
 - [Comparison operators (`=`, `!=`, `<`, `>`, `<=`, `>=`)](05_Basic_Filtering_Logic/01_Comparison_operators_(=,_!=,_<,_>,_<=,_>=).sql)
 - [Logical operators (`AND`, `OR`)](05_Basic_Filtering_Logic/02_Logical_operators_(AND,_OR).sql)
-- `IN`
+- [`IN`](05_Basic_Filtering_Logic/03_IN.sql)
 - `BETWEEN`
 - `LIKE`
 
