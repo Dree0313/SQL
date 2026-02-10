@@ -48,7 +48,7 @@ At this stage, the emphasis is on:
 
 ### NULL Handling
 - [`IS NULL` / `IS NOT NULL`](06_NULL_Handling/01_IS_NULL_IS_NOT_NULL.sql)
-- Understanding how NULL behaves in queries
+- [Understanding how NULL behaves in queries](06_NULL_Handling/02_Understanding_how_NULL_behaves_in_queries.sql)
 
 ---
 
