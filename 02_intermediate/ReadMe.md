@@ -13,7 +13,7 @@ The goal is to move beyond single-table queries and begin thinking in terms of:
 ## Concepts Covered
 
 ### Multiple-Table Querying
-- `INNER JOIN`
+- [`INNER JOIN`](01_Multiple-Table_Querying/01_INNER_JOIN.sql)
 - `LEFT JOIN`
 - Joining tables using primary and foreign keys
 - Understanding join cardinality
