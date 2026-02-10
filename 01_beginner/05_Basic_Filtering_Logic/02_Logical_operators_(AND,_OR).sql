@@ -62,7 +62,7 @@ __________________________________________________________________________
 -- 3 AND with Comparison Operators
 -- What it does: Combines value filtering with multiple conditions
 -- Why use it: Precise control over numberic ranges
--- Syntax: WHERE condition1 and condition2
+-- Syntax: WHERE condition1 AND condition2
 __________________________________________________________________________
 -- Problem:
   -- Management wants active employees earning more than 60000
