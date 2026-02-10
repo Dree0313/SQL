@@ -245,6 +245,7 @@ Tier 2
       1          Alice       Johnson    Active  1002            101         2026-01-12        200.0   Groceries
       1          Alice       Johnson    Active  1009            101         2026-01-17        50.0    Subscription
       1          Alice       Johnson    Active  1010            102         2026-01-18        200.0   Freelance Payment
+        
 -- LEFT JOIN Logic
   -- 1. Identify members with no associated accounts
   -- 2. Understand join cardinality and missing relationships
