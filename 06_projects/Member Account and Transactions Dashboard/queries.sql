@@ -219,9 +219,63 @@ Tier 1
 Tier 2
 
 -- JOIN Operations
-  -- 1. Join members to accounts
+  -- 1. Join members to accounts for all active members in order by member_id
+    SELECT * FROM Members INNER JOIN Accounts WHERE status = 'Active' ORDER BY member_id;
+      member_id  first_name  last_name  status  account_id  member_id  account_type  balance  open_date
+      ---------  ----------  ---------  ------  ----------  ---------  ------------  -------  ----------
+      1          Alice       Johnson    Active  101         1          Checking      2400.0   2023-01-10
+      1          Alice       Johnson    Active  102         1          Savings       5000.0   2022-06-15
+      1          Alice       Johnson    Active  103         2          Checking      1500.0   2021-03-20
+      1          Alice       Johnson    Active  104         2          Savings       3500.0   2021-03-20
+      1          Alice       Johnson    Active  105         3          Checking      0.0      2020-11-11
+      1          Alice       Johnson    Active  106         4          Savings       7800.0   2024-02-01
+      1          Alice       Johnson    Active  107         5          Checking      1200.0   2023-12-25
+      1          Alice       Johnson    Active  108         6          Checking      200.0    2026-02-02
+      2          Bob         Smith      Active  101         1          Checking      2400.0   2023-01-10
+      2          Bob         Smith      Active  102         1          Savings       5000.0   2022-06-15
+      2          Bob         Smith      Active  103         2          Checking      1500.0   2021-03-20
+      2          Bob         Smith      Active  104         2          Savings       3500.0   2021-03-20
+      2          Bob         Smith      Active  105         3          Checking      0.0      2020-11-11
+      2          Bob         Smith      Active  106         4          Savings       7800.0   2024-02-01
+      2          Bob         Smith      Active  107         5          Checking      1200.0   2023-12-25
+      2          Bob         Smith      Active  108         6          Checking      200.0    2026-02-02
+      4          David       Brown      Active  101         1          Checking      2400.0   2023-01-10
+      4          David       Brown      Active  102         1          Savings       5000.0   2022-06-15
+      4          David       Brown      Active  103         2          Checking      1500.0   2021-03-20
+      4          David       Brown      Active  104         2          Savings       3500.0   2021-03-20
+      4          David       Brown      Active  105         3          Checking      0.0      2020-11-11
+      4          David       Brown      Active  106         4          Savings       7800.0   2024-02-01
+      4          David       Brown      Active  107         5          Checking      1200.0   2023-12-25
+      4          David       Brown      Active  108         6          Checking      200.0    2026-02-02
+      5          Eva         Miller     Active  101         1          Checking      2400.0   2023-01-10
+      5          Eva         Miller     Active  102         1          Savings       5000.0   2022-06-15
+      5          Eva         Miller     Active  103         2          Checking      1500.0   2021-03-20
+      5          Eva         Miller     Active  104         2          Savings       3500.0   2021-03-20
+      5          Eva         Miller     Active  105         3          Checking      0.0      2020-11-11
+      5          Eva         Miller     Active  106         4          Savings       7800.0   2024-02-01
+      5          Eva         Miller     Active  107         5          Checking      1200.0   2023-12-25
+      5          Eva         Miller     Active  108         6          Checking      200.0    2026-02-02
   -- 2. Join accounts to transactions
-  -- 3. Retrieve full member transaction history
+    SELECT * FROM Accounts INNER JOIN Transactions WHERE amount > 600 ORDER BY member_id;
+      account_id  member_id  account_type  balance  open_date   transaction_id  account_id  transaction_date  amount  description
+      ----------  ---------  ------------  -------  ----------  --------------  ----------  ----------------  ------  -----------
+      101         1          Checking      2400.0   2023-01-10  1001            101         2026-01-10        1000.0  Paycheck
+      102         1          Savings       5000.0   2022-06-15  1001            101         2026-01-10        1000.0  Paycheck
+      101         1          Checking      2400.0   2023-01-10  1007            106         2026-01-15        1000.0  Bonus
+      102         1          Savings       5000.0   2022-06-15  1007            106         2026-01-15        1000.0  Bonus
+      103         2          Checking      1500.0   2021-03-20  1001            101         2026-01-10        1000.0  Paycheck
+      104         2          Savings       3500.0   2021-03-20  1001            101         2026-01-10        1000.0  Paycheck
+      103         2          Checking      1500.0   2021-03-20  1007            106         2026-01-15        1000.0  Bonus
+      104         2          Savings       3500.0   2021-03-20  1007            106         2026-01-15        1000.0  Bonus
+      105         3          Checking      0.0      2020-11-11  1001            101         2026-01-10        1000.0  Paycheck
+      105         3          Checking      0.0      2020-11-11  1007            106         2026-01-15        1000.0  Bonus
+      106         4          Savings       7800.0   2024-02-01  1001            101         2026-01-10        1000.0  Paycheck
+      106         4          Savings       7800.0   2024-02-01  1007            106         2026-01-15        1000.0  Bonus
+      107         5          Checking      1200.0   2023-12-25  1001            101         2026-01-10        1000.0  Paycheck
+      107         5          Checking      1200.0   2023-12-25  1007            106         2026-01-15        1000.0  Bonus
+      108         6          Checking      200.0    2026-02-02  1001            101         2026-01-10        1000.0  Paycheck
+      108         6          Checking      200.0    2026-02-02  1007            106         2026-01-15        1000.0  Bonus        100.0
+  -- 3. Retrieve full member transaction history for Alice
 
 -- LEFT JOIN Logic
   -- 1. Identify members with no associated accounts
