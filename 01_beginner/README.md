@@ -47,8 +47,7 @@ At this stage, the emphasis is on:
 - [`LIKE`](05_Basic_Filtering_Logic/05_LIKE.sql)
 
 ### NULL Handling
-- `IS NULL`
-- `IS NOT NULL`
+- [`IS NULL` / `IS NOT NULL`](06_NULL_Handling/01_IS_NULL_IS_NOT_NULL.sql)
 - Understanding how NULL behaves in queries
 
 ---
