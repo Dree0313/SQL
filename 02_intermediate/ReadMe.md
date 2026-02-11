@@ -14,7 +14,7 @@ The goal is to move beyond single-table queries and begin thinking in terms of:
 
 ### Multiple-Table Querying
 - [`INNER JOIN`](01_Multiple-Table_Querying/01_INNER_JOIN.sql)
-- `LEFT JOIN`
+- [`LEFT JOIN`](01_Multiple-Table_Querying/02_LEFT_JOIN.sql)
 - Joining tables using primary and foreign keys
 - Understanding join cardinality
 
