@@ -1,128 +1,99 @@
 __________________________________________________________________________
--- Beginner SQL: LEFT JOIN
--- Purpose: Learn how to return ALL records from the left table, even if
-  -- matching data does NOT exist in the right table
+-- Beginner SQL: Joining Tables Using Primary and Foreign Keys
+-- Purpose: Learn how tables are connected using primary keys (PK) and 
+  -- foreign keys (FK) to maintain relational integrity
 __________________________________________________________________________
 
 -- Scenerio:
-  -- You are a junior database developer at a company. Managment needs
-  -- reports that show ALL employees - even if they are not assigned to a
-  -- department yet. 
+  -- You are a junior database developer at a bank. Management needs
+  -- reports that connect members to their accounts and transactions. The
+  -- data is stored in separate tables, but they are related using primary
+  -- and foreign keys.
 
--- Unlike INNER JOIN, LEFT JOIN keeps everything from the LEFT table.
+  -- Primary Key (PK): A unique identifier in a table
+  -- Foreign Key (FK): A column that references a primary key in another
+    -- table
 
-  -- Table: employees
-    -- id              1      2     3       4     5
-    -- first_name    Alice   Bob   Carol  Dave   Eve
-    -- department_id  10     20     10     20    NULL
-    -- salary        75000  60000  50000  65000  NULL
+  -- Table: members
+    -- member_id (PK)  1       2        3
+    -- first_name    Alice    Bob     Carol
+    -- status        Active  Active  INactive
 
-  -- Table: departments
-    -- department_id    10  20    30
-    -- department_name  HR  IT  Finance
+  -- Table: accounts
+    -- account_id (PK)  101  102  103  104
+    -- member_id (FK)  1  1  2  3
+    -- account_type Checking  Savings  Checking  Savings
+
+  -- Table: transactions
+    -- transaction_id (PK) 1001  1002  1003  1004
+    -- account_id (FK)     101   101   102   103
+    -- amount              200   -50   500   75
 __________________________________________________________________________
--- 1️ Basic LEFT JOIN
--- What it does: Returns ALL rows from the left table and matching rows
-  -- from the right table
--- Why use it: Ensures no primary records are accidentally excluded
--- Syntax: SELECT columns FROM table1 LEFT JOIN table2 ON table1.column =
-  -- table2.column
+-- 1️ Understanding Primary and Foreign Keys
+-- What it does: Defines relationships between tables
+-- Why use it: Prevents orphaned data and enforces integrity
 __________________________________________________________________________
--- Problem: 
-  -- Management wants a list of ALL employees and their department names
+-- Explanation:
+  -- members.member_id is a PRIMARY KEY
+  -- accounts.member_id is a FOREIGN KEY referencing members.member_id
+  -- accounts.account_id is the PRIMARY KEY
+  -- transactions.account_id is the FOREIGN KEY referencing 
+    -- accounts.account_id
 
--- Solution: 
-  SELECT e.first_name, d.department_name
-    FROM employees e
-    LEFT JOIN departments d ON e.department_id = d.department_id;
-
--- Expected Results:
-  -- first_name      Alice  Bob  Carol  Dave  Eve
-  -- department_name  HR    IT     HR    IT   NULL
-
-  -- Eve appears even though she has no department
-  -- Her department_name is NULL because no match was found
-
-__________________________________________________________________________
--- 2 LEFT JOIN with WHERE Clause (Important Behavior)
--- What it does: Filters results after the join happens
--- Why use it: Creates targeted reports
-__________________________________________________________________________
--- Problem:
-  -- Management wants only wants employees in the IT department
-
--- Solution:
-  SELECT e.first_name, d.department_name
-    FROM employees e
-    LEFT JOIN departments d ON e.department_id = d.department_id
-    WHERE d.department_name = 'IT';
-
--- Expected Result:
-  -- first_name      Bob   Dave
-  -- department_name  IT    IT
-
-  -- Even though we used LEFT JOIN, Eve is excluded. Why? Because Where 
-  -- removes rows Where department_name is NULL. The LEFT JOIN happened, 
-  -- but the WHERE filtered her out.
+  -- This creates a relationship chain:
+    -- members → accounts → transactions
 
 __________________________________________________________________________
--- 3 LEFT JOIN with Nunmeric Conditions
--- What it does: Applies filters while still preserving left-table rows
--- Why use it: Produces complete reports with conditions
-__________________________________________________________________________
--- Problem: 
-  -- Management wants employees and their department names, but only for
-  -- employees earning more than 60000
-
--- Solution: 
-  SELECT e.first_name, e.salary, d.department_name
-    FROM employees e
-    LEFT JOIN departments d ON e.department_id = d.department_id
-    WHERE e.salary > 60000;
-
--- Expected Results:
-  -- first_name     Alice   Dave
-  -- salary         75000  65000
-  -- department_name HR     IT
-
--- Eve is exclued because salary is NULL
--- NULL > 60000 is UNKNOWN, not TRUE
-
-__________________________________________________________________________
--- 4 LEFT JOIN with Aliases
--- What it does: Uses short table names
--- Why use it: Improves readability
+-- 2 Joining Using a Primary and Foreign Key
+-- What it does: Connects related data across tables
+-- Why use it: Produces meaningful business reports
 __________________________________________________________________________
 -- Problem:
-  -- Management wants a clean, readable report format
+  -- Management wants a list of members and their accounts
 
 -- Solution:
-  SELECT e.first_name, d.department_name
-    FROM employees AS e 
-    LEFT JOIN departments AS d ON e.department_id = d.department_id;
+  SELECT m.member_id, m.first_name, a.account_id, a.account_type
+    FROM members m
+    INNER JOIN accounts a ON m.member_id = a.member_id;
 
 -- Expected Result:
-  -- first_name      Alice  Bob  Carol  Dave
-  -- department_name  HR    IT    HR     IT
+  -- member_id        1         1        2         3
+  -- first_name     Alice     Alice     Bob      Carol
+  -- account_id      101       102      103       104
+  -- account_type  Checking  Savings  Checking  Savings
+
+  -- The JOIN works because the FK matches the PK
 
 __________________________________________________________________________
--- 5 LEFT JOIN and NULL Behavior (Key Concept)
--- What it does: Demonstrates how LEFT JOIN handles missing matches
--- Why use it: Prevents confusion when analyzing reports
+-- 3 Joining Through Mulitple Foreign Keys
+-- What it does: Connects three related tables
+-- Why use it: Tracks data across full relationship chains
 __________________________________________________________________________
 -- Problem: 
-  -- Management wants to understand why employees with NULL keys are 
-    -- excluded
+  -- Management wants members and their transactions
 
--- Explanation: 
-  -- LEFT JOIN keeps ALL rows from the left table
-  -- If no match is found in the right table, columns return NULL
-  -- WHERE conditions on the right table can remove NULL rows
-  -- To preserve unmatched rows, move conditions into the ON clause
+-- Solution: 
+  SELECT m.first_name, a.account_id, t.transaction_id, t.amount
+    FROM members m
+    INNER JOIN accounts a ON m.members_id = a.members_id
+    INNER JOIN transactions t ON a.account_id = t.account_id;
 
--- Example preserving NULL rows:
-  Select e.first_name, d.department_name
-    From employee e
-    LEFT JOIN department d 
-      ON e.department_id = d.department_id 
+-- Expected Result:
+  -- first_name      Alice  Alice  Bob   Carol
+  -- account_id      101    102    103   104
+  -- transaction_id  1001   1002   1003  1004
+  -- amount          200    -50    500   75
+
+__________________________________________________________________________
+-- 4 Why Primary and Foreign Keys Matter
+-- What it does: Enforces valid relationships
+-- Why use it: Prevents invalid or unmatched data
+__________________________________________________________________________
+-- Example:
+  -- You cannot insert into accounts with member_id = 99 if 99 does not 
+  -- exist in members
+
+  -- The database enforces relational rules automatically
+
+
       AND d.department_name = 'IT';
