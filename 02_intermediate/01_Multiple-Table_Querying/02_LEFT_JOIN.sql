@@ -1,13 +1,15 @@
 __________________________________________________________________________
--- Beginner SQL: INNER JOIN
--- Purpose: Learn how to combine related data from multiple tables
+-- Beginner SQL: LEFT JOIN
+-- Purpose: Learn how to return ALL records from the left table, even if
+  -- matching data does NOT exist in the right table
 __________________________________________________________________________
 
 -- Scenerio:
   -- You are a junior database developer at a company. Managment needs
-  -- reports that combine employee inforamtion with related department 
-  -- data. The data is stored in separate tables, so you must use INNER
-  -- JOIN to return only records that exist in BOTH tables.
+  -- reports that show ALL employees - even if they are not assigned to a
+  -- department yet. 
+
+-- Unlike INNER JOIN, LEFT JOIN keeps everything from the LEFT table.
 
   -- Table: employees
     -- id              1      2     3       4     5
@@ -19,10 +21,11 @@ __________________________________________________________________________
     -- department_id    10  20    30
     -- department_name  HR  IT  Finance
 __________________________________________________________________________
--- 1️ Basic INNER JOIN
--- What it does: Combines rows where matching values exist in both tables
--- Why use it: Retrieves related data stored across tables
--- Syntax: SELECT columns FROM table1 INNER JOIN table2 ON table1.column=
+-- 1️ Basic LEFT JOIN
+-- What it does: Returns ALL rows from the left table and matching rows
+  -- from the right table
+-- Why use it: Ensures no primary records are accidentally excluded
+-- Syntax: SELECT columns FROM table1 LEFT JOIN table2 ON table1.column =
   -- table2.column
 __________________________________________________________________________
 -- Problem: 
