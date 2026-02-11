@@ -29,52 +29,55 @@ __________________________________________________________________________
   -- table2.column
 __________________________________________________________________________
 -- Problem: 
-  -- Management wants a list of employees and their department names
+  -- Management wants a list of ALL employees and their department names
 
 -- Solution: 
   SELECT e.first_name, d.department_name
     FROM employees e
-    INNER JOIN departments d ON e.department_id = d.department_id;
+    LEFT JOIN departments d ON e.department_id = d.department_id;
 
 -- Expected Results:
-  -- first_name      Alice  Bob  Carol  Dave
-  -- department_name  HR    IT     HR    IT
+  -- first_name      Alice  Bob  Carol  Dave  Eve
+  -- department_name  HR    IT     HR    IT   NULL
 
-  -- Eve is excluded because her department_id is NULL
+  -- Eve appears even though she has no department
+  -- Her department_name is NULL because no match was found
 
 __________________________________________________________________________
--- 2 INNER JOIN with WHERE Clause
--- What it does: Filterrs joined data based on conditions
--- Why use it: Produces focused business reports
+-- 2 LEFT JOIN with WHERE Clause (Important Behavior)
+-- What it does: Filters results after the join happens
+-- Why use it: Creates targeted reports
 __________________________________________________________________________
 -- Problem:
-  -- Management wants employees in the IT department only
+  -- Management wants only wants employees in the IT department
 
 -- Solution:
   SELECT e.first_name, d.department_name
     FROM employees e
-    INNER JOIN departments d ON e.department_id = d.department_id
+    LEFT JOIN departments d ON e.department_id = d.department_id
     WHERE d.department_name = 'IT';
 
 -- Expected Result:
   -- first_name      Bob   Dave
   -- department_name  IT    IT
 
-  -- Eve is excluded because NULL > 60000 is UNKNOWN, not TRUE
+  -- Even though we used LEFT JOIN, Eve is excluded. Why? Because Where 
+  -- removes rows Where department_name is NULL. The LEFT JOIN happened, 
+  -- but the WHERE filtered her out.
 
 __________________________________________________________________________
--- 3 INNER JOIN with Nunmeric Conditions
--- What it does: Applies filters to joined rows
--- Why use it: Combines relational logic with data constraints
+-- 3 LEFT JOIN with Nunmeric Conditions
+-- What it does: Applies filters while still preserving left-table rows
+-- Why use it: Produces complete reports with conditions
 __________________________________________________________________________
 -- Problem: 
-  -- Management wants employees earning more than 60000 and their 
-    -- departments
+  -- Management wants employees and their department names, but only for
+  -- employees earning more than 60000
 
 -- Solution: 
   SELECT e.first_name, e.salary, d.department_name
     FROM employees e
-    INNER JOIN departments d ON e.department_id = d.department_id
+    LEFT JOIN departments d ON e.department_id = d.department_id
     WHERE e.salary > 60000;
 
 -- Expected Results:
@@ -82,10 +85,13 @@ __________________________________________________________________________
   -- salary         75000  65000
   -- department_name HR     IT
 
+-- Eve is exclued because salary is NULL
+-- NULL > 60000 is UNKNOWN, not TRUE
+
 __________________________________________________________________________
--- 4 INNER JOIN with Aliases
--- What it does: Uses short names for tables
--- Why use it: Improves readability in multi-table queries
+-- 4 LEFT JOIN with Aliases
+-- What it does: Uses short table names
+-- Why use it: Improves readability
 __________________________________________________________________________
 -- Problem:
   -- Management wants a clean, readable report format
@@ -93,22 +99,30 @@ __________________________________________________________________________
 -- Solution:
   SELECT e.first_name, d.department_name
     FROM employees AS e 
-    INNER JOIN departments AS d ON e.department_id = d.department_id;
+    LEFT JOIN departments AS d ON e.department_id = d.department_id;
 
 -- Expected Result:
   -- first_name      Alice  Bob  Carol  Dave
   -- department_name  HR    IT    HR     IT
 
 __________________________________________________________________________
--- 5 INNER JOIN and NULL Behavior
--- What it does: Shows how NULL affects joins
--- Why use it: Prevents confusion when rows disappear
+-- 5 LEFT JOIN and NULL Behavior (Key Concept)
+-- What it does: Demonstrates how LEFT JOIN handles missing matches
+-- Why use it: Prevents confusion when analyzing reports
 __________________________________________________________________________
 -- Problem: 
   -- Management wants to understand why employees with NULL keys are 
     -- excluded
 
 -- Explanation: 
-  -- Inner Join requires a match on both sides
-  -- NULL never equals NULL or any value
-  -- Rows with NULL join keys are excluded automatically
+  -- LEFT JOIN keeps ALL rows from the left table
+  -- If no match is found in the right table, columns return NULL
+  -- WHERE conditions on the right table can remove NULL rows
+  -- To preserve unmatched rows, move conditions into the ON clause
+
+-- Example preserving NULL rows:
+  Select e.first_name, d.department_name
+    From employee e
+    LEFT JOIN department d 
+      ON e.department_id = d.department_id 
+      AND d.department_name = 'IT';
