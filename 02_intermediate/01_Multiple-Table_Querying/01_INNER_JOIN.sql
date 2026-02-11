@@ -22,7 +22,7 @@ __________________________________________________________________________
 -- 1️ Basic INNER JOIN
 -- What it does: Combines rows where matching values exist in both tables
 -- Why use it: Retrieves related data stored across tables
--- Syntax: SELECT columns FROM table1 INNER JOIN table2 ON table1.column=
+-- Syntax: SELECT columns FROM table1 INNER JOIN table2 ON table1.column =
   -- table2.column
 __________________________________________________________________________
 -- Problem: 
