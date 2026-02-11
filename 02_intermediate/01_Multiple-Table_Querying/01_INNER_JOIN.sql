@@ -41,7 +41,7 @@ __________________________________________________________________________
 
 __________________________________________________________________________
 -- 2 INNER JOIN with WHERE Clause
--- What it does: Filterrs joined data based on conditions
+-- What it does: Filters joined data based on conditions
 -- Why use it: Produces focused business reports
 __________________________________________________________________________
 -- Problem:
