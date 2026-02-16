@@ -20,9 +20,9 @@ __________________________________________________________________________
     -- status        Active  Active  Inactive
 
   -- Table: accounts
-    -- account_id (PK)  101  102  103  104
-    -- member_id (FK)  1  1  2  3
-    -- account_type Checking  Savings  Checking  Savings
+    -- account_id (PK)  101      102       103      104
+    -- member_id (FK)    1        1         2        3
+    -- account_type   Checking  Savings  Checking  Savings
 
   -- Table: transactions
     -- transaction_id (PK) 1001  1002  1003  1004
