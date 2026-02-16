@@ -17,7 +17,7 @@ __________________________________________________________________________
   -- Table: members
     -- member_id (PK)  1       2        3
     -- first_name    Alice    Bob     Carol
-    -- status        Active  Active  INactive
+    -- status        Active  Active  Inactive
 
   -- Table: accounts
     -- account_id (PK)  101  102  103  104
