@@ -79,10 +79,10 @@ __________________________________________________________________________
     INNER JOIN transactions t ON a.account_id = t.account_id;
 
 -- Expected Result:
-  -- first_name      Alice  Alice  Bob   Carol
-  -- account_id      101    102    103   104
-  -- transaction_id  1001   1002   1003  1004
-  -- amount          200    -50    500   75
+  -- first_name      Alice  Alice  Alice  Bob
+  -- account_id      101    102    103    104
+  -- transaction_id  1001   1002   1003   1004
+  -- amount          200    -50    500    75
 
 __________________________________________________________________________
 -- 4 Why Primary and Foreign Keys Matter
