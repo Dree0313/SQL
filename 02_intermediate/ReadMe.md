@@ -19,7 +19,7 @@ The goal is to move beyond single-table queries and begin thinking in terms of:
 - [Understanding join cardinality](01_Multiple-Table_Querying/04_Understanding_join_cardinality.sql)
 
 ### Aggregations & Grouping
-- [`GROUP BY`](
+- [`GROUP BY`](02_Aggregations_&_Grouping/01_GROUP_BY.sql)
 - `HAVING`
 - Aggregating across related tables
 
