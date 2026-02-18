@@ -1,5 +1,5 @@
 __________________________________________________________________________
--- Beginner SQL: Understtanding Join Cardinality
+-- Intermediate SQL: Understtanding Join Cardinality
 -- Purpose: Learn how relationships between tables affect the number of
   -- rows returned in JOIN queries
 __________________________________________________________________________
