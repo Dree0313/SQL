@@ -1,18 +1,14 @@
 __________________________________________________________________________
--- Intermediate SQL: GROUP BY
--- Purpose: Learn how relationships between tables affect the number of
-  -- rows returned in JOIN queries
+-- Intermediate SQL: Understanding GROUP BY
+-- Purpose: Learn how to group rows and calculate summaries using
+  -- aggregate functions
 __________________________________________________________________________
 
 -- Scenerio:
-  -- You are a junior database developer at a bank. Management notices
-  -- that some JOIN queries return more rows than expected. You must
-  -- understand JOIN cardinality, how many rows related between tables.
-
-  -- Cardinality describes the relationship between tables:
-    -- One-to-One (1:1)
-    -- One-to-Many (1:N)
-    -- Many-to-Many (M:N)
+  -- You are a junior database developer at a bank. Management does not
+  -- want to see every individual transaction. Insteaed, they want
+  -- summarized reports such as total balances, transaction counts, and
+  -- averages per member or per account
 
   -- Table: members
     -- member_id (PK)  1       2        3
@@ -29,89 +25,110 @@ __________________________________________________________________________
     -- account_id (FK)     101   101   102   103
     -- amount              200   -50   500   75
 __________________________________________________________________________
--- 1️ One-to-One Relationship (1:1)
--- What it does: One row in Table A matches ONE row in Table B
--- Why use it: Splits data for organization or security
-__________________________________________________________________________
--- Explanation:
-  -- If each member had exactly ONE profile record
-
--- Result:
-  -- 1 member → 1 profile
-  -- No row multiplication happens in the JOIN
-
-__________________________________________________________________________
--- 2 One-to-Many Relationship (1:N)
--- What it does: One row in Table A matches MULTIPLE rows in Table B
--- Why use it: Most common database relationship
-__________________________________________________________________________
--- Problem:
-  -- Management wants members and their accounts
-  -- One member can have many accounts
-
--- Solution:
-  SELECT m.member_id, m.first_name, a.account_id
-    FROM members m
-    INNER JOIN accounts a ON m.member_id = a.member_id;
-
--- Expected Result:
-  -- member_id        1         1        2         3
-  -- first_name     Alice     Alice     Bob      Carol
-  -- account_id      101       102      103       104
-
-__________________________________________________________________________
--- 3 Multiplication Effect (1:N:N)
--- What it does: Shows how joins can multiply rows
--- Why use it: Prevents confusion when row counts increase
-__________________________________________________________________________
--- Problem: 
-  -- Management wants members and transactions
-  -- One member → many accounts
-  -- One member → many transactions
-
--- Solution: 
-  SELECT m.first_name, a.account_id, t.transaction_id
-    FROM members m
-    INNER JOIN accounts a ON m.members_id = a.members_id
-    INNER JOIN transactions t ON a.account_id = t.account_id;
-
--- Expected Result:
-  -- first_name      Alice  Alice  Alice  Bob
-  -- account_id      101    102    103    104
-  -- transaction_id  1001   1002   1003   1004
-
-__________________________________________________________________________
--- 4 Many-to-Many Relationship (M:N)
--- What it does: Both tables can have multiple matches
--- Why use it: Requires a junction (bridge) table
+-- 1️ What GROUP BY Does
+-- What it does: Groups rows that share the same column value
+-- Why use it: Allows aggregate calculations on grouped data
 __________________________________________________________________________
 -- Example:
-  -- If members could share accounts
+  -- Without GROUP BY
+    SELECT amount FROM transaction;
 
-  -- You would need a bridge table like:
-    -- memberr_accounts
-    -- member_id
-    -- account_id
+  -- Result:
+    -- amount  200  -50  500  75
 
-  -- This prevents duplicate or inconsistent data
+ -- With GROUP BY:
+  SELECT account_id, SUM(amount) AS total_amount
+    FROM transactions
+    GROUP BY account_id;
+
+  -- Result:
+    -- account_id    101  102  103
+    -- total_amount  150  500  75
+
+    -- Transactions were grouped by account_id
+    -- Then SUM() was calculated per group
 
 __________________________________________________________________________
--- 5 Why Join Cardinality Matters
--- What it does: Explains unexpected row counts
--- Why use it: Helps debug JOIN queries
+-- 2 Aggregate Functions Used with GROUP BY
+-- What it does: Performs calculations per group
+-- Why use it: Creates meaningful summary reports
 __________________________________________________________________________
--- Example: 
-  -- If a JOIN returns "too many rows," ask:
-    -- Is this a 1:N relationship?
-    -- Are rows multiplying across multiple joins?
-    -- Am I missing a grouping condition?
+-- Common Aggregate Functions:
+  -- COUNT() → Counts rows
+  -- SUM() → Adds values
+  -- AVG() → Calculates averages
+  -- MIN() → Smallest value
+  -- MAX() → Largest value
 
-  SELECT m.first_name, COUNT(t.transaction_id) AS transactions_count)
+-- Example:
+  SELECT account_id, COUNT(transaction_id) AS transaction_count
+    FROM transactions
+    GROUP BY account_id;
+
+-- Expected Result:
+  -- account_id        101  102  103
+  -- transaction_count  2    1    1
+
+__________________________________________________________________________
+-- 3 GROUP BY with JOIN
+-- What it does: Groups data across related tables
+-- Why use it: Produces business-level reporting
+__________________________________________________________________________
+-- Problem: 
+  -- Management wants total transaction amount per member
+
+-- Solution: 
+  SELECT m.first_name, SUM(t.amount) AS total_transactions
     FROM members m
     INNER JOIN accounts a ON m.members_id = a.members_id
     INNER JOIN transactions t ON a.account_id = t.account_id
     GROUP BY m.first_name;
 
 -- Expected Result:
-  -- first_name        Alice  Bob
-  -- transactions_count  3     1
+  -- first_name         Alice  Bob
+  -- totatl_transactions 650   75
+
+__________________________________________________________________________
+-- 4 Important GROUP BY Rule
+-- What it does: Enforces grouping consistency
+-- Why use it: Prevents SQL errors
+__________________________________________________________________________
+-- Rule:
+  -- Every column in SELECT must either:
+    -- Be inside an aggregate function
+    -- OR appear in the GROUP BY clause
+
+-- Example:
+  -- Incorrect:
+    SELECT first_name, account_id, SUM(amount)
+      FROM transactions
+      GROUP BY first_name;
+
+    -- This causes an error beecause account_id is not grouped or 
+    -- aggregated
+
+  -- Correct:
+    SELECT account_id, SUM(amount)
+      FROM transactions
+      GROUP BY account_id;
+
+__________________________________________________________________________
+-- 5 Using HAVING with GROUP BY
+-- What it does: Filters grouped results
+-- Why use it: Filters AFTER aggregation
+__________________________________________________________________________
+-- Problem:
+  -- Management only wants accounts with total transactions over 100
+
+-- Solution:
+  SELECT account_id, SUM(amount) AS total_amount
+    FROM transactionse
+    GROUP BY account_id
+    HAVING SUM(amount) > 100;
+
+-- Expected Result:
+  -- account_id    101  102
+  -- total_amount  150  500
+
+  -- WHERE filters rows BEFORE grouping
+  -- HAVING filters groups AFTER grouping
