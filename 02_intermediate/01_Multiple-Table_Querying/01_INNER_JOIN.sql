@@ -1,5 +1,5 @@
 __________________________________________________________________________
--- Beginner SQL: INNER JOIN
+-- Intermediate SQL: INNER JOIN
 -- Purpose: Learn how to combine related data from multiple tables
 __________________________________________________________________________
 
