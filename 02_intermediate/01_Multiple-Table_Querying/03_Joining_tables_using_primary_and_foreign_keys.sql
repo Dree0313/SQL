@@ -1,5 +1,5 @@
 __________________________________________________________________________
--- Beginner SQL: Joining Tables Using Primary and Foreign Keys
+-- Intermediate SQL: Joining Tables Using Primary and Foreign Keys
 -- Purpose: Learn how tables are connected using primary keys (PK) and 
   -- foreign keys (FK) to maintain relational integrity
 __________________________________________________________________________
