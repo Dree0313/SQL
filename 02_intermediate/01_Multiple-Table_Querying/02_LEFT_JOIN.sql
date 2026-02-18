@@ -1,5 +1,5 @@
 __________________________________________________________________________
--- Beginner SQL: LEFT JOIN
+-- Intermediate SQL: LEFT JOIN
 -- Purpose: Learn how to return ALL records from the left table, even if
   -- matching data does NOT exist in the right table
 __________________________________________________________________________
