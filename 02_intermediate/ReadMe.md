@@ -20,7 +20,7 @@ The goal is to move beyond single-table queries and begin thinking in terms of:
 
 ### Aggregations & Grouping
 - [`GROUP BY`](02_Aggregations_&_Grouping/01_GROUP_BY.sql)
-- `HAVING`
+- [`HAVING`](02_Aggregations_&_Grouping/02_HAVING.sql)
 - Aggregating across related tables
 
 ### Subqueries
