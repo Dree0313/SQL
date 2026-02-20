@@ -131,8 +131,8 @@ __________________________________________________________________________
     INNER JOIN transactions t ON a.account_id = t.account_id
     GROUP BY m.member_id;
 
-  -- member_id     1   2   3
-  -- SUM(amount)  650  75  0
+  -- member_id     1   2
+  -- SUM(amount)  650  75
 
 -- Key Insight:
   -- The GROUP BY column determines the level of summary
