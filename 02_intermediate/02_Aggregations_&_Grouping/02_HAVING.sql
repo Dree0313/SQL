@@ -59,7 +59,7 @@ __________________________________________________________________________
 -- Example:
   SELECT a.member_id, COUNT(t.transaction_id) AS transaction_count
     FROM accounts a
-    INNER JOIN transactions 1 ON a.account_id = t.account_id
+    INNER JOIN transactions t ON a.account_id = t.account_id
     GROUP BY a.member_id
     HAVING COUNT(t.transaction_id) > 1;
 
