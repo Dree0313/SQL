@@ -60,80 +60,100 @@ __________________________________________________________________________
     GROUP BY m.member_id, m.first_name;
 
 -- Expected Result:
-  -- member_id          1
-  -- transaction_count  3
-
-  -- Only Alice (member_id 1) has more than 1 transaction
-
-__________________________________________________________________________
--- 3 HAVING with JOIN
--- What it does: Filters summarized results across mulitiple tables
--- Why use it: Produces business-level filtered reports
-__________________________________________________________________________
--- Problem: 
-  -- Management wants total transaction amount per member BUT only for
-  -- totals greater than 200
-
--- Solution: 
-  SELECT m.first_name, SUM(t.amount) AS total_transactions
-    FROM members m
-    INNER JOIN accounts a ON m.members_id = a.members_id
-    INNER JOIN transactions t ON a.account_id = t.account_id
-    GROUP BY m.first_name
-    HAVING SUM(t.amount) > 200;
-
--- Expected Result:
-  -- first_name         Alice
-  -- totatl_transactions 650
-
-  -- Bob (75) and Carol (no transactions) are excluded
-
-__________________________________________________________________________
--- 4 WHERE vs HAVING (Critical Difference)
--- What it does: Shows execution order
--- Why use it: Prevents logic mistakes
-__________________________________________________________________________
--- Example:
-  -- Incorrect:
-    -- Trying to filter aggregated data using WHERE
-
-    SELECT account_id, SUM(amount)
-      FROM transactions
-      WHERE SUM(amount) > 100
-      GROUP BY account_id;
-
-    -- You cannot use SUM() inside WHERE
-
-  -- Correct:
-    SELECT account_id, SUM(amount)
-      FROM transactions
-      GROUP BY account_id
-      HAVING SUM(amount) > 100;
-
-    -- Having works becaus it runs AFTER GROUP BY
-
-__________________________________________________________________________
--- 5 Combining WHERE and HAVING
--- What it does: Filters rows first, then groups
--- Why use it: Efficient and precise reporting
-__________________________________________________________________________
--- Problem:
-  -- Management wants ACTIVE members with total transactions greater than
-  -- 100
-
--- Solution:
-  SELECT m.first_name, SUM(t.amount) AS total_amount
-    FROM members m
-    INNER JOIN accounts a ON m.member_id = a.member_id
-    INNER JOIN transactions t ON a.account_id = t.account_id
-    WHERE m.status = 'Active'
-    GROUP BY m.first_name
-    HAVING SUM(t.amount) > 100;
-
--- Expected Result:
+  -- member_id      1     2
   -- first_name   Alice  Bob
   -- total_amount  650   75
 
-  -- WHERE filters rows first (Active members only)
-  -- GROUP BY summarizes
-  -- HAVING filters the grouped totals
+  -- Alice:
+    -- Account 101 → 200 - 50
+    -- Account 102 → 500
+    -- Total = 650
+
+__________________________________________________________________________
+-- 3 Counting Transactions Per Member
+-- What it does: Uses COUNT() across joined tables
+-- Why use it: Identifies high activity members
+__________________________________________________________________________
+-- Problem: 
+  -- Management wants number of transactions per member
+
+-- Solution: 
+  SELECT m.first_name, COUNT(t.transaction_id) AS transaction_count
+    FROM members m
+    INNER JOIN accounts a ON m.members_id = a.members_id
+    INNER JOIN transactions t ON a.account_id = t.account_id
+    GROUP BY m.first_name;
+
+-- Expected Result:
+  -- first_name       Alice  Bob
+  -- transaction_count  3     1
+
+__________________________________________________________________________
+-- 4 LEFT JOIN for Complete Aggregation
+-- What it does: Includes members with NO transactions
+-- Why use it: Produces complete reporting
+__________________________________________________________________________
+-- Problem: Management wants ALL members, even those with no transactions
+
+-- Solution:
+    SELECT m.first_name, COALESCE(SUM(t.amount), 0) AS total_amount
+      FROM members m
+      LEFT JOIN accounts a ON m.member_id = a.member_id
+      LEFT JOIN transactions t ON a.acount_id = t.account_id
+      GROUP BY m.first_name;
+
+-- Expected Result:
+  -- first_name   Alice  Bob  Carol
+  -- total_amount  650   75     0
+
+  -- LEFT JOIN keeps Carol
+  -- SUM() returns NULL for no matches
+  -- COALESCE converts NULL to 0
+
+__________________________________________________________________________
+-- 5 Multi-Level Aggregation Insight
+-- What it does: Shows how grouping level changes results
+-- Why use it: Prevents incorrect summaries
+__________________________________________________________________________
+-- Example 1 (Grouped by Account):
+  Select a.account_id, SUM(t.amount)
+    FROM accounts a
+    INNER JOIN transactions t ON a.account_id = t.account_id
+    GROUP BY a.account_id;
+
+  -- account_id   101  102  103
+  -- SUM(amount)  150  500  75
+
+-- Example 2 (Grouped by Member):
+  SELECT m.member_id, SUM(t.amount)
+    FROM members m
+    INNER JOIN accounts a ON m.member_id = a.member_id
+    INNER JOIN transactions t ON a.account_id = t.account_id
+    GROUP BY m.member_id;
+
+  -- member_id     1   2   3
+  -- SUM(amount)  650  75  0
+
+-- Key Insight:
+  -- The GROUP BY column determines the level of summary
+  -- Group by account_id → account-level totals
+  -- Group by member_id → member-level totals
+
+__________________________________________________________________________
+-- 6 Exectuion Order (Very Important)
+-- What it does: Explains how SQL processes aggregation queries
+-- Why use it: Prevents logic errors
+__________________________________________________________________________
+-- SQL Order:
+  -- FROM
+  -- JOIN
+  -- WHERE
+  -- GROUP BY
+  -- HAVING
+  -- SELECT
+  -- ORDER BY
+
+-- Joins happen BEFORE grouping
+-- Aggregation happens AFTER joining
+-- That is why row multiplication affects totals
+
