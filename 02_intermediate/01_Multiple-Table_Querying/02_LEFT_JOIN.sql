@@ -112,7 +112,7 @@ __________________________________________________________________________
 __________________________________________________________________________
 -- Problem: 
   -- Management wants to understand why employees with NULL keys are 
-    -- excluded
+  -- excluded
 
 -- Explanation: 
   -- LEFT JOIN keeps ALL rows from the left table
@@ -126,3 +126,20 @@ __________________________________________________________________________
     LEFT JOIN department d 
       ON e.department_id = d.department_id 
       AND d.department_name = 'IT';
+
+__________________________________________________________________________
+-- 6 LEFT JOIN to Return ONLY NULL (Unmatched) Records
+-- What it does: Returns records from the left table that have NO match in
+  -- right table
+-- Why use it: Finds missing relationships (employees without departments,
+  -- members without accounts, etc.)
+__________________________________________________________________________
+-- Problem: 
+  -- Management wants a list of employees who are NOT assigned to any
+  -- department
+
+-- Solution:
+  Select e.first_name
+    From employee e
+    LEFT JOIN department d ON e.department_id = d.department_id 
+    WHERE d.department_id IS NULL;
