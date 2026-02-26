@@ -248,6 +248,10 @@ Tier 2
         
 -- LEFT JOIN Logic
   -- 1. Identify members with no associated accounts
+    SELECT m.first_name, m.last_name, m.member_id FROM members AS m LEFT JOIN accounts AS a ON m.member_id = a.member_id WHERE a.member_id IS NULL;
+      first_name  last_name  member_id
+      ----------  ---------  ---------
+      Stanley     Pines      7
   -- 2. Understand join cardinality and missing relationships
 
 -- Non-Correlated Subqueries
