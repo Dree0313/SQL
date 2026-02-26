@@ -25,7 +25,7 @@ The goal is to move beyond single-table queries and begin thinking in terms of:
 
 ### Subqueries
 - [Subqueries in `SELECT`](03_Subqueries/01_Subqueries_in_SELECT.sql)
-- Subqueries in `WHERE`
+- [Subqueries in `WHERE`](03_Subqueries/02_Subqueries_in_WHERE.sql)
 - Correlated vs non-correlated subqueries
 - When a subquery is more readable than a join
 
