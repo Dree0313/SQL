@@ -253,6 +253,29 @@ Tier 2
       ----------  ---------  ---------
       Stanley     Pines      7
   -- 2. Understand join cardinality and missing relationships
+    SELECT m.member_id, m.first_name, a.account_id FROM Members m INNER JOIN Accounts a ON m.member_id = a.member_id;
+      member_id  first_name  account_id
+      ---------  ----------  ----------
+      1          Alice       101
+      1          Alice       102
+      2          Bob         103
+      2          Bob         104
+      3          Carol       105
+      4          David       106
+      5          Eva         107
+      6          Jane        108
+    SELECT m.member_id, m.first_name, a.account_id FROM Members m LEFT JOIN Accounts a ON m.member_id = a.member_id;
+      member_id  first_name  account_id
+      ---------  ----------  ----------
+      1          Alice       101
+      1          Alice       102
+      2          Bob         103
+      2          Bob         104
+      3          Carol       105
+      4          David       106
+      5          Eva         107
+      6          Jane        108
+      7          Stanley
 
 -- Non-Correlated Subqueries
   -- 1. Identify members exceeding a transaction total threshold
