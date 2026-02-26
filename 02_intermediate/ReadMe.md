@@ -24,7 +24,7 @@ The goal is to move beyond single-table queries and begin thinking in terms of:
 - [Aggregating across related tables](02_Aggregations_&_Grouping/03_Aggregating_across_related_tables.sql)
 
 ### Subqueries
-- Subqueries in `SELECT`
+- [Subqueries in `SELECT`](03_Subqueries/01_Subqueries_in_SELECT.sql)
 - Subqueries in `WHERE`
 - Correlated vs non-correlated subqueries
 - When a subquery is more readable than a join
