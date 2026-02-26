@@ -63,7 +63,7 @@ __________________________________________________________________________
 -- Why use it: Shows activity levels without GROUP BY
 __________________________________________________________________________
 -- Problem:
-  -- Management wants number of acounts per member
+  -- Management wants number of accounts per member
 
 -- Example:
   SELECT m.member_id, m.first_name
