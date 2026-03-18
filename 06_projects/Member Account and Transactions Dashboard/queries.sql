@@ -279,7 +279,14 @@ Tier 2
 
 -- Non-Correlated Subqueries
   -- 1. Identify members exceeding a transaction total threshold
-
+    SELECT m.member_id, m.first_name, total.total_amount 
+        FROM members m 
+        INNER JOIN 
+          (SELECT a.member_id, SUM(t.amount) AS total_amount 
+            FROM accounts a INNER JOIN transactions t ON a.account_id = t.account_id GROUP BY a.member_id) AS total ON m.member_id = total.member_id WHERE total.total_amount > 1000;
+      member_id  first_name  total_amount
+      ---------  ----------  ------------
+      1          Alice       1950.0
 -- Correlated Subqueries
   -- 1. Retrieve the most recent transaction per account
 
