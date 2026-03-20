@@ -40,14 +40,6 @@ __________________________________________________________________________
   SELECT ...
   FROM cte_name;
 
--- Solution:
-  SELECT m.member_id, m.first_name 
-    (SELECT SUM (t.amount)
-    FROM accounts a
-    INNER JOIN transactions t ON a.account_id = t.account_id
-    WHERE a.member_id = m.member_id) AS total_amount
-  FROM members m;
-
 -- Key Idea:
   -- Think of a CTE as a temporary table you define at the top
   -- It only exists for that query
