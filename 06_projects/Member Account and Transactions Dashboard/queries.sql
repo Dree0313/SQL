@@ -289,7 +289,17 @@ Tier 2
       1          Alice       1950.0
 -- Correlated Subqueries
   -- 1. Retrieve the most recent transaction per account
-
+    SELECT a.account_id, (SELECT MAX(t.transaction_date) FROM transactions t WHERE t.account_id = a.account_id) AS most_recent_transaction FROM accounts a;
+      account_id  most_recent_transaction
+      ----------  -----------------------
+      101         2026-01-17
+      102         2026-01-18
+      103         2026-01-07
+      104         2026-01-09
+      105
+      106         2026-01-15
+      107         2026-01-16
+      108         2026-02-09
 -- WITH Clauses
   -- 1. Calculate running balances per account
   -- 2. Generate summarized member-level data
