@@ -38,15 +38,15 @@ __________________________________________________________________________
     SELECT ...
   }
   SELECT ...
-    FROM cte_name;
+  FROM cte_name;
 
 -- Solution:
   SELECT m.member_id, m.first_name 
     (SELECT SUM (t.amount)
-      FROM accounts a
-      INNER JOIN transactions t ON a.account_id = t.account_id
-      WHERE a.member_id = m.member_id) AS total_amount
-    FROM members m;
+    FROM accounts a
+    INNER JOIN transactions t ON a.account_id = t.account_id
+    WHERE a.member_id = m.member_id) AS total_amount
+  FROM members m;
 
 -- Key Idea:
   -- Think of a CTE as a temporary table you define at the top
@@ -63,10 +63,10 @@ __________________________________________________________________________
 -- Subquery Version (harder to read):
   SELECT m.member_id, m.first_name, 
     (SELECT SUM(t.amount)
-      FROM amounts a
-      INNER JOIN transactions t ON a.account_id = t.account_id
-      WHERE a.member_id = m.member_id) AS total_amount
-    FROM members m;
+    FROM amounts a
+    INNER JOIN transactions t ON a.account_id = t.account_id
+    WHERE a.member_id = m.member_id) AS total_amount
+  FROM members m;
 
   CTE Version (cleaner):
     WITH member_totals AS (
@@ -76,8 +76,8 @@ __________________________________________________________________________
       GROUP BY a.member_id
     )
     SELECT m.member_id, m.first_name, mt.total_amount
-      FROM members m
-      LEFT JOIN member_totals mt ON m.member_id = mt.member_id;
+    FROM members m
+    LEFT JOIN member_totals mt ON m.member_id = mt.member_id;
 
 -- Expected Result:
   -- member_id     1     2     3
