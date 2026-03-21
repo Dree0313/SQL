@@ -119,6 +119,9 @@ __________________________________________________________________________
 -- Why use it: Creates powerful reporting queries
 __________________________________________________________________________
 -- Problem:
+  -- Management wants each transaction AND how it compares to total
+
+-- Solution:
   Select account_id, amount, SUM(amount) OVER (
     PARTITION BY account_id) AS total_per_account, 
     amount * 1.0 / SUM(amount) OVER (
