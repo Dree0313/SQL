@@ -24,7 +24,7 @@ The goal is to move beyond single-table queries and begin thinking in terms of:
 - [Aggregating across related tables](02_Aggregations_&_Grouping/03_Aggregating_across_related_tables.sql)
 
 ### Window Functions
-- What window functions are (`OVER()`)
+- [What window functions are (`OVER()`)](03_Window_Functions/01_What_window_functions_are_(OVER()).sql)
 - PARTITION BY (grouping WITHOUT collapsing rows)
 - ORDER BY in window functions (row sequencing)
 - Running totals (running balances)
