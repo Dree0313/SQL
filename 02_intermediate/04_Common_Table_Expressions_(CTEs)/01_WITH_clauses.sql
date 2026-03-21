@@ -60,7 +60,7 @@ __________________________________________________________________________
     WHERE a.member_id = m.member_id) AS total_amount
   FROM members m;
 
-  CTE Version (cleaner):
+-- CTE Version (cleaner):
     WITH member_totals AS (
       SELECT a.member_id, SUM(t.amount) AS total_amount
       FROM accounts a
