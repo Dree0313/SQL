@@ -55,7 +55,7 @@ The goal is to move beyond single-table queries and begin thinking in terms of:
 - Second Normal Form (2NF)
 - Third Normal Form (3NF)
 - Eliminating redundancy
-- [Designing tables around entities, not convenience](06_Data_Normalization/05_Designing_tables_around_entities_not_convenience.sql)
+- [Designing tables around entities, not convenience](07_Data_Normalization/05_Designing_tables_around_entities_not_convenience.sql)
 
 ### Views
 - Creating `VIEW`s
