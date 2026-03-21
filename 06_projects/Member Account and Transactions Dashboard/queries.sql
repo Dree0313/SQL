@@ -302,6 +302,31 @@ Tier 2
       108         2026-02-09
 -- WITH Clauses
   -- 1. Calculate running balances per account
+    WITH running_balances AS (
+      SELECT t.account_id, t.transaction_id, t.transaction_date, t.amount, SUM(t.amount) OVER (
+        PARTITION BY t.account_id
+        ORDER BY t.transaction_date, t.transaction_id
+      ) AS running_balance
+      FROM transactions t
+    )
+    SELECT *
+    FROM running_balances
+    ORDER BY account_id, transaction_date;
+      account_id  transaction_id  transaction_date  amount  running_balance
+      ----------  --------------  ----------------  ------  ---------------
+      101         1001            2026-01-10        1000.0  1000.0
+      101         1002            2026-01-12        200.0   1200.0
+      101         1009            2026-01-17        50.0    1250.0
+      102         1003            2026-01-05        500.0   500.0
+      102         1010            2026-01-18        200.0   700.0
+      103         1004            2026-01-07        150.0   150.0
+      104         1005            2026-01-08        300.0   300.0
+      104         1006            2026-01-09        50.0    350.0
+      106         1007            2026-01-15        1000.0  1000.0
+      107         1008            2026-01-16        100.0   100.0
+      108         1011            2026-02-02        200.0   200.0
+      108         1012            2026-02-09        100.0   300.0
+      
   -- 2. Generate summarized member-level data
 
 -- Primary Keys
