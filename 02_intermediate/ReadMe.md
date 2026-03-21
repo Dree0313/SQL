@@ -74,7 +74,7 @@ The goal is to move beyond single-table queries and begin thinking in terms of:
 - Expressing rules like:
   - Eligibility
   - Status-based restrictions
-  - [Financial limits](09_Translating_Business_Rules_→_SQL/04_Financial_limits.sql)
+  - [Financial limits](10_Translating_Business_Rules_→_SQL/04_Financial_limits.sql)
 - Understanding the difference between data correctness and application logic
 
 ---
