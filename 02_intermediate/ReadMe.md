@@ -23,14 +23,22 @@ The goal is to move beyond single-table queries and begin thinking in terms of:
 - [`HAVING`](02_Aggregations_&_Grouping/02_HAVING.sql)
 - [Aggregating across related tables](02_Aggregations_&_Grouping/03_Aggregating_across_related_tables.sql)
 
+### Window Functions
+- What window functions are (`OVER()`)
+- PARTITION BY (grouping WITHOUT collapsing rows)
+- ORDER BY in window functions (row sequencing)
+- Running totals (running balances)
+- Row-based calculations (per-row analytics)
+- Difference between GROUP BY vs OVER()
+
 ### Subqueries
-- [Subqueries in `SELECT`](03_Subqueries/01_Subqueries_in_SELECT.sql)
-- [Subqueries in `WHERE`](03_Subqueries/02_Subqueries_in_WHERE.sql)
-- [Correlated vs non-correlated subqueries](03_Subqueries/03_Correlated_vs_non-correlated_subqueries.sql)
-- [When a subquery is more readable than a join](03_Subqueries/04_When_a_subquery_is_more_readable_than_a_join.sql)
+- [Subqueries in `SELECT`](04_Subqueries/01_Subqueries_in_SELECT.sql)
+- [Subqueries in `WHERE`](04_Subqueries/02_Subqueries_in_WHERE.sql)
+- [Correlated vs non-correlated subqueries](04_Subqueries/03_Correlated_vs_non-correlated_subqueries.sql)
+- [When a subquery is more readable than a join](04_Subqueries/04_When_a_subquery_is_more_readable_than_a_join.sql)
 
 ### Common Table Expressions (CTEs)
-- [`WITH` clauses](04_Common_Table_Expressions_(CTEs)/01_WITH_clauses.sql)
+- [`WITH` clauses](05_Common_Table_Expressions_(CTEs)/01_WITH_clauses.sql)
 - Breaking complex queries into logical steps
 - Improving readability and maintainability
 - Using CTEs for intermediate calculations
