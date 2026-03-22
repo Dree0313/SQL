@@ -32,6 +32,8 @@ The goal is to move beyond single-table queries and begin thinking in terms of:
 - [Running totals (running balances)](03_Window_Functions/06_Running_totals_(running_balances).sql)
 - [Row-based calculations (per-row analytics)](03_Window_Functions/07_Row-based_calculations_(per-row_analytics).sql)
 - Difference between GROUP BY vs OVER()
+- `LAG()`
+- `LEAD()`
 
 ### Subqueries
 - [Subqueries in `SELECT`](04_Subqueries/01_Subqueries_in_SELECT.sql)
