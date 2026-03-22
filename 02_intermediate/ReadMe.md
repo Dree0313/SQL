@@ -29,7 +29,7 @@ The goal is to move beyond single-table queries and begin thinking in terms of:
 - [ORDER BY in window functions (row sequencing)](03_Window_Functions/03_ORDER_BY_in_window_functions_(row_sequencing).sql)
 - [`ROW_NUMBER()`](03_Window_Functions/04_ROW_NUMBER().sql)
 - [`RANK()`](03_Window_Functions/05_RANK().sql)
-- Running totals (running balances)
+- [Running totals (running balances)](03_Window_Functions/06_Running_totals_(running_balances).sql)
 - Row-based calculations (per-row analytics)
 - Difference between GROUP BY vs OVER()
 
