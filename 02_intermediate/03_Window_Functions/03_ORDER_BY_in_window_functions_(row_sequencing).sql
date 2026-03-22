@@ -50,8 +50,8 @@ __________________________________________________________________________
 -- Expected Result:
   -- account_id     102        103         101         101
   -- date       2026-01-05  2026-01-07  2026-01-10  2026-01-12
-  -- amount         200        -50         500          75
-  -- account_total  150        150         500          75
+  -- amount         500        75          200         -50
+  -- account_total  500        575         775         725
 
 -- Key insight:
   -- One continuous sequence across ALL rows
@@ -61,70 +61,86 @@ __________________________________________________________________________
 -- What it does: Orders rows within each group separately
 -- Why use it: Enables running totals per account
 __________________________________________________________________________
--- No PARTITION (entire table): 
-  SELECT account_id, amount, SUM(amount) OVER () AS total_all
+-- Problem: 
+  -- Management wants running balance per account
+
+-- Solution: 
+  SELECT account_id, transaction_date, amount, SUM(amount) OVER (
+    PARTITION BY account_id ORDER BY transaction_date) AS running_balance
   FROM transactions;
 
--- Expected Results:
-  -- account_id  101  101  102  103
-  -- amount      200  -50  500  75
-  -- total_all   725  725  725  725
+-- Expected Result:
+  -- account_id        101         101         102         103
+  -- date           2026-01-10  2026-01-12  2026-01-05  2026-01-07
+  -- amount            200         -50         500          75
+  -- total_per_amount  200         150         500          75
 
--- With PARTITION: 
+-- Key Insight:
+  -- ORDER BY resets within each PARTITION
+
+__________________________________________________________________________
+-- 4 ORDER BY vs No ORDER BY
+-- What it does: Shows why sequencing matters
+-- Why use it: Prevents incorrect assumptions
+__________________________________________________________________________
+-- Without ORDER By:
   SELECT account_id, amount, SUM(amount) OVER (
     PARTITION BY account_id) AS total_per_amount
   FROM transactions;
 
 -- Expected Result:
-  -- account_id        101  101  102  103
-  -- amount            200  -50  500  75
-  -- total_per_amount  150  150  500  75
+  -- account_id  101  101  102  103
+  -- amount      200  -50  500  75
+  -- total       150  150  500  75
 
--- Key Insight:
-  -- No PARTITION → one big group
-  -- PARTITION BY → multiple small groups
-
-__________________________________________________________________________
--- 4 PARTITION BY with ORDER BY (Combining Concepts)
--- What it does: Adds sequencing inside each group
--- Why use it: Enables running totals per group
-__________________________________________________________________________
--- Problem:
-  -- Management wants running balance per account
-
--- Solution:
+-- With ORDER BY:
     SELECT account_id, transaction_date, amount, SUM (amount) OVER (
-      PARTITION BY account_id ORDER BY transaction_date) AS running_balance
+      PARTITION BY account_id ORDER BY transaction_date) AS running_total
     FROM transactions;
 
 -- Expected Result:
-  --  account_id       101        101         102         103
-  --  date         2026-01-10  2026-01-12  2026-01-05  2026-01-07
-  --  amount           200         -50        500          75
-  --  running_balance  200         150        500          75
+  --  account_id       101         101
+  --  amount           200         -50
+  --  running_balance  200         150
 
 -- Key Insight:
-  -- PARTITION BY = grouping
-  -- ORDER BY = sequence within group
+  -- No ORDER BY → full total
+  -- ORDER BY → step-by-step calculation
 
 __________________________________________________________________________
--- 5 Using PARTITION BY for Comparisons
--- What it does: Compares each row to its group total
--- Why use it: Useful for analytics and reporting
+-- 5 ORDER BY for Ranking
+-- What it does: Assigns position based on value order
+-- Why use it: Identifies top transactions
 __________________________________________________________________________
 -- Problem:
-  -- Management wants to know how much each transaction contributes to its
-  -- account total
+  -- Management wants to rank transactions by amount
 
 -- Solution:
-  Select account_id, amount, SUM(amount) OVER (
-    PARTITION BY account_id) AS total, 
-    amount * 1.0 / SUM(amount) OVER (
-    PARTITION BY account_id) AS percent_of_total
+  Select account_id, amount, ROW_NUMBER() OVER (
+    ORDER BY amount DESC) AS rank
   FROM transactions;
 
 -- Expected Result:
-  -- account_id  101   101   102   103
-  -- amount      200   -50   500   75
-  -- total       150   150   500   75
-  -- percent    1.33  -0.33  1.00  1.00
+  -- account_id  102   101   103   101
+  -- amount      500   200    75   -50
+  -- rank         1     2     3     4
+
+-- Key insight:
+  -- ORDER BY determines ranking order
+
+__________________________________________________________________________
+-- 6 Execution Insight (Very Important)
+-- What it does: Explains when ORDER BY in OVER() runs
+-- Why use it: Prevents confusion between sorting and calculation
+__________________________________________________________________________
+-- SQL Order:
+  -- FROM
+  -- JOIN
+  -- WHERE
+  -- GROUP BY
+  -- HAVING
+  -- SELECT (Window functions run here)
+  -- ORDER BY (final output sorting
+
+-- That is why:
+  -- You can have different ordering for calculation vs display
