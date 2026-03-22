@@ -26,7 +26,8 @@ The goal is to move beyond single-table queries and begin thinking in terms of:
 ### Window Functions
 - [What window functions are (`OVER()`)](03_Window_Functions/01_What_window_functions_are_(OVER()).sql)
 - [PARTITION BY (grouping WITHOUT collapsing rows)](03_Window_Functions/02_PARTITION_BY_(grouping_WITHOUT_collapsing_rows).sql)
-- ORDER BY in window functions (row sequencing)
+- [ORDER BY in window functions (row sequencing)](03_Window_Functions/03_ORDER_BY_in_window_functions_(row_sequencing).sql)
+- `ROW_NUMBER()`
 - Running totals (running balances)
 - Row-based calculations (per-row analytics)
 - Difference between GROUP BY vs OVER()
