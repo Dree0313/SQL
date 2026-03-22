@@ -15,6 +15,7 @@ The goal is to move beyond "does this query work" and begin thinking in terms of
 
 ### Window Functions & Analytical Queries
 - Window functions vs aggregate functions
+- `ROWS BETWEEN UNBOUNDED PRECEDING AND CURRENT ROW`
 - `LAG`, `LEAD`
 - Ranking functions (`RANK`, `DENSE_RANK`, `ROW_NUMBER`)
 - Partitioning result sets with `OVER (PARTITION BY ...)`
