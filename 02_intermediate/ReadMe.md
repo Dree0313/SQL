@@ -34,6 +34,7 @@ The goal is to move beyond single-table queries and begin thinking in terms of:
 - Difference between GROUP BY vs OVER()
 - `LAG()`
 - `LEAD()`
+- `COALESCE()`
 
 ### Subqueries
 - [Subqueries in `SELECT`](04_Subqueries/01_Subqueries_in_SELECT.sql)
