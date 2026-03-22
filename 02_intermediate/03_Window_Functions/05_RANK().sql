@@ -61,95 +61,69 @@ __________________________________________________________________________
 
 -- Expected Result:
   -- amount         500        200          200         75
-  -- row_num         1          2            2          4
+  -- rank            1          2            2          4
 
 -- Key insight:
   -- Rank 3 is skipped because of the tie
 
 __________________________________________________________________________
--- 3 Getting the MOst Recent Row Per Group
--- What it does: Filters to only the top-ranked row
--- Why use it: Common real-world requirement
+-- 3 RANK() with PARTITION BY (Per-Group Ranking)
+-- What it does: Ranks rows within each group separately
+-- Why use it: Compare values within categories (accounts)
 __________________________________________________________________________
 -- Problem: 
-  -- Management wants the most recent transaction per account
+  -- Management wants to rank transactions per account
 
 -- Solution (using CTE): 
-  WITH ranked_transactions AS (
-    SELECT account_id, transaction_date, amount, ROW_NUMBER() OVER (
-      PARTITION BY account_id ORDER BY transaction_date DESC) AS rn
-    FROM transactions)
-  SELECT account_id, transaction_date, amount
-  FROM ranked_transactions
-  WHERE rn = 1;
+  SELECT account_id, amount, RANK() OVER (
+    PARTITION BY account_id ORDER BY amount DESC) AS rank_num
+  FROM transactions;
 
 -- Expected Result:
-  -- account_id        101         102         103
-  -- date           2026-01-12  2026-01-05  2026-01-07
-  -- amount            -50         500         75
+  -- account_id  101  101  102  103
+  -- amount      200  -50  500  75
+  -- rank         1    2    1    1
 
 -- Key Insight:
-  -- rn = 1 → top row per group
+  -- Ranking resets for each amount
 
 __________________________________________________________________________
--- 4 ROW_NUMBER() vs RANK()
--- What it does: Shows difference in ranking behavior
--- Why use it: Prevents confusion in ranking logic
+-- 4 RANK() vs ROW_NUMBER()
+-- What it does: Highlights key difference
+-- Why use it: Prevents incorrect ranking choice
 __________________________________________________________________________
--- ROW_NUMBER:
-  -- Always unique numbers (no ties)
-  -- 1, 2, 3, 4
-
--- If amounts were:
+-- If amount were:
   -- 500, 200, 200, 75
 
--- ROW_NUMBER() result:
-    -- 1, 2, 3, 4
+-- ROW_NUMBER():
+  -- 1, 2, 3, 4
+
+-- RANK():
+  -- 1, 2, 2, 4
 
 -- Key Insight:
-  -- Even equal values get different numbers
+  -- ROW_NUMBER() → always unique
+  -- RANK() → allows ties, skips numbers
 
 __________________________________________________________________________
--- 5 Deduplication Using ROW_NUMBER()
--- What it does: Removes duplicate rows
--- Why use it: Cleans data efficiently
+-- 5 Top-N with Ties Using RANK()
+-- What it does: Retrieves top values including ties
+-- Why use it: Common business requirement
 __________________________________________________________________________
 -- Problem:
-  -- Remove duplicate transactions per account (keep latest)
+  -- Get top 2 transactions by amount, including ties
 
 -- Solution:
-  WITH deduped AS (SELECT *, ROW_NUMBER() OVER ( 
-      PARTITION BY account_id ORDER BY transaction_date DESC) AS rn
+  WITH ranked AS (SELECT account_id, amount, RANK() OVER (
+      ORDER BY amount DESC) AS rank_num
     FROM transactions)
   SELECT *
-  FROM deduped
-  WHERE rn = 1;
+  FROM ranked
+  WHERE rank_num <= 2;
 
--- Expected Result:
-  -- transaction_id       1002        1003       1004
-  -- account_id            101         102        103
-  -- amount                -50         500         75
-  -- transacctions_date 2026-01-12  2026-01-05  2026-01-07
-  -- rn                     1            1         1
+-- Expected Result (if ties exist):
+  -- amount  500  200  200
+  -- rank     1    2    2
 
 -- Key insight:
-  -- Keeps only the "best" row per group
-
-__________________________________________________________________________
--- 6 Execution Insight (Very Important)
--- What it does: Explains when ROW_NUMBER() runs
--- Why use it: Prevents logical mistakes
-__________________________________________________________________________
--- SQL Order:
-  -- FROM
-  -- JOIN
-  -- WHERE
-  -- GROUP BY
-  -- HAVING
-  -- SELECT (Window functions run here)
-  -- ORDER BY
-
--- Important:
-  -- ROW_NUMBER() is calculated during SELECT
-  -- You cannot filter it directly in WHERE
-  -- Use a CTE or subquery to filter
+  -- RANK() includes all tied values within cutoff
