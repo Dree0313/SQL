@@ -1,20 +1,19 @@
 __________________________________________________________________________
--- Intermediate SQL: ORDER BY in Window Functions (Row Sequencing)
--- Purpose: Learn how ORDER BY inside OVER() controls the sequence of
-  -- calculations across rows (critical for running totals & rankings)
+-- Intermediate SQL: ROW_NUMBER() (Row Ranking & Positioning)
+-- Purpose: Learn how to assign a unique number to each row based on a
+  -- defined order (used for ranking, filtering, and deduplication)
 __________________________________________________________________________
 
 -- Scenerio:
   -- You are a junior database developer at a bank. Management wants
-  -- time-based insights from transaction data:
+  -- ranked and filtered transaction insights:
 
-    -- Running balances per account
-    -- Transactions in order of activity
-    -- Step-by-step accumulation of values
+    -- Most recent transaction per account
     -- Ranking transactions by amount
+    -- Identifying duplicate or extra rows
+    -- Selecting top transactions per account
 
-  -- You must control the ORDER of calculations WITHOUT changing the
-  -- final output structure
+  -- You must assign a position to each row WITHOUT collapsing data.
 
   -- Table: transactions
     -- transaction_id (PK) 1001         1002     1003         1004
@@ -22,116 +21,125 @@ __________________________________________________________________________
     -- amount               200         -50       500           75
     -- transaction_date  2026-01-10  2026-01-12 2026-01-05  2026-01-07
 __________________________________________________________________________
--- 1️ What ORDER BY Does in OVER()
--- What it does: Defines the sequence of rows for calculation
--- Why use it: Enables running totals, rankings, and time-based logic
+-- 1️ What ROW_NUMBER() Does
+-- What it does: Assigns a unique sequential number to each row
+-- Why use it: Enables ranking, filtering, and row selection
 __________________________________________________________________________
 -- Important Concept:
-  -- ORDER BY inside OVER() does NOT sort final results
-  -- It ONLY controls how calculatiions are performed
+  -- ROW_NUMBER() ALWAYS requires ORDER BY
+  -- Each row gets a unique number (no ties)
 
 -- Think of it like:
-  -- ORDER BY (outside) → controls display
-  -- ORDER BY (inside OVER) → controls calculations
+  -- "Give each row a position in a list"
+
+-- Example:
+  SELECT account_id, amount, ROW_NUMBER() OVER (
+    ORDER BY amount DESC) AS row_num
+  FROM transactions;
+
+--Expected Result:
+  -- account_id  102  101  103  101
+  -- amount      500  200  75  -50
+  -- row_num      1    2    3    4
+
+-- Key Insight:
+  -- Highest amount gets row number 1
 
 __________________________________________________________________________
--- 2 ORDER BY Without PARTITION (Whole Table Sequence)
--- What it does: Applies ordering across entire dataset
--- Why use it: Calculates running totals across all rows
+-- 2 ROW_NUMBER() with PARTITION BY (Per-Group Ranking)
+-- What it does: Resets numbering for each group
+-- Why use it: Rank rows within each category
 __________________________________________________________________________
 -- Problem:
-  -- Management wants a running total across ALL transactions
+  -- Management wants a rank transactions per account
 
 -- Solution:
-  SELECT account_id, transaction_date, amount, SUM(amount) OVER (
-    ORDER BY transaction_date) AS running total
+  SELECT account_id, transaction_date, amount, ROW_NUMBER() OVER (
+    ORDER BY transaction_date DESC) AS row_num
   FROM transactions;
 
 -- Expected Result:
-  -- account_id     102        103         101         101
-  -- date       2026-01-05  2026-01-07  2026-01-10  2026-01-12
-  -- amount         500        75          200         -50
-  -- account_total  500        575         775         725
+  -- account_id     101        101         102         103
+  -- date       2026-01-12  2026-01-10  2026-01-05  2026-01-07
+  -- amount         -50        200          500         75
+  -- row_num         1          2            1          1
 
 -- Key insight:
-  -- One continuous sequence across ALL rows
+  -- Numbering restarts after each account
 
 __________________________________________________________________________
--- 3 ORDER BY with PARTITION BY (Per-Grouping Sequencing)
--- What it does: Orders rows within each group separately
--- Why use it: Enables running totals per account
+-- 3 Getting the MOst Recent Row Per Group
+-- What it does: Filters to only the top-ranked row
+-- Why use it: Common real-world requirement
 __________________________________________________________________________
 -- Problem: 
-  -- Management wants running balance per account
+  -- Management wants the most recent transaction per account
 
--- Solution: 
-  SELECT account_id, transaction_date, amount, SUM(amount) OVER (
-    PARTITION BY account_id ORDER BY transaction_date) AS running_balance
-  FROM transactions;
+-- Solution (using CTE): 
+  WITH ranked_transactions AS (
+    SELECT account_id, transaction_date, amount, ROW_NUMBER() OVER (
+      PARTITION BY account_id ORDER BY transaction_date DESC) AS rn
+    FROM transactions)
+  SELECT account_id, transaction_date, amount
+  FROM ranked_transactions
+  WHERE rn = 1;
 
 -- Expected Result:
-  -- account_id        101         101         102         103
-  -- date           2026-01-10  2026-01-12  2026-01-05  2026-01-07
-  -- amount            200         -50         500          75
-  -- total_per_amount  200         150         500          75
+  -- account_id        101         102         103
+  -- date           2026-01-12  2026-01-05  2026-01-07
+  -- amount            -50         500         75
 
 -- Key Insight:
-  -- ORDER BY resets within each PARTITION
+  -- rn = 1 → top row per group
 
 __________________________________________________________________________
--- 4 ORDER BY vs No ORDER BY
--- What it does: Shows why sequencing matters
--- Why use it: Prevents incorrect assumptions
+-- 4 ROW_NUMBER() vs RANK()
+-- What it does: Shows difference in ranking behavior
+-- Why use it: Prevents confusion in ranking logic
 __________________________________________________________________________
--- Without ORDER By:
-  SELECT account_id, amount, SUM(amount) OVER (
-    PARTITION BY account_id) AS total_per_amount
-  FROM transactions;
+-- ROW_NUMBER:
+  -- Always unique numbers (no ties)
+  -- 1, 2, 3, 4
 
--- Expected Result:
-  -- account_id  101  101  102  103
-  -- amount      200  -50  500  75
-  -- total       150  150  500  75
+-- If amounts were:
+  -- 500, 200, 200, 75
 
--- With ORDER BY:
-    SELECT account_id, transaction_date, amount, SUM (amount) OVER (
-      PARTITION BY account_id ORDER BY transaction_date) AS running_total
-    FROM transactions;
-
--- Expected Result:
-  --  account_id       101         101
-  --  amount           200         -50
-  --  running_balance  200         150
+-- ROW_NUMBER() result:
+    -- 1, 2, 3, 4
 
 -- Key Insight:
-  -- No ORDER BY → full total
-  -- ORDER BY → step-by-step calculation
+  -- Even equal values get different numbers
 
 __________________________________________________________________________
--- 5 ORDER BY for Ranking
--- What it does: Assigns position based on value order
--- Why use it: Identifies top transactions
+-- 5 Deduplication Using ROW_NUMBER()
+-- What it does: Removes duplicate rows
+-- Why use it: Cleans data efficiently
 __________________________________________________________________________
 -- Problem:
-  -- Management wants to rank transactions by amount
+  -- Remove duplicate transactions per account (keep latest)
 
 -- Solution:
-  Select account_id, amount, ROW_NUMBER() OVER (
-    ORDER BY amount DESC) AS rank
-  FROM transactions;
+  WITH deduped AS (SELECT *, ROW_NUMBER() OVER ( 
+      PARTITION BY account_id ORDER BY transaction_date DESC) AS rn
+    FROM transactions)
+  SELECT *
+  FROM deduped
+  WHERE rn = 1;
 
 -- Expected Result:
-  -- account_id  102   101   103   101
-  -- amount      500   200    75   -50
-  -- rank         1     2     3     4
+  -- transaction_id       1002        1003       1004
+  -- account_id            101         102        103
+  -- amount                -50         500         75
+  -- transacctions_date 2026-01-12  2026-01-05  2026-01-07
+  -- rn                     1            1         1
 
 -- Key insight:
-  -- ORDER BY determines ranking order
+  -- Keeps only the "best" row per group
 
 __________________________________________________________________________
 -- 6 Execution Insight (Very Important)
--- What it does: Explains when ORDER BY in OVER() runs
--- Why use it: Prevents confusion between sorting and calculation
+-- What it does: Explains when ROW_NUMBER() runs
+-- Why use it: Prevents logical mistakes
 __________________________________________________________________________
 -- SQL Order:
   -- FROM
@@ -140,7 +148,9 @@ __________________________________________________________________________
   -- GROUP BY
   -- HAVING
   -- SELECT (Window functions run here)
-  -- ORDER BY (final output sorting
+  -- ORDER BY
 
--- That is why:
-  -- You can have different ordering for calculation vs display
+-- Important:
+  -- ROW_NUMBER() is calculated during SELECT
+  -- You cannot filter it directly in WHERE
+  -- Use a CTE or subquery to filter
