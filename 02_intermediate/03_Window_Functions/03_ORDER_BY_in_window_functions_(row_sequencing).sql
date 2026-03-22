@@ -140,7 +140,7 @@ __________________________________________________________________________
   -- GROUP BY
   -- HAVING
   -- SELECT (Window functions run here)
-  -- ORDER BY (final output sorting
+  -- ORDER BY (final output sorting)
 
 -- That is why:
   -- You can have different ordering for calculation vs display
