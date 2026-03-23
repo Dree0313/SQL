@@ -45,7 +45,7 @@ The goal is to move beyond single-table queries and begin thinking in terms of:
 
 ### Common Table Expressions (CTEs)
 - [`WITH` clauses](05_Common_Table_Expressions_(CTEs)/01_WITH_clauses.sql)
-- Breaking complex queries into logical steps
+- [Breaking complex queries into logical steps](05_Common_Table_Expressions_(CTEs)/02_Breaking_complex_queries_into_logical_steps.sql)
 - Improving readability and maintainability
 - Using CTEs for intermediate calculations
 
