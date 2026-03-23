@@ -35,7 +35,7 @@ The goal is to move beyond single-table queries and begin thinking in terms of:
 - [`LAG()`](03_Window_Functions/09_LAG().sql)
 - [`LEAD()`](03_Window_Functions/10_LEAD().sql)
 - [`COALESCE()`](03_Window_Functions/11_COALESCE().sql)
-- CASE WHEN
+- [CASE WHEN](03_Window_Functions/12_CASE_WHEN.sql)
 
 ### Subqueries
 - [Subqueries in `SELECT`](04_Subqueries/01_Subqueries_in_SELECT.sql)
