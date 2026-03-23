@@ -34,7 +34,7 @@ The goal is to move beyond single-table queries and begin thinking in terms of:
 - [Difference between GROUP BY vs OVER()](03_Window_Functions/08_Difference_between_GROUP_BY_vs_OVER().sql)
 - [`LAG()`](03_Window_Functions/09_LAG().sql)
 - [`LEAD()`](03_Window_Functions/10_LEAD().sql)
-- `COALESCE()`
+- [`COALESCE()`](03_Window_Functions/11_COALESCE().sql)
 - CASE WHEN
 
 ### Subqueries
