@@ -118,7 +118,7 @@ __________________________________________________________________________
   FROM
     (SELECT account_id, SUM(amount) AS total_balance
     FROM transactions
-    GROUP BY account_id) t;
+    GROUP BY account_id) AS t;
     
 -- Key Insight:
   -- GROUP BY can create summaries
