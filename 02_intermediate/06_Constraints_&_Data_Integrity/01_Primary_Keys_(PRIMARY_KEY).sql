@@ -52,7 +52,7 @@ __________________________________________________________________________
   -- Each member_id must be unique (no two rows can share it)
 
 __________________________________________________________________________
--- 2 WHY PRIMARY KEYs Matter
+-- 2 Why PRIMARY KEYs Matter
 -- What it does: Ensures each row can be reliably identified
 -- Why use it: Prevents data issues and enables relationships
 __________________________________________________________________________
