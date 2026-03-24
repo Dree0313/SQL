@@ -50,7 +50,7 @@ The goal is to move beyond single-table queries and begin thinking in terms of:
 - [Using CTEs for intermediate calculations](05_Common_Table_Expressions_(CTEs)/04_Using_CTEs_for_intermediate_calculations.sql)
 
 ### Constraints & Data Integrity
-- Primary Keys (`PRIMARY KEY`)
+- [Primary Keys (`PRIMARY KEY`)](06_Constraints_&_Data_Integrity/01_Primary_Keys_(PRIMARY_KEY).sql)
 - Foreign Keys (`FOREIGN KEY`)
 - `CHECK` constraints
 - Preventing invalid or contradictory data
