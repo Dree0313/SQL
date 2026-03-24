@@ -17,7 +17,7 @@ __________________________________________________________________________
   -- Solution:
     -- Apply Second Normal Form (2NF) to remove partial dependencies
 
-  -- Table: account_transadctions (Not 2NF)
+  -- Table: account_transactions (Not 2NF)
     -- account_id           101         101
     -- transaction_date  2026-01-10  2026-01-12
     -- account_type       checking    checking
