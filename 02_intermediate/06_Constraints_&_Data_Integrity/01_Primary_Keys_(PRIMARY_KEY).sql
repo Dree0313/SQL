@@ -126,7 +126,7 @@ __________________________________________________________________________
 
 __________________________________________________________________________
 -- 6 Common Mistakes
--- What it does: Highlights erros when using PRIMARY KEYS
+-- What it does: Highlights errors when using PRIMARY KEYS
 -- Why use it: Prevents data integrity issues
 __________________________________________________________________________
 -- Mistake Allowing NULL values:
