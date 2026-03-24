@@ -32,7 +32,7 @@ __________________________________________________________________________
   -- Each field contains only ONE value
   -- Each row can be uniquely identified (PRIMARY KEY)
 
--- Good Example (1NF Complaint)
+-- Good Example (1NF Compliant):
   -- member_id     1
   -- first_name  Alice
 
