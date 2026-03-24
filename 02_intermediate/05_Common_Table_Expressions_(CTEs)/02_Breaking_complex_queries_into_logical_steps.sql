@@ -83,7 +83,7 @@ __________________________________________________________________________
 -- Expected Result:
   -- member_id     1     2     3
   -- first_name  Alice  Bob  Carol
-  -- total_amount 650   500    75
+  -- total_amount 150   500    75
 
 -- Key Insight:
   -- Calculation logic is separate → much easier to read
