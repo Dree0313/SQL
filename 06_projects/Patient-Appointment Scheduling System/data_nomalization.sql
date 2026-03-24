@@ -27,8 +27,8 @@ AppointmentID  PatientID FirstName LastName	PatientAddress	DoctorName	DoctorSpec
 5              102       Sarah     Brown	  456 Oak Ave    	Dr. Patel	  Pediatrics	    3/20/2026	      2:00 PM
 6              103       Mike      Davis	  789 Pine Rd	    Dr. Lee	    Dermatology	    3/10/2026	      9:30 AM
 7              103       Mike      Davis	  789 Pine Rd	    Dr. Lee	    Dermatology	    3/25/2026	      3:00 PM
-8              103       Emily     Clark	  321 Maple St	  Dr. Patel	  Pediatrics	    3/12/2026	      10:30 AM
-9              103       Emily     Clark	  321 Maple St	  Dr.Adams	  Cardiology	    4/2/2026	      12:00 PM
+8              104       Emily     Clark	  321 Maple St	  Dr. Patel	  Pediatrics	    3/12/2026	      10:30 AM
+9              104       Emily     Clark	  321 Maple St	  Dr.Adams	  Cardiology	    4/2/2026	      12:00 PM
 
 CREATE TABLE Appointment (
   appointment_id INT PRIMARY KEY,
@@ -40,4 +40,72 @@ CREATE TABLE Appointment (
   doctor_specialty TEXT NOT NULL,
   appointment_date DATE NOT NULL,
   appointment_time TIME NOT NULL
+);
+
+-- Phase 3: 2NF (Second Normal Form) Requirement: Must be in 1NF and have no "partial dependency" (all non-key attributes must depend on the entire primary key).
+
+  -- Action: Move patient info to a Patients table and doctor info to a Doctors table.
+Patient
+PatientID  FirstName  LastName  Address
+101        John       Smith     123 Main St
+102        Sarah      Brown     456 Oak Ave
+103        Mike       Davis     789 Pine Rd
+104        Emily      Clark     321 Maple St
+
+CREATE TABLE Patient (
+  patient_id INT PRIMARY KEY,
+  first_name TEXT NOT NULL,
+  last_name TEXT NOT NULL,
+  address TEXT NOT NULL
+);
+
+Doctor
+DoctorID  DoctorName  DoctorSpecialty
+1001      Dr. Adams   Cardiology
+1002      Dr. Lee     Dermatology
+1003      Dr. Patel   Pediatrics
+
+CREATE TABLE Doctor (
+  doctor_id INT PRIMARY KEY,
+  doctor_name TEXT NOT NULL,
+  doctor_specialty TEXT NOT NULL
+);
+
+CREATE TABLE Appointment (
+  appointment_id INT PRIMARY KEY,
+  patient_id INT NOT NULL,
+  doctor_id INT NOT NULL,
+  appointment_date DATE NOT NULL,
+  appointment_time TIME NOT NULL,
+  FOREIGN KEY (patient_id) REFERENCES Patient(patient_id),
+  FOREIGN KEY (doctor_id) REFERENCES Doctor(doctor_id)
+);
+
+-- Phase 4: 3NF (Third Normal Form) Requirement: Must be in 2NF and have no "transitive dependency" (non-key columns shouldn't depend on other non-key columns).
+
+  -- Action: Ensure that the DoctorSpecialty does not depend on the PatientID. It should only be linked via the DoctorID.
+
+-- Since there are not partial dependencies, transitive dependencies, and all relationships are via IDs, 3NF has been achieved
+
+CREATE TABLE Patient (
+  patient_id INT PRIMARY KEY,
+  first_name TEXT NOT NULL,
+  last_name TEXT NOT NULL,
+  address TEXT NOT NULL
+);
+
+CREATE TABLE Doctor (
+  doctor_id INT PRIMARY KEY,
+  doctor_name TEXT NOT NULL,
+  doctor_specialty TEXT NOT NULL
+);
+
+CREATE TABLE Appointment (
+  appointment_id INT PRIMARY KEY,
+  patient_id INT NOT NULL,
+  doctor_id INT NOT NULL,
+  appointment_date DATE NOT NULL,
+  appointment_time TIME NOT NULL,
+  FOREIGN KEY (patient_id) REFERENCES Patient(patient_id),
+  FOREIGN KEY (doctor_id) REFERENCES Doctor(doctor_id)
 );
