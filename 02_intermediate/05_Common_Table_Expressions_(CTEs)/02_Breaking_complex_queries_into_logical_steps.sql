@@ -135,7 +135,7 @@ __________________________________________________________________________
   average_total AS (
     SELECT AVG(total_amount) AS avg_amount
     FROM member_totals
-  }
+  )
   SELECT m.first_name, mt.total_amount
   FROM members m
   INNER JOIN member_totals mt ON m.memeber_id = mt.member_id
