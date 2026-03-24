@@ -57,7 +57,7 @@ The goal is to move beyond single-table queries and begin thinking in terms of:
 - Understanding what belongs in schema vs logic
 
 ### Data Normalization
-- First Normal Form (1NF)
+- [First Normal Form (1NF)](07_Data_Normalization/01_First_Normal_Form_(1NF).sql)
 - Second Normal Form (2NF)
 - Third Normal Form (3NF)
 - Eliminating redundancy
