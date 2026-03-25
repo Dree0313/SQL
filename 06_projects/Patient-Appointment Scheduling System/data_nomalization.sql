@@ -85,7 +85,7 @@ CREATE TABLE Appointment (
 
   -- Action: Ensure that the DoctorSpecialty does not depend on the PatientID. It should only be linked via the DoctorID.
 
--- Since there are not partial dependencies, transitive dependencies, and all relationships are via IDs, 3NF has been achieved
+-- Since there are no partial dependencies, transitive dependencies, and all relationships are via IDs, 3NF has been achieved
 
 CREATE TABLE Patient (
   patient_id INT PRIMARY KEY,
