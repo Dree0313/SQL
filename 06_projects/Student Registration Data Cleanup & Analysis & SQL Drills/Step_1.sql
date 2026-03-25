@@ -53,6 +53,10 @@ GROUP BY student_id;
 -- It then groups by the student ID listing which means that it groups rows with the same value
   -- a single row.
 
+-- Revised: This query groups all rows by student_id, meaning each unique student forms its own
+  -- group. The COUNT(*) function then counts how many rows exist within each group, giving the
+  -- total number of registrations per student.
+
 
 --🟡 4. Duplicate Detection (Medium → Hard)
 
@@ -96,3 +100,32 @@ HAVING COUNT(*) > 1;
 --term
 
 --(Not just counts—the actual records.)
+
+SELECT student_id, course_id, term
+FROM registrations
+WHERE COUNT(*) > 1
+GROUP BY student_id, course_id, term;
+
+-- Since WHERE is an aggregate function, I cannot use COUNT(*) here
+-- Aggregate functions perform calculation on a set of values (multiple) rows and return a single summary value
+-- GROUP BY groups rows and therefore has to be used for COUNT(*) to count groups
+-- I am also returning grouped summaries and should be returning the actual duplicated records
+-- Correct Query below:
+
+SELECT *
+FROM registrations
+WHERE (student_id, course_id, term) IN (
+  SELECT student_id, course_id, term
+  FROM registrations
+  GROUP BY student_id, course_id, term
+  HAVING COUNT(*) > 1
+);
+
+-- This works because it selects all columns from the registrations table where the columns
+  -- student_id, course_id, and term have a count greater than 1
+
+-- Revised: The inner query groups records by student_id, course_id, and term, and uses HAVING
+  -- COUNT(*) > 1 to identify combinations that appear more than once, which indicates duplicates.
+  -- The outer query then selects all rows from the registrations table where those same combinations
+  -- exist, using a tuple comparison in the IN clause. This returns the full records associated with
+  -- the duplicate entries, not just the grouped summary.
