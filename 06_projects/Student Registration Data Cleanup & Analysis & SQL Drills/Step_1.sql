@@ -9,21 +9,30 @@ SELECT *
 FROM registrations;
 
 
-🟢 2. Focused Filtering (Easy → Medium)
+--🟢 2. Focused Filtering (Easy → Medium)
 
-Scenario:
-The issue was first noticed in a specific term.
+--Scenario:
+--The issue was first noticed in a specific term.
 
-Task:
-Find all registrations for a single term (e.g., 'Fall2025').
+--Task:
+--Find all registrations for a single term (e.g., 'Fall2025').
 
-🟡 3. Enrollment Patterns (Medium)
+SELECT *
+FROM registrations
+WHERE term IS 'Fall2025';
 
-Scenario:
-You want to understand student activity to spot anything unusual.
 
-Task:
-Count how many total registrations each student has across all terms.
+--🟡 3. Enrollment Patterns (Medium)
+
+--Scenario:
+--You want to understand student activity to spot anything unusual.
+
+--Task:
+--Count how many total registrations each student has across all terms.
+
+SELECT COUNT *
+FROM registrations
+WHERE 
 
 🟡 4. Duplicate Detection (Medium → Hard)
 
