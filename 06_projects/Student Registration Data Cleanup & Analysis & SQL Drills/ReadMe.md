@@ -71,7 +71,7 @@ Step 1: You will complete 5 Select queries that become progressively harder. If 
 
 Step 2: You will complete 5 modifications that become progressively harder. If you can complete these scenarios on your own, you will advance to step 3, otherwise, you repeat the step with new questions
 
-Step 3: You will review the following scenario:
+Step 3: You will complete the following scenario:
 
 You are working as a junior database analyst for a university’s registration system.
 
