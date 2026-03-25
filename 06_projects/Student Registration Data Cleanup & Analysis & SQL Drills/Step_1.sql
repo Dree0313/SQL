@@ -6,7 +6,7 @@
 --Task:
 --Retrieve all records from the registrations table.
 SELECT *
-FROM Registrations;
+FROM registrations;
 
 
 🟢 2. Focused Filtering (Easy → Medium)
