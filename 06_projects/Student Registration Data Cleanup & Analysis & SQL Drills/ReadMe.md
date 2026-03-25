@@ -7,7 +7,8 @@ Identify duplicate records
 Analyze enrollment patterns
 Write increasingly complex SELECT queries
 Build the foundation needed to solve real-world data issues (like duplicate enrollments)
-🧪 Dataset (You’ll Use This Table)
+
+🧪 Dataset (You’ll Use This Table towards the end of the project)
 CREATE TABLE registrations (
     registration_id INT PRIMARY KEY,
     student_id INT,
@@ -15,7 +16,7 @@ CREATE TABLE registrations (
     term VARCHAR(20)
 );
 
-You can insert sample data like this (add more later if you want):
+You can insert sample data like this:
 
 INSERT INTO registrations VALUES
 (1, 101, 501, 'Fall2025'),
@@ -25,6 +26,10 @@ INSERT INTO registrations VALUES
 (5, 101, 504, 'Spring2026'),
 (6, 102, 502, 'Fall2025'), -- duplicate
 (7, 104, 505, 'Fall2025');
+(8, 103, 503, 'Spring2026'); -- duplicate
+
+
+
 🧩 SQL Practice Questions (Easiest → Hardest)
 🟢 1. Basic Retrieval
 
@@ -55,9 +60,7 @@ Retrieve all rows that are duplicates based on student_id, course_id, and term.
 
 (This is the closest stepping stone to your interview question—master this and you’re almost there.)
 
-📄 README (For Your Project)
 
-You can copy this into a README.md file:
 
 Student Registration SQL Project
 📌 Overview
