@@ -142,16 +142,23 @@ WHERE (student_id, course_id, term) IN (
 --Hint:
 --Think WHERE + GROUP BY.
 
-🟢 7. Popular Courses (Easy → Medium)
+SELECT student_id, COUNT(*) AS total_courses
+FROM registrations
+WHERE term = 'Spring2026'
+GROUP BY student_id;
 
-Scenario:
-The department wants to know which courses are most popular this term.
+--🟢 7. Popular Courses (Easy → Medium)
 
-Task:
-Find all courses for 'Spring2026' and the number of students enrolled in each, sorted by most students first.
+--Scenario:
+--The department wants to know which courses are most popular this term.
 
-Hint:
-You’ll need GROUP BY course_id and ORDER BY.
+--Task:
+--Find all courses for 'Spring2026' and the number of students enrolled in each, sorted by most students first.
+
+--Hint:
+--You’ll need GROUP BY course_id and ORDER BY.
+
+
 
 🟡 8. Cross-Term Attendance (Medium)
 
