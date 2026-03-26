@@ -112,6 +112,6 @@ __________________________________________________________________________
     );
 
 -- Expected Results:
-  -- first_name  Alice    Bob     Carol    Dave
-  -- department   HR      IT       HR       IT
-  -- status     Active  Active  Inactive  Active
+  -- first_name   Bob    Dave
+  -- department   IT      IT
+  -- status     Active  Active
