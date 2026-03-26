@@ -88,3 +88,30 @@ __________________________________________________________________________
 -- Expected Results:
   -- first_name  Alice   Bob   Carol  Dave
   -- salary      75000  60000  50000  65000
+
+__________________________________________________________________________
+-- 5 IN and Subqueries
+-- What it does: Uses a subquery with IN to filter results bases on
+  -- another query
+-- Why use it: Allows you to filter rows using dynamically generated 
+  -- values
+__________________________________________________________________________
+-- Problem: 
+  -- Management wants to identify all employees who work in departments
+  -- that have more than one active employee
+
+-- Solution: 
+  SELECT first_name, department, status
+    FROM employees
+    WHERE department IN (
+      SELECT department
+      FROM employees
+      WHERE status = 'Active'
+      GROUP BY department
+      HAVING COUNT(*) > 1
+    );
+
+-- Expected Results:
+  -- first_name  Alice    Bob     Carol    Dave
+  -- department   HR      IT       HR       IT
+  -- status     Active  Active  Inactive  Active
