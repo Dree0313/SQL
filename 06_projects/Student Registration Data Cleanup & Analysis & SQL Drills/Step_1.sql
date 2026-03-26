@@ -158,34 +158,125 @@ GROUP BY student_id;
 --Hint:
 --You’ll need GROUP BY course_id and ORDER BY.
 
+SELECT course_id, COUNT(*) AS number_of_students
+FROM registrations
+WHERE term = 'Spring2026'
+GROUP BY number_of_students
+ORDER BY number_of_students DESC;
+
+-- This query is incorrect since I cannot group by an aggregate alias
+-- correct query:
+
+SELECT course_id, COUNT(*) AS number_of_students
+FROM registrations
+WHERE term = 'Spring2026'
+GROUP BY course_id
+ORDER BY number_of_students DESC;
 
 
-🟡 8. Cross-Term Attendance (Medium)
+--🟡 8. Cross-Term Attendance (Medium)
+
+--Scenario:
+--Some students take the same course multiple times (retakes).
+
+--Task:
+--Identify students who are enrolled in the same course across multiple terms.
+
+--Hint:
+--Use GROUP BY student_id, course_id and HAVING COUNT(DISTINCT term) > 1.
+
+SELECT student_id, course_id
+FROM registrations
+GROUP BY student_id, course_id
+HAVING COUNT(DISTINCT term) > 1;
+
+--🟡 9. Course Load Alert (Medium → Hard)
+
+--Scenario:
+--Advisors want to identify students who are overloaded, i.e., enrolled in more than 4 courses in a single term.
+
+--Task:
+--Return student_id, term, and the number of courses, but only show those who exceed 4 courses.
+
+--Hint:
+--GROUP BY student_id, term + HAVING.
+
+SELECT student_id, term, COUNT(*) AS number_of_courses
+FROM registrations
+GROUP BY student_id, term
+HAVING COUNT(*) > 4;
+
+--🔴 10. Duplicate Registrations Across Departments (Hard)
+
+--Scenario:
+--Occasionally, system errors cause students to be registered multiple times for courses even in different departments (e.g., two sections of the same course code).
+
+--Task:
+--Find all duplicate registrations for the same student in the same course code, ignoring term differences, and return all details for review.
+
+SELECT *
+FROM registrations
+GROUP BY student_id, course_id
+HAVING COUNT(*) > 1;
+
+-- This is incorrect because I selected all and didn't group or aggregate all the other columns
+-- correct query below:
+
+SELECT *
+FROM registrations
+WHERE (student_id, course_id) IN (
+  SELECT student_id, course_id
+  FROM registrations
+  GROUP BY student_id, course_id
+  HAVING COUNT(*) > 1
+);
+
+-- This works because I can select columns student_id and course_id from the table and group each
+  -- student by the course_id and for any results that occur more than once, they are returned,
+  -- and all columns for each result is also returned
+
+-- Revised: The subquery groups the table by student_id and course_id to identify combinations that
+  -- more than once using HAVING COUNT(*) > 1. The outer query then selects all rows from registrations
+  -- where the (student_id, course_id) pair matches those duplicate combinations, allowing us to return
+  -- full row details instead of aggregated results.
+
+
+--🟢 11. Inactive Students (Easy → Medium)
+
+--Scenario:
+--The registrar wants to identify students who have not enrolled in any courses for the term 'Spring2026'.
+
+--Task:
+--Return all student_ids who are not present in the registrations table for 'Spring2026'.
+
+🟡 12. Single-Course Students (Medium)
 
 Scenario:
-Some students take the same course multiple times (retakes).
+Advisors want to find students who are taking only one course in a given term.
 
 Task:
-Identify students who are enrolled in the same course across multiple terms.
+Return student_id, term, and total number of courses for students enrolled in exactly one course during 'Spring2026'.
 
-Hint:
-Use GROUP BY student_id, course_id and HAVING COUNT(DISTINCT term) > 1.
-
-🟡 9. Course Load Alert (Medium → Hard)
+🟡 13. Most Recent Enrollment (Medium → Hard)
 
 Scenario:
-Advisors want to identify students who are overloaded, i.e., enrolled in more than 4 courses in a single term.
+The system tracks multiple enrollments over time, and administrators want to see the latest course each student enrolled in.
 
 Task:
-Return student_id, term, and the number of courses, but only show those who exceed 4 courses.
+Return each student_id along with their most recent term.
 
-Hint:
-GROUP BY student_id, term + HAVING.
-
-🔴 10. Duplicate Registrations Across Departments (Hard)
+🔴 14. Course Overlap Pairs (Hard)
 
 Scenario:
-Occasionally, system errors cause students to be registered multiple times for courses even in different departments (e.g., two sections of the same course code).
+The university wants to identify students who are taking the exact same set of courses in the same term (potential study partners).
 
 Task:
-Find all duplicate registrations for the same student in the same course code, ignoring term differences, and return all details for review.
+Return pairs of student_ids who are enrolled in the same courses during 'Spring2026'.
+
+🔴 15. Department Load Distribution (Hard)
+
+Scenario:
+Each course belongs to a department, and administrators want to analyze student workload distribution.
+
+Task:
+Return each student_id and the number of distinct departments they are enrolled in during 'Spring2026', but only include students taking courses in more than 2 departments.
