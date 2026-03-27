@@ -249,34 +249,151 @@ WHERE (student_id, course_id) IN (
 --Task:
 --Return all student_ids who are not present in the registrations table for 'Spring2026'.
 
-🟡 12. Single-Course Students (Medium)
+SELECT student_id
+FROM registrations
+WHERE term != 'Spring2026';
 
-Scenario:
-Advisors want to find students who are taking only one course in a given term.
+-- This is incorrect because it instead returns students who have at least 1 term that is not 'Spring2026'
+-- Correct Query below:
 
-Task:
-Return student_id, term, and total number of courses for students enrolled in exactly one course during 'Spring2026'.
+SELECT DISTINCT student_id
+FROM registrations
+WHERE student_id NOT IN (
+  SELECT student_id
+  FROM registrations
+  WHERE term = 'Spring2026'
+);
 
-🟡 13. Most Recent Enrollment (Medium → Hard)
+-- This works because it makes sure that the student's id is not returned more than once by using Distinct.
+-- It also uses a subquery to determine the students who do have a registration witihin the 'Spring2026'
+  -- term and instead returns the student's ids that are not within that result.
 
-Scenario:
-The system tracks multiple enrollments over time, and administrators want to see the latest course each student enrolled in.
+-- Revised The subquery selects all student_id who are enrolled in 'Spring2026'. The outer query then
+  -- returns all distinct student_id from the registrations table excluding those found in the subquery,
+  -- excluding those found in the subquery, ensuring we only get students with no enrollments in that
+  -- term
 
-Task:
-Return each student_id along with their most recent term.
+--🟡 12. Single-Course Students (Medium)
 
-🔴 14. Course Overlap Pairs (Hard)
+--Scenario:
+--Advisors want to find students who are taking only one course in a given term.
 
-Scenario:
-The university wants to identify students who are taking the exact same set of courses in the same term (potential study partners).
+--Task:
+--Return student_id, term, and total number of courses for students enrolled in exactly one course during 'Spring2026'.
 
-Task:
-Return pairs of student_ids who are enrolled in the same courses during 'Spring2026'.
+SELECT DISTINCT student_id
+FROM registrations
+WHERE student_id IN (
+  SELECT student_id, course_id, term
+  FROM registrations
+  GROUP BY student_id, term
+  HAVING COUNT(*) = 1
+);
 
-🔴 15. Department Load Distribution (Hard)
+-- This is incorrect because In eexpects one column, not three. I did not filter by the specific
+  -- term either. Correct query below:
 
-Scenario:
-Each course belongs to a department, and administrators want to analyze student workload distribution.
+SELECT student_id, term, COUNT(*) AS number_of_courses
+FROM registrations
+WHERE term = 'Spring2026'
+GROUP BY student_id, term
+HAVING COUNT(*) = 1;
 
-Task:
-Return each student_id and the number of distinct departments they are enrolled in during 'Spring2026', but only include students taking courses in more than 2 departments.
+-- This works because the query pulls all Spring2026 term results and groups them by the student
+  -- id and term. It then determines the results that only occur once. It can then return the student_id,
+  -- term, and the amount of times they occur with the database. ✅
+
+-- Professional: The query filters registrations to 'Spring2026', then groups the data by student_id
+  -- and term. Using Count(*), it calculates how many courses each student is enrolled in and HAVING
+  -- COUNT(*) = 1 ensures only students taking exactly one course are returned
+
+--🟡 13. Most Recent Enrollment (Medium → Hard)
+
+---Scenario:
+--The system tracks multiple enrollments over time, and administrators want to see the latest course each student enrolled in.
+
+--Task:
+--Return each student_id along with their most recent term.
+
+SELECT student_id, term AS most_recent_term
+FROM registrations
+WHERE MAX(term);
+
+-- Again, MAX() is an aggregate like COUNT() and cannot be used in WHERE. It must be used as a subquery
+  -- or with GROUP BY
+
+SELECT student_id, MAX(term) AS most_recent_term
+FROM registrations
+GROUP BY student_id;
+
+-- This works because the query returns the student_id associated with the maximum term within registrations.
+  -- This only likely works since Fall comes first. I question whether this will work if summer was also
+  -- within the table
+
+-- Refined: The query groups records by student_id and uses MAX(term) to determine the most recent
+  -- term for each student, returning one row per student with their latest enrollment term
+
+--🔴 14. Course Overlap Pairs (Hard)
+
+--Scenario:
+--The university wants to identify students who are taking the exact same set of courses in the same term (potential study partners).
+
+--Task:
+--Return pairs of student_ids who are enrolled in the same courses during 'Spring2026'.
+
+SELECT student_id, course_id, term
+FROM registrations
+WHERE term = 'Spring2026'
+
+-- I discontinued this question because I reasoned that I'm not sure how to return 2 values of the same
+  -- same column
+
+SELECT s1.student_id, s2.student_id
+FROM (
+  SELECT student_id, STRING_AGG(course_id, ',' ORDER BY course_id) AS courses
+  FROM registrations
+  WHERE term = 'Spring2026'
+  GROUP BY student_id) AS s1
+JOIN (
+  SELECT student_id, STRING_AGG(course_id, ',' ORDER BY course_id) AS courses
+  FROM registrations
+  WHERE term = 'Spring2026'
+  GROUP BY student_id) AS s2 ON s1.courses = s2.courses AND s1.student_id < s2.student_id;
+
+-- I'm not sure what STRING_AGG() does, but this works because the first subquery determines the 
+  -- results where term is equal to 'Spring2026' and groups by the student_id and then sets that 
+  -- result as s1. It then does the same for s2. It then determines whether their student_id's courses
+  -- match and verifies that s1 and s2 are not equal.
+
+-- Refined: STRING_AGG() is an aggregate function that combines multiple row values into a single
+  -- string. Each subquery aggregates the courses for each student in Spring2026 into a sorted string
+  -- using STRING_AGG(). The query then self-joins on this aggregated result to find students whose
+  -- course lists are identical, returning unique student pairs.
+
+
+--🔴 15. Department Load Distribution (Hard)
+
+--Scenario:
+--Each course belongs to a department, and administrators want to analyze student workload distribution.
+
+--Task:
+--Return each student_id and the number of distinct departments they are enrolled in during 'Spring2026', but only include students taking courses in more than 2 departments.
+
+SELECT student_id, course_id, DISTINCT COUNT(*) AS number_of_departments
+FROM (
+  SELECT course_id
+  FROM registrations
+  WHERE term = 'Spring2026'
+  HAVING COUNT(*) > 2
+);
+
+-- This is incorrect due to invalid syntax. Instead of DISTINCT COUNT(*) it should be COUNT(DISTINCT 
+  -- departmment_id). Instead of selecting course_id for the subquery, it should have been department_id.
+-- Since there is no GROUP BY, HAVING COUNT(*) is invalid and doesn't relate to student_id. This is 
+  -- also a direct aggregate problem and not a subquery one
+
+SELECT student_id, COUNT(DISTINCT department_id) AS number_of_departments
+FROM registrations
+WHERE term = 'Spring2026'
+GROUP BY student_id
+HAVING COUNT(DISTINCT department_id) > 2;
