@@ -5,16 +5,16 @@ __________________________________________________________________________
 __________________________________________________________________________
 
 -- Scenerio:
-  -- You are a junior database developer at a bank. Management needs
-  -- accurate and reliable data across all systems:
+  -- You are a junior database developer at a bank. Management wants to
+  -- ensure that data across tables stays consistent and linked correctly
 
-  -- Problems without Primary Keys:
-    -- Duplicate records
-    -- Difficulty identifying specific rows
+  -- Problems without Foreign Keys:
+    -- Orphan records (e.g., accounts without a valid member)
     -- Broken relationships between tables
+    -- Hard to enforce data integrity
 
   -- Solution:
-    -- Use PRIMARY KEY to uniquely identify each record
+    -- Use FOREIGH KEY to link tables and enforce relationships
 
   -- Table: members
     -- member_id (PK)  1       2        3
@@ -32,32 +32,34 @@ __________________________________________________________________________
     -- amount              200   -50   500   75
 
 __________________________________________________________________________
--- 1 What a PRIMARY KEY is
--- What it does: Uniquely identifies each row in a table
--- Why it's harder: Prevents duplicates and ensures data integrity
+-- 1 What a FOREIGN KEY is
+-- What it does: Links a column in one table to the PRIMARY KEY of another 
+  -- table
+-- Why it's harder: Ensures related data exists and maintains integrity
 __________________________________________________________________________
 -- Key Concept:
-  -- A PRIMARY KEY must be:
-    -- UNIQUE (no duplicates)
-    -- NOT NULL (must always have a value)
+  -- A FOREIGN KEY must be:
+    -- Reference a valid PRIMARY KEY in another table
+    -- Ensure that not invalid value can be inserted
 
 -- Example Table Definition:
-  CREATE TABLE members (
-    member_id INT PRIMARY KEY,
-    first_name VARCHAR(50),
-    status VARCHAR(20)
+  CREATE TABLE accounts (
+    account_id INT PRIMARY KEY
+    member_id INT,
+    account_type VARCHAR(50),
+    FOREIGN KEY (member_id) REFERENCES members(member_id)
   );
 
 -- Key Insight:
-  -- Each member_id must be unique (no two rows can share it)
+  -- member_id in accounts must exist in members
 
 __________________________________________________________________________
--- 2 Why PRIMARY KEYs Matter
--- What it does: Ensures each row can be reliably identified
--- Why use it: Prevents data issues and enables relationships
+-- 2 Why FOREIGN KEYs Matter
+-- What it does: Prevents orphaned or invalid data
+-- Why use it: Keeps tables consistent and trustworthy
 __________________________________________________________________________
--- Problem No Primary Key:
-  -- Duplicate rows can exist
+-- Problem (No FOREIGN KEY):
+  -- An account couled reference a member_id that doesn't exist
 
 -- Bad Example:
   -- member_id    1      1
