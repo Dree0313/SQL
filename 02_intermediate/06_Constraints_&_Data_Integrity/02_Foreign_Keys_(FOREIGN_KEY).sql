@@ -14,7 +14,7 @@ __________________________________________________________________________
     -- Hard to enforce data integrity
 
   -- Solution:
-    -- Use FOREIGH KEY to link tables and enforce relationships
+    -- Use FOREIGN KEY to link tables and enforce relationships
 
   -- Table: members
     -- member_id (PK)  1       2        3
