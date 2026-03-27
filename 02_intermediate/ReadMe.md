@@ -52,7 +52,7 @@ The goal is to move beyond single-table queries and begin thinking in terms of:
 ### Constraints & Data Integrity
 - [Primary Keys (`PRIMARY KEY`)](06_Constraints_&_Data_Integrity/01_Primary_Keys_(PRIMARY_KEY).sql)
 - [Foreign Keys (`FOREIGN KEY`)](06_Constraints_&_Data_Integrity/02_Foreign_Keys_(FOREIGN_KEY).sql)
-- `CHECK` constraints
+- [`CHECK` constraints](06_Constraints_&_Data_Integrity/03_CHECK_constraints.sql)
 - Preventing invalid or contradictory data
 - Understanding what belongs in schema vs logic
 
