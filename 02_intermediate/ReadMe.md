@@ -53,7 +53,7 @@ The goal is to move beyond single-table queries and begin thinking in terms of:
 - [Primary Keys (`PRIMARY KEY`)](06_Constraints_&_Data_Integrity/01_Primary_Keys_(PRIMARY_KEY).sql)
 - [Foreign Keys (`FOREIGN KEY`)](06_Constraints_&_Data_Integrity/02_Foreign_Keys_(FOREIGN_KEY).sql)
 - [`CHECK` constraints](06_Constraints_&_Data_Integrity/03_CHECK_constraints.sql)
-- Preventing invalid or contradictory data
+- [Preventing invalid or contradictory data](06_Constraints_&_Data_Integrity/04_Preventing_invalid_or_contradictory_data.sql)
 - Understanding what belongs in schema vs logic
 
 ### Data Normalization
