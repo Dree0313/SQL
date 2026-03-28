@@ -504,3 +504,43 @@ HAVING COUNT(registration_id) = (
   -- across all terms. The outer query then groups registrations by term again and compares term's
   -- total to that maximum value. It filters to only return the term(s) whose registration count matches
   -- the highest total
+
+--🟢 21. Student Registration by Course (Easy → Medium)
+
+--Scenario:
+--The department wants a quick overview of which students are enrolled in each course.
+
+--Task:
+--Return each course_id along with a list of distinct student_ids enrolled in that course.
+
+--🟡 22. Students Skipping Terms (Medium)
+
+--Scenario:
+--Advisors want to identify students who did not register in consecutive terms.
+
+--Task:
+--Return all student_ids who were enrolled in Fall2025 but not in Spring2026.
+
+--🟡 23. Students Enrolled in Multiple Departments (Medium → Medium+)
+
+--Scenario:
+--Some students are taking courses across multiple departments in a single term.
+
+--Task:
+--Return student_id and the number of distinct departments they are enrolled in for Spring2026, including only students in more than 1 department.
+
+--🔴 24. Courses with Repeated Enrollment Across Terms (Medium → Hard)
+
+--Scenario:
+--The university wants to identify courses that have students returning to the same course in different terms.
+
+--Task:
+--Return all course_ids along with the student_ids who have enrolled in them more than once across different terms.
+
+--🔴 25. Students with Same Course Load (Hard)
+
+--Scenario:
+--Advisors want to identify groups of students taking the exact same set of courses in a given term to analyze patterns or recommend study groups.
+
+--Task:
+--Return pairs of student_ids who are enrolled in the same set of courses in Spring2026.
