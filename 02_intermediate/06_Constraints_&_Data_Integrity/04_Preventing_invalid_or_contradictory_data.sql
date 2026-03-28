@@ -82,83 +82,71 @@ __________________________________________________________________________
   -- database
 __________________________________________________________________________
 -- 3 Using UNIQUE to Prevent Contradictions
--- What it does: Limits values to a defined set
--- Why use it: Prevents typos and invalid categories
+-- What it does: Stops duplicate or conflicting records
+-- Why use it: Ensures unique data where duplicates would create 
+  -- contradictions
 __________________________________________________________________________
--- Example Restrict member status:
-  CREATE TABLE members (
-    member_id INT PRIMARY KEY,
-    first_name VARCHAR(50),
-    status VARCHAR(10) CHECk (status IN ('Active', 'Inactive'))
-  );
+-- Example Prevent duplicate member emails:
+  ALTER TABLE members
+  ADD CONSTRAINT unique_email UNIQUE (email);
 
 -- Key Insight:
-  -- Only "Active" or "Inactive" is allowed
+  -- UNIQUE prevents two members from having the same identifier that
+  -- could cause contradictions
 
 __________________________________________________________________________
--- 4 CHECK in Queries (Understanding Impact)
--- What it does: Ensures all returned data follows rules
--- Why use it: Guarentees reliable query results
+-- 4 Combining CHECK and FOREIGN KEY
+-- What it does: Prevents invalid references and contradictory logic 
+  -- across tables
+-- Why use it: Keeps multi-table data consistent
 __________________________________________________________________________
--- Example Query:
-  SELECT account_id, balance
-  FROM accounts;
-
--- Expected Result:
-  -- All balances will always be >= 0
-
--- Key Insight:
-  -- You don't need to filter invalid data, it can't exist
-
-__________________________________________________________________________
--- 5 Multiple Conditions in CHECK
--- What it does: Combines multiple rules
--- Why use it: Enforces more complex business logic
-__________________________________________________________________________
--- Example:
+-- Example Transactions cannot exceed balance:
   CREATE TABLE transactions (
     transaction_id INT PRIMARY KEY,
-    account_id INT,
+    account_id INT REFERENCES accounts(account_id),
     amount INT,
-    CHECK (amount <> 0 AND amount >= -1000)
+    CHECK (amount <= (SELECT balance FROM accounts WHERE accounts.account_id = account_id))
   );
 
 -- Key Insight:
-  -- amount cannot be 0
-  -- amount cannot be less than -10000
+  -- Complex rules can be enforced with CHECK + FOREIGN KEY together
+  -- (depending on DBMS support)
 
 __________________________________________________________________________
--- 6 Column-Level vs Table-Level CHECK
--- What it does: Defines where the constraint applies
--- Why use it: Needed for multi-column validation
+-- 5 Table-Level Constraints for Cross-Column Logic
+-- What it does: Prevents contradictory data involving multiple columms
+-- Why use it: Enforces relational rules within a single row
 __________________________________________________________________________
--- Column-Level:
-  balance INT CHECK (balance >= 0)
-
--- Table-Level:
-  CHECK (withdrawal_amount <= balance)
+-- Example:
+  CREATE TABLE accounts (
+    account_id INT PRIMARY KEY,
+    balance INT,
+    withdrawal_amount INT,
+    CHECK (withdrawal_amount <= balance)
+  );
 
 -- Key Insight:
-  -- Use table-level CHECK when comparing multiple columns
+  -- Table-level constraints allow multi-column validation that 
+  -- column-level CHECK cannot enforce alone
 
 __________________________________________________________________________
--- 7 Common Mistakes
--- What it does: Highlights errors when using CHECK
--- Why use it: Prevents logic and validation issues
+-- 6 Common Mistakes
+-- What it does: Highlights pitfalls when preventing invalid data
+-- Why use it: Avoids inconsistent, unreliable databases
 __________________________________________________________________________
--- Mistake Using CHECK for relationships:
-  -- CHECK cannot replace FOREIGN KEY
+-- Mistake Ignoring NULL values:
+  -- CHECK ignores NULL unless explicitly handled
 
--- Mistake Forgetting NULL behavior:
-  -- CHECK ignores NULL unless specified
+-- Mistake Overcomplicating logic:
+  -- Keep constraints readable and maintainable
 
-CHECK (amount > 0) -- NULL values still allowed
+-- Mistake Relying only on application logic
+  -- Data may still be inserted incorrectly without DE constraints
 
---Mistake Overcomlicating logic
-  -- Keep conditions simple and readable
-
--- Key Insight:
-  -- CHECK is for validation, not relationships
+-- Mistake Using constraints for things better handled for FOREIGN KEY
+  -- CHECK cannot enforce relationships between tables
 
 -- Key Insight:
-  -- Use table-level CHECK when comparing multiple columns
+  -- Combine PRIMARY KEY, FOREIGN KEY, UNIQUE, and CHECK to prevent
+  -- invalid or contradictory data
+
