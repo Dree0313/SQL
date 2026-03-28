@@ -345,7 +345,7 @@ SELECT student_id, course_id, term
 FROM registrations
 WHERE term = 'Spring2026'
 
--- I discontinued this question because I reasoned that I'm not sure how to return 2 values of the same
+-- I discontinued this question because I reasoned that I'm not sure how to return 2 values of the
   -- same column
 
 SELECT s1.student_id, s2.student_id
@@ -397,3 +397,83 @@ FROM registrations
 WHERE term = 'Spring2026'
 GROUP BY student_id
 HAVING COUNT(DISTINCT department_id) > 2;
+
+-- This works because the query pulls results wheere the term is equal to Spring2026, groups the 
+  -- results by the student_id and then filters out the results that more than 2 unique department_id.
+-- It then returns the columns of student_id and the number of unique departments that student_id appears in 
+
+-- Revision: The query filters registrations to 'Spring2026', groups the data by student_id, and counts the number
+  -- of distinct departments each student is enrolled in. The HAVING clause ensures that only students
+  -- enrolled in more than two unique departments are returned
+
+--🟢 16. Repeat Students Per Term (Easy → Medium)
+
+--Scenario:
+--The university wants to know how many students are returning each term.
+
+--Task:
+--Return each term and the number of distinct students enrolled in that term.
+
+SELECT term, COUNT(DISTINCT student_id) AS number_of_students
+FROM registrations
+GROUP BY term;
+
+--🟡 17. Multi-Term Students (Medium)
+
+--Scenario:
+--Some students stay enrolled across multiple terms, and administrators want to track long-term engagement.
+
+--Task:
+--Return all student_ids who have enrolled in more than one distinct term.
+
+SELECT student_id
+FROM registrations
+GROUP BY student_id
+HAVING COUNT(DISTINCT term) > 1;
+
+--🟡 18. Course Enrollment Threshold (Medium)
+
+--Scenario:
+--Departments want to identify courses that are underperforming.
+
+--Task:
+--Return all course_ids that have fewer than 3 students enrolled in 'Spring2026'.
+
+SELECT course_id
+FROM registrations
+WHERE term = 'Spring2026'
+GROUP BY course_id
+HAVING COUNT(student_id) < 3;
+
+--🟡 19. Students Taking Same Course Twice in Same Term (Medium)
+
+--Scenario:
+--A system bug may allow students to accidentally register for the same course multiple times in the same term.
+
+--Task:
+--Find all cases where a student_id is registered for the same course_id more than once within the same term, and return the student_id, course_id, and term.
+
+SELECT student_id, course_id, term
+FROM registrations
+WHERE term = 'Spring2026'
+GROUP BY student_id, course_id
+HAVING COUNT(*) > 1;
+
+-- This query is incorrect because SQL requires that every selected column be grouped
+
+SELECT student_id, course_id, term
+FROM registrations
+WHERE term = 'Spring202'
+GROUP BY student_id, course_id, term
+HAVING COUNT(*) > 1;
+
+--🔴 20. Most Popular Term (Hard)
+--Scenario:
+
+--The university wants deeper insight into enrollment trends—not just the most popular term, but also how it compares to others.
+
+--Task:
+
+--Return the term(s) that have the highest total number of registrations.
+
+SELECT term, 
