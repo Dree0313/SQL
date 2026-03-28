@@ -62,15 +62,26 @@ __________________________________________________________________________
     balance INT CHECK (balance >= 0)
   );
 
--- With CHECK:
-  INSERT INTO accounts (account_id, member_id, balance)
-  VALUES(105, 1, 500); -- ❌ Rejected by database
+-- Restrict member status to valid values:
+  CREATE TABLE members (
+    member_id INT PRIMARY KEY,
+    first_name VARCHAR(50),
+    status VARCHAR(10) CHECK (status IN ('Active', 'Inactive'))
+  );
+
+-- Prevent invalid transactions:
+  CREATE TABLE transactions (
+    transaction_id INT PRIMARY KEY,
+    account_id INT,
+    amount INT,
+    CHECK (amount <> 0 AND amount >= -1000)
+  );
 
 -- Key Insight:
-  -- CHECK constraints stop bad data before it enters the table
-
+  -- CHECK constraints enforce logical consistency directly in the 
+  -- database
 __________________________________________________________________________
--- 3 CHECK with Specific Values
+-- 3 Using UNIQUE to Prevent Contradictions
 -- What it does: Limits values to a defined set
 -- Why use it: Prevents typos and invalid categories
 __________________________________________________________________________
