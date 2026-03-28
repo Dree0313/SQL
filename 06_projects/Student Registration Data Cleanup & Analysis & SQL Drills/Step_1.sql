@@ -476,4 +476,31 @@ HAVING COUNT(*) > 1;
 
 --Return the term(s) that have the highest total number of registrations.
 
-SELECT term, 
+SELECT term, COUNT(registration_id) AS total_number_registrations
+FROM registrations
+GROUP BY term
+HAVING MAX(total_number_registrations);
+
+
+SELECT term, COUNT(registration_id) AS total_number_registrations
+FROM registrations
+GROUP BY term
+HAVING COUNT(registration_id) = (
+  SELECT MAX(term_count)
+  FROM (
+    SELECT COUNT(registration_id) AS term_count
+    FROM registrations
+    GROUP BY term) AS term_totals
+);
+
+
+-- This works because it returns the results of the total number of registrations per term. It
+  -- then selects the term or terms with the maximum total. Lastly, it groups by terms and filters for the 
+  -- amount of registrations equal to that maximum total and teturns the total amount of registrations
+  -- and term. I'm not sure why that last part isn't redundant though.
+
+-- Revised: The inner query calculates the total number of registrations for each term, then finds
+  -- the maximum of those totals. This gives us a single value representing the highest enrollment
+  -- across all terms. The outer query then groups registrations by term again and compares term's
+  -- total to that maximum value. It filters to only return the term(s) whose registration count matches
+  -- the highest total
