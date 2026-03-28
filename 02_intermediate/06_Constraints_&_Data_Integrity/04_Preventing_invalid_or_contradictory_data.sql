@@ -1,21 +1,21 @@
 __________________________________________________________________________
--- Intermediate SQL: CHECK Constraints (CHECK)
--- Purpose: Learn how to enforce rules on column values using CHECK
-  -- constraints
+-- Intermediate SQL: Preventing Invalid or Contradictory Data
+-- Purpose: Learn how to enforce rules and maintain logical consistency in
+  -- your database
 __________________________________________________________________________
 
 -- Scenerio:
-  -- You are a junior database developer at a bank. Management wants to
-  -- ensure that values entered into the database follow strict business
-  -- rules
+  -- You are a junior database developer at a bank. Management notices:
 
-  -- Problems without CHECK Constraints:
-    -- Invalid data (e.g., negative balances where not allowed)
-    -- Incorrect status values (e.g., "Active" instead of "Active")
-    -- Hard to maintain data accuracy
+  -- Problems:
+    -- Accounts with negative balances where not allowed
+    -- Members with conflicting statuses (e.g., "Active" and "Inactive")
+    -- Transactions that contradict account rules (e.g., overdraft beyond
+    -- limit
 
   -- Solution:
-    -- Use CHECK constraints to enforce rules directly in the database
+    -- Use a combination of CHECK constraints, UNIQUE constraints, and
+    -- logical table design to prevent invalid or contradictory data
 
   -- Table: members
     -- member_id (PK)  1       2        3
@@ -33,31 +33,34 @@ __________________________________________________________________________
     -- amount              200   -50   500   75
 
 __________________________________________________________________________
--- 1 What a CHECK Constraint is
--- What it does: Restricts values in a column based on a condition
--- Why it's harder: Prevents invalid or unwanted data
+-- 1 Why Preventing Contradictory Data Matters
+-- What it does: Ensures database values make sense logically
+-- Why it's harder: Protects data integrity, prevents business rule
+  -- violations
 __________________________________________________________________________
--- Key Concept:
-  -- A CHECK constraint must evaluate to TRUE for data to be inserted
+-- Problem Without Rules:
+  UPDATE members
+  SET status = 'Active'
+  WHERE member_id = 3; -- ❌ Conflicts with prior "Inactive" assumptions
 
--- Example Table Definition:
+  INSERT INTO accounts (account_id, member_id, balance)
+  VALUES (105, 1, -1000); -- ❌ Negative balance breaks business rules
+
+-- Key Insight:
+  -- Data shoulld not contradict business rules; the database should
+  -- enforce consistency automatically
+
+__________________________________________________________________________
+-- 2 Using CHECK to Enforce Logical Rules
+-- What it does: Prevents invalid values in column
+-- Why use it: Stops impossible or contradictory data
+__________________________________________________________________________
+-- Examples Restrict blances to non-negative:
   CREATE TABLE accounts (
-    account_id INT PRIMARY KEY
+    account_id INT PRIMARY KEY,
     member_id INT,
     balance INT CHECK (balance >= 0)
   );
-
--- Key Insight:
-  -- balance cannot be negative
-
-__________________________________________________________________________
--- 2 Why CHECK Constraints Matter
--- What it does: Enforces business rules automatically
--- Why use it: Keeps data clean and consistent
-__________________________________________________________________________
--- Problem (No CHECK):
-  INSERT INTO accounts (account_id, memeber_id, balance)
-  VALUES (105, 1, -500); -- ❌ Invalid but allowed without CHECK
 
 -- With CHECK:
   INSERT INTO accounts (account_id, member_id, balance)
