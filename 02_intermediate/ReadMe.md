@@ -22,6 +22,7 @@ The goal is to move beyond single-table queries and begin thinking in terms of:
 - [`GROUP BY`](02_Aggregations_&_Grouping/01_GROUP_BY.sql)
 - [`HAVING`](02_Aggregations_&_Grouping/02_HAVING.sql)
 - [Aggregating across related tables](02_Aggregations_&_Grouping/03_Aggregating_across_related_tables.sql)
+- `STRING_AGG()`
 
 ### Window Functions
 - [What window functions are (`OVER()`)](03_Window_Functions/01_What_window_functions_are_(OVER()).sql)
