@@ -140,10 +140,10 @@ __________________________________________________________________________
 -- Mistake Overcomplicating logic:
   -- Keep constraints readable and maintainable
 
--- Mistake Relying only on application logic
+-- Mistake Relying only on application logic:
   -- Data may still be inserted incorrectly without DE constraints
 
--- Mistake Using constraints for things better handled for FOREIGN KEY
+-- Mistake Using constraints for things better handled for FOREIGN KEY:
   -- CHECK cannot enforce relationships between tables
 
 -- Key Insight:
