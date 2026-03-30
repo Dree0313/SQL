@@ -132,13 +132,13 @@ __________________________________________________________________________
     -- member_name  Alice
 
   -- branches:
-    -- brance_id        1
-    -- branche_name  Downtown
+    -- branch_id        1
+    -- branch_name  Downtown
 
   -- accounts:
     -- account_id  101  102
     -- member_id    1    1
-    -- branche_id   1    1
+    -- branch_id   1    1
 
 -- Key Insight:
   -- Data is stored oncce and referenced everywhere else
