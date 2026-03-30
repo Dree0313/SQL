@@ -60,7 +60,7 @@ The goal is to move beyond single-table queries and begin thinking in terms of:
 - [First Normal Form (1NF)](07_Data_Normalization/01_First_Normal_Form_(1NF).sql)
 - [Second Normal Form (2NF)](07_Data_Normalization/02_Second_Normal_Form_(2NF).sql)
 - [Third Normal Form (3NF)](07_Data_Normalization/03_Third_Normal_Form_(3NF).sql)
-- Eliminating redundancy
+- [Eliminating redundancy](07_Data_Normalization/04_Eliminating_redundancy.sql)
 - [Designing tables around entities, not convenience](07_Data_Normalization/05_Designing_tables_around_entities_not_convenience.sql)
 
 ### Views
