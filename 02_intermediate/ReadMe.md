@@ -54,7 +54,7 @@ The goal is to move beyond single-table queries and begin thinking in terms of:
 - [Foreign Keys (`FOREIGN KEY`)](06_Constraints_&_Data_Integrity/02_Foreign_Keys_(FOREIGN_KEY).sql)
 - [`CHECK` constraints](06_Constraints_&_Data_Integrity/03_CHECK_constraints.sql)
 - [Preventing invalid or contradictory data](06_Constraints_&_Data_Integrity/04_Preventing_invalid_or_contradictory_data.sql)
-- Understanding what belongs in schema vs logic
+- [Understanding what belongs in schema vs logic](06_Constraints_&_Data_Integrity/05_Understanding_what_belongs_in_schema_vs_logic.sql)
 
 ### Data Normalization
 - [First Normal Form (1NF)](07_Data_Normalization/01_First_Normal_Form_(1NF).sql)
