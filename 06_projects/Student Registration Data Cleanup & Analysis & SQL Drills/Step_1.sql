@@ -6,7 +6,7 @@
 --Task:
 --Retrieve all records from the registrations table.
 SELECT *
-FROM registrations;
+FROM registrations; ✅
 
 
 --🟢 2. Focused Filtering (Easy → Medium)
@@ -145,7 +145,7 @@ WHERE (student_id, course_id, term) IN (
 SELECT student_id, COUNT(*) AS total_courses
 FROM registrations
 WHERE term = 'Spring2026'
-GROUP BY student_id;
+GROUP BY student_id; ✅
 
 --🟢 7. Popular Courses (Easy → Medium)
 
@@ -188,7 +188,7 @@ ORDER BY number_of_students DESC;
 SELECT student_id, course_id
 FROM registrations
 GROUP BY student_id, course_id
-HAVING COUNT(DISTINCT term) > 1;
+HAVING COUNT(DISTINCT term) > 1; ✅
 
 --🟡 9. Course Load Alert (Medium → Hard)
 
@@ -204,7 +204,7 @@ HAVING COUNT(DISTINCT term) > 1;
 SELECT student_id, term, COUNT(*) AS number_of_courses
 FROM registrations
 GROUP BY student_id, term
-HAVING COUNT(*) > 4;
+HAVING COUNT(*) > 4; ✅
 
 --🔴 10. Duplicate Registrations Across Departments (Hard)
 
@@ -416,7 +416,7 @@ HAVING COUNT(DISTINCT department_id) > 2;
 
 SELECT term, COUNT(DISTINCT student_id) AS number_of_students
 FROM registrations
-GROUP BY term;
+GROUP BY term; ✅
 
 --🟡 17. Multi-Term Students (Medium)
 
@@ -429,7 +429,7 @@ GROUP BY term;
 SELECT student_id
 FROM registrations
 GROUP BY student_id
-HAVING COUNT(DISTINCT term) > 1;
+HAVING COUNT(DISTINCT term) > 1; ✅
 
 --🟡 18. Course Enrollment Threshold (Medium)
 
@@ -443,7 +443,7 @@ SELECT course_id
 FROM registrations
 WHERE term = 'Spring2026'
 GROUP BY course_id
-HAVING COUNT(student_id) < 3;
+HAVING COUNT(student_id) < 3; ✅
 
 --🟡 19. Students Taking Same Course Twice in Same Term (Medium)
 
@@ -517,7 +517,7 @@ SELECT student_id, course_id
 FROM registrations
 GROUP BY student_id, course_id;
 
--- This is incorrect because I return each row of students and courses. Instead I should be returning
+-- This is incorrect because I returned each row of students and courses. Instead I should be returning
   -- each course and then the list of students that take that course. I also missed the task portion,
   -- so I likely would have used Distinct at least.
 
@@ -552,7 +552,7 @@ AND student_id NOT IN (
   SELECT student_id
   FROM registrations
   WHERE term = 'Spring2026'
-);
+); ✅
 
 --🟡 23. Students Enrolled in Multiple Departments (Medium → Medium+)
 
@@ -615,6 +615,231 @@ WHERE (student_id, course_id) IN (
 
 SELECT s1.student_id, s2.student_id
 FROM registrations
-JOIN 
 WHERE term = 'Spring2026'
+JOIN
 
+-- I am still unable to recall how to perform a self join. Join must come before WHERE
+
+SELECT s1.student_id, s2.student_id
+FROM registrations s1
+JOIN registrations s2 ON s1.student_id < s2.student_id
+WHERE s1.term = 'Spring2026' AND s2.term = 'Spring2026'
+GROUP BY s1.student_id, s2.student_id
+HAVING COUNT(DISTINCT s1.course_id) = COUNT(DISTINCT s2.course_id)
+  AND COUNT(DISTINCT s1.course_id) = COUNT(DISTINCT CASE
+    WHEN s1.course_id = s2.course_id THEN s1.course_id END);
+
+-- This works because the query self joins the student_id column. This makes it possible to compare
+  -- 2 different values from the column by ensuring that the two values, s1 and s2, are not equivalent. Then the
+  -- query verifies that both s1 and s2 are both enrolled in the Spring2026 term. The query groups the
+  -- columns s1 and s2 and filters to ensure that s1 is enrolled in the same amount of distinct courses
+  -- as s2, and then verifies that the distinct amount of of course for s1 is equal to the amount of 
+  -- distinct cases when s1 and s2 course_ids are equal.
+
+-- Revised: This works becaus the query performs a self-join on the registrations table creating pairs
+  -- of different students (s1 and s2) using the condition s1.student_id < s2.studnet_id to avoid duplicate
+  -- and self pairs. It then filters both sides to only include registrations from Spring2026. The query
+  -- groups by each pair of students, allowing us to compare their course enrollments as sets. The first
+  -- HAVING condition ensures both students are enrolled in the same number of distinct courses. The second
+  -- HAVING condition ensures both students are enrolled in the same number of distinct courses. Together,
+  -- these conditions guarantee that the two students are enrolled in the exact same set of courses.
+
+--🟡 26. Courses With No Enrollments (Medium)
+
+--Scenario:
+--The university wants to identify courses that are not attracting any students for a given term.
+
+--Task:
+--Return all course_ids from the courses table that have no registrations in Spring2026.
+
+SELECT course_id 
+FROM courses
+WHERE course_id NOT IN (
+  SELECT course_id
+  FROM registrations
+  WHERE term = 'Spring2026'
+); ✅
+
+--🟡 27. Average Courses Per Student (Medium)
+
+--Scenario:
+--The registrar wants to understand student workload.
+
+--Task:
+--Return the average number of courses per student in Spring2026.
+
+SELECT AVG(course_amount)
+FROM registrations
+WHERE course_id IN (
+  SELECT course_id, student_id, COUNT(course_id) AS number_of_courses
+  FROM registrations
+  WHERE term = 'Spring2026'
+) AS course_amount;
+
+-- This is incorrect because IN only takes one column, this is a two step aggregation problem, not
+  -- filtering, and I can't alias a subquery inside WHERE in this way.
+
+SELECT AVG(course_count) AS avg_courses_per_student
+FROM (
+  SELECT student_id, COUNT(course_id) AS course_count
+  FROM registrations
+  WHERE term = 'Spring2026'
+  GROUP BY student_id
+) AS student_courses
+
+-- This works because the inner query uses the registrations table and filters only the rows where
+  -- term is equal to 'Spring2026' and then groups by the student_id. It then returns the student_id
+  -- column and number of courses for each student. In the outer query, it then places the number of courses for each student
+  -- in the aggregate function, AVG(), returning the average amount of courses per student for the Spring2026 term ✅
+
+--🟡 28. Most Recent Term Per Student (Medium)
+
+--Scenario:
+--Advisors want to know the last term each student was active.
+
+--Task:
+--Return each student_id along with their most recent term.
+
+SELECT student_id, term
+FROM (
+  SELECT student_id, term
+  FROM registrations
+  GROUP BY student_id, term
+  HAVING MAX(term)
+);
+
+-- I seem to have over complicated this query. I cannot use an aggregate function in HAVING without
+  -- proper grouping. It also doesn't require a subquery
+
+SELECT student_id, MAX(term) AS most_recent_term
+FROM registrations
+GROUP BY student_id;
+
+-- This works because it groups the registration table by student_id. It then SELECTS the rows containing
+  -- the maximum term value for each student_id ✅
+
+
+--🟡 29. Courses With Above Average Enrollment (Medium → Medium+)
+
+--Scenario:
+--The university wants to highlight popular courses.
+
+--Task:
+--Return course_ids that have more registrations than the average number of registrations across all courses.
+
+SELECT course_id, AVG(number_of_courses)
+FROM (
+  SELECT COUNT(course_id) number_of_courses
+  FROM registrations
+  GROUP BY student_id, course_id
+)
+GROUP BY student_id, course_id
+HAVING AVG(course_id) > number_of_courses
+
+-- This is incorrect because AVG(number_of_courses) is being used incorrectly. I can't directly compare
+  -- a per-course count with AVG(course_id) because I didn't use count to make the input parameter numerical.
+  -- The inner query should also calculate the total number os students per course, not per student_id, course_id
+  -- because each row is already per student-course. Also the HAVING clause should compare the course's count with
+  -- the overall average, and not the course ID.
+
+SELECT course_id, COUNT(*) AS total_registration
+FROM registrations
+GROUP BY course_id
+HAVING COUNT (*) > (
+  SELECT AVG(course_count)
+  FROM (
+    SELECT COUNT(*) AS course_count
+    FROM registrations
+    GROUP BY course_id) AS course_totals
+);
+
+-- This works because the most inner query groups by course_id from the registration table and then returns
+  -- the amount of times each course_id occurs. The least inner query then takes the average of those totals.
+  -- The outer query then groups by course_id from the registrations table and compares the amount of times
+  -- each course occurs to the average of all the courses in total. Then the course_id and count are total
+  -- occurances are returned
+
+-- Revised: The innermost query groups the registration table by course_id and counts how many times
+  -- each course appears, producing the total registrations per course (course_count). The middle query
+  -- takes those counts and calculates the average number of registrations across all courses using
+  -- AVG(course_count). The outer query again groups the registrations table by course_id and counts
+  -- registrations per course. The HAVING clause filters the results to include only courses where the
+  -- total registration are greater than the overall average.
+  
+--🟡 30. Students Enrolled in All Courses (Medium → Medium+)
+
+--Scenario:
+--The university is looking for highly engaged students who take every available course in a term.
+
+--Task:
+--Return student_ids who are enrolled in every course offered in Spring2026.
+
+SELECT student_id
+FROM registrations
+GROUP BY student_id, course_id
+HAVING COUNT(DISTINCT course_id) = (
+  SELECT COUNT(DISTINCT course_id) AS max_courses
+  FROM registrations
+  WHERE term = 'Spring2026'
+  GROUP BY course_id
+);
+
+-- This is incorrect because I grouped by student_id, course_id which disables the ability to count
+  -- per student. The subquery is also incorrect. I don't need to group by course_id and I should have
+  -- queried the outer query to 'Spring2026'
+
+SELECT student_id
+FROM registrations
+WHERE term = 'Spring2026'
+GROUP BY student_id
+HAVING COUNT(DISTINCT course_id) = (
+  SELECT COUNT(DISTINCT course_id)
+  FROM registrations
+  WHERE term = 'Spring2026'
+);
+
+-- This works because the inner query filters all rows with a term equal to 'Spring2026' from the registrations
+  -- table. It then counts each unique course_id and therefore provides the maximum available courses
+  -- for 'Spring2026'. The outer query then filters the registration table for all rows with terms set to 
+  -- 'Spring2026' and groups by student_id. After grouping, the query filters the amount of unique courses
+  -- for each student is equal to the maximum amount of unique courses. It then returns those student_ids ✅
+
+🟢 31. Student Course Load (Easy → Medium)
+
+Scenario:
+The registrar wants to identify students with the heaviest workload in Spring2026.
+
+Task:
+Return the student_id(s) who are taking the maximum number of courses in Spring2026.
+
+🟢 32. Courses With Multiple Students (Easy → Medium)
+
+Scenario:
+The university wants to identify collaborative courses.
+
+Task:
+Return all course_ids that have more than 1 student enrolled in Spring2026.
+
+🟢 33. Students Taking Specific Course (Easy)
+
+Scenario:
+Advisors want to find students enrolled in a key course.
+
+Task:
+Return all student_ids who are enrolled in 'CS101' in Spring2026.
+
+🟡 34. Courses Offered This Term Only (Medium)
+
+Scenario:
+The university wants to identify new or seasonal courses.
+
+Task:
+Return course_ids that are offered in Spring2026 but not in Fall2025.
+
+🟡 35. Student Enrollment Count (Medium)
+
+Scenario:
+The registrar wants a summary of student activity.
+
+Task:
+Return each student_id along with the number of courses they are enrolled in during Spring2026.
