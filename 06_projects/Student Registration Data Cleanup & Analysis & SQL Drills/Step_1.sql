@@ -463,7 +463,7 @@ HAVING COUNT(*) > 1;
 
 SELECT student_id, course_id, term
 FROM registrations
-WHERE term = 'Spring202'
+WHERE term = 'Spring2026'
 GROUP BY student_id, course_id, term
 HAVING COUNT(*) > 1;
 
@@ -513,6 +513,26 @@ HAVING COUNT(registration_id) = (
 --Task:
 --Return each course_id along with a list of distinct student_ids enrolled in that course.
 
+SELECT student_id, course_id
+FROM registrations
+GROUP BY student_id, course_id;
+
+-- This is incorrect because I return each row of students and courses. Instead I should be returning
+  -- each course and then the list of students that take that course. I also missed the task portion,
+  -- so I likely would have used Distinct at least.
+
+SELECT course_id, STRING_AGG(DISTINCT student_id::text, ', ') AS students
+FROM registrations
+GROUP BY course_id;
+
+-- This works because the query filters the registration table by grouping each individual course and
+  -- then filters the student_id based on whether the student is enrolled in the course. It does this by concatenating
+  -- each one with a comma and space to create a list.
+
+-- Revised: This works becaus the query groups all rows by course_id, so each group represents a single
+  -- course. Then, STRING_AGG combines all distinct student_ids within each group into a single comma-separated
+  -- list
+
 --🟡 22. Students Skipping Terms (Medium)
 
 --Scenario:
@@ -520,6 +540,19 @@ HAVING COUNT(registration_id) = (
 
 --Task:
 --Return all student_ids who were enrolled in Fall2025 but not in Spring2026.
+
+SELECT student_id
+FROM registrations
+WHERE student_id IN (
+  SELECT student_id
+  FROM registrations
+  WHERE term = 'Fall2025'
+)
+AND student_id NOT IN (
+  SELECT student_id
+  FROM registrations
+  WHERE term = 'Spring2026'
+);
 
 --🟡 23. Students Enrolled in Multiple Departments (Medium → Medium+)
 
@@ -529,6 +562,20 @@ HAVING COUNT(registration_id) = (
 --Task:
 --Return student_id and the number of distinct departments they are enrolled in for Spring2026, including only students in more than 1 department.
 
+SELECT student_id, COUNT(DISTINCT department_id) AS number_of_departments
+FROM registrations
+WHERE term = 'Spring2026'
+GROUP BY student_id
+HAVING number_of_departments > 1;
+
+-- This is incorrect because an alias cannot be referenced in HAVING for standard SQL.
+
+SELECT student_id, COUNT(DISTINCT department_id) AS number_of_departments
+FROM registrations
+WHERE term = 'Spring2026'
+GROUP BY student_id
+HAVING COUNT(DISTINCT department_id) > 1;
+
 --🔴 24. Courses with Repeated Enrollment Across Terms (Medium → Hard)
 
 --Scenario:
@@ -537,6 +584,27 @@ HAVING COUNT(registration_id) = (
 --Task:
 --Return all course_ids along with the student_ids who have enrolled in them more than once across different terms.
 
+SELECT course_id, student_id
+FROM registrations
+WHERE student_id IN (
+  SELECT student_id, course_id
+  FROM registrations
+  GROUP BY student_id, course_id
+  HAVING COUNT(DISTINCT term) > 1
+);
+
+-- This is incorrect because SQL doesn't allow selecting multiple columns in an IN subquery. To match
+  -- multiple columns, I would have to use a tuple.
+
+SELECT course_id, student_id
+FROM registrations
+WHERE (student_id, course_id) IN (
+  SELECT student_id, course_id
+  FROM registrations
+  GROUP BY student_id, course_id
+  HAVING COUNT(DISTINCT term) > 1
+);
+
 --🔴 25. Students with Same Course Load (Hard)
 
 --Scenario:
@@ -544,3 +612,9 @@ HAVING COUNT(registration_id) = (
 
 --Task:
 --Return pairs of student_ids who are enrolled in the same set of courses in Spring2026.
+
+SELECT s1.student_id, s2.student_id
+FROM registrations
+JOIN 
+WHERE term = 'Spring2026'
+
