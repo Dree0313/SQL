@@ -804,42 +804,151 @@ HAVING COUNT(DISTINCT course_id) = (
   -- 'Spring2026' and groups by student_id. After grouping, the query filters the amount of unique courses
   -- for each student is equal to the maximum amount of unique courses. It then returns those student_ids ✅
 
-🟢 31. Student Course Load (Easy → Medium)
+--🟢 31. Student Course Load (Easy → Medium)
+
+--Scenario:
+--The registrar wants to identify students with the heaviest workload in Spring2026.
+
+--Task:
+--Return the student_id(s) who are taking the maximum number of courses in Spring2026.
+
+SELECT student_id
+FROM registrations
+WHERE term = 'Spring2026' AND student_id IN (
+  SELECT student_id
+  FROM registrations
+  WHERE term = 'Spring2026'
+  GROUP BY student_id
+  HAVING COUNT(DISTINCT course_id) = MAX(DISTINCT course_id)
+);
+
+-- This does not work because SQL doesn't allow MAX() inside HAVING since MAX() is an aggregate
+  -- over the whole dataset
+
+SELECT student_id
+FROM registrations
+WHERE term = 'Spring2026'
+GROUP BY student_id
+HAVING COUNT (DISTINCT course_id) = (
+  SELECT MAX(course_count)
+  FROM (
+    SELECT COUNT (DISTINCT course_id) AS course_count
+    FROM registrations
+    WHERE term = 'Spring2026'
+    GROUP BY student_id) AS counts
+);
+
+-- This works because the innermost query takes the rows from the registrations table that have term set
+  -- to 'Spring2026'. It then groups by the student_id so that it can return the number of unique courses for each student.
+  -- From that innermost query, the middle query is then able to determine the max value between those course amounts per student.
+  -- The outermost query is then able to filter out the rows from the table, registration, that are set
+  -- to 'Spring2026', and then group by student_id. Then it filters out which students have couse enrollments
+  -- equal to the maximum amount of courses and returns those student_ids ✅
+
+--🟢 32. Courses With Multiple Students (Easy → Medium)
+
+--Scenario:
+--The university wants to identify collaborative courses.
+
+--Task:
+--Return all course_ids that have more than 1 student enrolled in Spring2026.
+
+SELECT course_id
+FROM registrations
+WHERE term = 'Spring2026'
+GROUP BY course_id
+HAVING COUNT(student_id) > 1; ✅
+
+--🟢 33. Students Taking Specific Course (Easy)
+
+--Scenario:
+--Advisors want to find students enrolled in a key course.
+
+--Task:
+--Return all student_ids who are enrolled in 'CS101' in Spring2026.
+
+SELECT student_id
+FROM registrations
+WHERE term = 'Spring2026' AND course_id = 'CS101'; ✅
+
+--🟡 34. Courses Offered This Term Only (Medium)
+
+--Scenario:
+--The university wants to identify new or seasonal courses.
+
+--Task:
+--Return course_ids that are offered in Spring2026 but not in Fall2025.
+
+SELECT course_id
+FROM registrations
+WHERE term = 'Spring2026' AND term != 'Fall2025';
+
+-- This is incorrect because the condition is redundant. If the term is equal to 'Spring2026', then
+  -- it will always != 'Fall2025' (I felt that this would be the case, but wasn't sure)
+
+SELECT DISTINCT course_id
+FROM registrations
+WHERE term = 'Spring2026' AND course_id NOT IN (
+  SELECT course_id
+  FROM registrations
+  WHERE term = 'Fall2025'
+);
+
+-- This works because the inner subquery pulls rows from the registration table that have a term value
+  -- of 'Fall2025' and returns the courses that correlate with these results. The outer query is then able
+  -- to determine all the courses that were not available in the 'Fall2025' term. It then pulls the rows
+  -- from the registrations table that also have a term value of 'Spring2026' and then returns the unique
+  -- course_ids ✅
+
+--🟡 35. Student Enrollment Count (Medium)
+
+--Scenario:
+--The registrar wants a summary of student activity.
+
+--Task:
+--Return each student_id along with the number of courses they are enrolled in during Spring2026.
+
+SELECT student_id, COUNT(course_id) AS number_of_courses
+FROM registrations
+WHERE term = 'Spring2026'
+GROUP BY student_id; ✅
+
+🟢 36. Students With Light Course Load (Easy → Medium)
 
 Scenario:
-The registrar wants to identify students with the heaviest workload in Spring2026.
+Advisors want to identify students who may not be taking enough courses.
 
 Task:
-Return the student_id(s) who are taking the maximum number of courses in Spring2026.
+Return all student_ids who are enrolled in fewer than 2 courses in 'Spring2026'.
 
-🟢 32. Courses With Multiple Students (Easy → Medium)
+🟡 37. Courses With Declining Enrollment (Medium)
 
 Scenario:
-The university wants to identify collaborative courses.
+The university wants to identify courses that are losing popularity.
 
 Task:
-Return all course_ids that have more than 1 student enrolled in Spring2026.
+Return course_ids where the number of students enrolled in 'Spring2026' is less than the number enrolled in 'Fall2025'.
 
-🟢 33. Students Taking Specific Course (Easy)
+🟡 38. Students Taking Only One Department (Medium → Medium+)
 
 Scenario:
-Advisors want to find students enrolled in a key course.
+Some students specialize heavily in one area.
 
 Task:
-Return all student_ids who are enrolled in 'CS101' in Spring2026.
+Return student_ids who are enrolled in courses from only one distinct department in 'Spring2026'.
 
-🟡 34. Courses Offered This Term Only (Medium)
+🟡 39. Most Popular Course Per Term (Medium → Hard)
 
 Scenario:
-The university wants to identify new or seasonal courses.
+The registrar wants to know the top course each term.
 
 Task:
-Return course_ids that are offered in Spring2026 but not in Fall2025.
+Return the term, course_id, and number of students for the most popular course in each term.
 
-🟡 35. Student Enrollment Count (Medium)
+🔴 40. Students With Identical Schedules Across Terms (Hard)
 
 Scenario:
-The registrar wants a summary of student activity.
+The university wants to find highly consistent students.
 
 Task:
-Return each student_id along with the number of courses they are enrolled in during Spring2026.
+Return pairs of student_ids who are enrolled in the exact same set of courses in both 'Fall2025' and 'Spring2026'. 
