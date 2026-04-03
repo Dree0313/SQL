@@ -913,42 +913,192 @@ FROM registrations
 WHERE term = 'Spring2026'
 GROUP BY student_id; ✅
 
-🟢 36. Students With Light Course Load (Easy → Medium)
+--🟢 36. Students With Light Course Load (Easy → Medium)
 
-Scenario:
-Advisors want to identify students who may not be taking enough courses.
+--Scenario:
+--Advisors want to identify students who may not be taking enough courses.
 
-Task:
-Return all student_ids who are enrolled in fewer than 2 courses in 'Spring2026'.
+--Task:
+--Return all student_ids who are enrolled in fewer than 2 courses in 'Spring2026'.
 
-🟡 37. Courses With Declining Enrollment (Medium)
+SELECT student_id
+FROM registrations
+WHERE term = 'Spring2026'
+GROUP BY student_id
+HAVING COUNT(course_id) < 2; ✅
 
-Scenario:
-The university wants to identify courses that are losing popularity.
+--🟡 37. Courses With Declining Enrollment (Medium)
 
-Task:
-Return course_ids where the number of students enrolled in 'Spring2026' is less than the number enrolled in 'Fall2025'.
+--Scenario:
+--The university wants to identify courses that are losing popularity.
 
-🟡 38. Students Taking Only One Department (Medium → Medium+)
+--Task:
+--Return course_ids where the number of students enrolled in 'Spring2026' is less than the number enrolled in 'Fall2025'.
 
-Scenario:
-Some students specialize heavily in one area.
+SELECT course_id
+FROM registrations
+WHERE term = 'Spring2026'
+GROUP BY course_id
+HAVING COUNT(DISTINCT student_id) < (
+  SELECT COUNT(DISTINCT student_id)
+  FROM registrations
+  WHERE term = 'Fall2025'
+  GROUP BY course_id
+);
 
-Task:
-Return student_ids who are enrolled in courses from only one distinct department in 'Spring2026'.
+-- This is incorrect because I return multiple rows, and the HAVING clause is expecting a single value
+  -- to compare. I also did not match Spring2026 counts to the same course in fall so I'm comparing 
+  -- to all courses instead of the same ones
 
-🟡 39. Most Popular Course Per Term (Medium → Hard)
+SELECT course_id
+FROM registrations r1
+WHERE term = 'Spring2026'
+GROUP BY course_id
+HAVING COUNT(DISTINCT student_id) < (
+  SELECT COUNT(DISTINCT student_id)
+  FROM registrations r2
+  WHERE r2.course_id = r1.course_id
+    AND r2.term = 'Fall2025'
+);
 
-Scenario:
-The registrar wants to know the top course each term.
+--This works because the subquery pulls rows from registrations table r2 that have the same course_ids as registrations
+  -- table r1 and then also removes rows in r2 that to not have a term value of 'Fall2025'. It then
+  -- counts each unique student and returns the values. The outer query then pulls rows from registrations
+  -- table r1 that have a term value of 'Spring2026'. It groups each row by course_id. Then it filters
+  -- table r1 by comparing its respective count of unique students per course less than r2's count of
+  -- unique students per course. If it's true that r1's course has a lower amount of students, it returns
+  -- the course_id ✅
 
-Task:
-Return the term, course_id, and number of students for the most popular course in each term.
+-- Professional Version: The outer query filters the registrations table (r1) to Spring2026 and groups
+  -- the data by course_id. It then counts the number of distinct students enrolled in each course during
+  -- Spring2026. The subquery is correlated to the outer query through course_id, meaning it runs once
+  -- per course. For each ccourse, it counts the number of distinct students enrolled in the same course
+  -- during Fall2025. The HAVING clause compares the Spring2026 enrollment to the Fall2025 enrollment
+  -- and returns only courses where the Spring count is lower.
 
-🔴 40. Students With Identical Schedules Across Terms (Hard)
+--🟡 38. Students Taking Only One Department (Medium → Medium+)
 
-Scenario:
-The university wants to find highly consistent students.
+--Scenario:
+--Some students specialize heavily in one area.
 
-Task:
-Return pairs of student_ids who are enrolled in the exact same set of courses in both 'Fall2025' and 'Spring2026'. 
+--Task:
+--Return student_ids who are enrolled in courses from only one distinct department in 'Spring2026'.
+
+SELECT student_id
+FROM registrations
+WHERE term = 'Spring2026' AND course_id IN (SELECT STRING_AGG(course_id, ',')
+  FROM registrations
+  WHERE term = 'Spring2026'
+  GROUP BY student_id) AS list_of_courses_per_student
+
+-- I found that I really didn't know how to go about this problem at all. I wasn't able to tell if
+  -- it was a subquery, or join.
+
+SELECT r.student_id
+FROM registrations r
+JOIN courses c ON r.course_id = c.course_id
+WHERE r.term = 'Spring2026'
+GROUP BY r.student_id
+HAVING COUNT(DISTINCT c.department) = 1;
+
+-- This works because it creates 2 tables, regisrations r and courses c, and correlates them through
+  -- course_id. From there it separates out the rows where term is set to 'Spring2026' for table r,
+  -- and then groups by table r's student_id. It can then determine if the student_id have a one correlating
+  -- department within table c. If so, it returns the student_id for table r. ✅
+
+-- The query joins the registrations table r with courses table c using course_id to associate each
+  -- registration with its department. It filters the data to include only rows from Spring2026. The
+  -- results are grouped by student_id, so each student's enrollments are evaluated together. For each
+  -- student, COUNT(DISTINCT c.department) calculates how many unique departments they are enrolled
+  -- in. The HAVING clause filters the results to include only students enrolled in exactly one distinct
+  -- department.
+  
+--🟡 39. Most Popular Course Per Term (Medium → Hard)
+
+--Scenario:
+--The registrar wants to know the top course each term.
+
+--Task:
+--Return the term, course_id, and number of students for the most popular course in each term.
+
+SELECT term, course_id, COUNT(students) AS num_students_pop_per_term
+FROM registrations r
+JOIN courses c ON r.course_id = c.course_id
+WHERE r.term = c.term
+GROUP BY term, course_id
+HAVING MAX(student_id);
+
+-- I wasn's sure if this was a join or subquery. I have also just found that when I imagine the table
+  -- I imagine that each student_id is listed per column and then each course_id is listed in the rows
+  -- I should instead imagine that each student_id and their separate courses have a row
+
+SELECT term, course_id, COUNT(*) AS num_students
+FROM registrations r1
+GROUP BY term, course_id
+HAVING COUNT(*) = (
+  SELECT MAX(course_count)
+  FROM (
+    SELECT term, course_id, COUNT(*) AS course_count
+    FROM registrations
+    GROUP BY term, course_id) AS course_totals
+  WHERE course_totals.term = r1.term
+);
+
+-- This works because the innermost subquery groups the registration table by term and couse_id. From 
+  -- this new table, the middle query filters the table for terms that are equal to terms in registrations table (r1). It then returns the 
+  -- maximum course counts. The outer query then groups the registrations (r1) table by term and course_id
+  -- and then filters them by counting them and comparing the number to the maximum course count. The query
+  -- finally returns the term, course_id, and number of students ✅
+
+-- The innermost subquery groups the registrations table by term and course_id, calculating the number
+  -- of students in each course (course_count). The middle query filters those results to include only
+  -- rows where the term matches the current term from the outer query (r1.term), and then returns the
+  -- maximum course_count for that term. The outer query groups the registrations table by term and course_id
+  -- counting the number of students in each course. The HAVING clause compares each course's enrollement
+  -- to the maximum enrollment for that term, returning only the most populare course(s).
+
+--🔴 40. Students With Identical Schedules Across Terms (Hard)
+
+--Scenario:
+---The university wants to find highly consistent students.
+
+--Task:
+--Return pairs of student_ids who are enrolled in the exact same set of courses in both 'Fall2025' and 'Spring2026'. 
+
+SELECT s1.student_id, s2.student_id
+FROM registrations s1
+JOIN registrations s2 ON s1.student_id = s2.student_id
+WHERE course_id IN (
+  SELECT course_id
+  FROM registrations
+  WHERE term = 'Fall2025'
+) AND course_id IN (
+  SELECT course_id
+  FROM registrations
+  WHERE term = 'Spring2026'
+)
+GROUP BY student_id
+HAVING s1.student_id > s2.student_id;
+
+-- This is incorrect because I joined a student to themselves, not to another student. My first subquery
+  -- also only checks if the course is offered in both terms. My query also never compares sets between students
+
+SELECT s1.student_id, s2.student_id
+FROM (
+  SELECT student_id, course_id
+  FROM registrations
+  WHERE term IN ('Fall2025', 'Spring2026')
+) AS s1
+JOIN (
+  SELECT student_id, course_id
+  FROM registrations
+  WHERE term IN ('Fall2025', 'Spring2026')
+) AS s2 ON s1.course_id = s2.course_id
+  AND s1.student_id < s2.student_id
+GROUP BY s1.student_id, s2.student_id
+HAVING COUNT (*) = (
+  SELECT COUNT(*)
+  FROM registrations r
+  WHERE r.student_id = s1.stuent_id
+
+-- This works because 
