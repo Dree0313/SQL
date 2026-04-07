@@ -1142,21 +1142,38 @@ HAVING COUNT(DISTINCT student_id) > 4; ✅
 --Task:
 --Return student_id and the number of courses they are enrolled in for Spring2026, but only include students taking 3 or more courses.
 
+SELECT student_id, COUNT(DISTINCT course_id) AS num_courses 
+FROM registrations 
+WHERE term = 'Spring2026' 
+GROUP BY student_id 
+HAVING COUNT(DISTINCT course_id) > 2;
+
 🟠 Question 44 (Moderate+)
 
-Scenario:
-The university wants to compare course popularity within a single term.
+--Scenario:
+--The university wants to compare course popularity within a single term.
 
-Task:
-Return the course_id and student count for courses in Spring2026 that have more students than the average course enrollment in that same term.
+--Task:
+--Return the course_id and student count for courses in Spring2026 that have more students than the average course enrollment in that same term.
 
+SELECT course_id, COUNT(DISTINCT student_id) AS student_count 
+FROM registrations 
+WHERE term = 'Spring2026' 
+GROUP BY course_id 
+HAVING COUNT(DISTINCT student_id) > ( 
+  SELECT AVG(num_students) 
+  FROM ( 
+    SELECT COUNT(DISTINCT student_id) AS num_students 
+    FROM registrations 
+    WHERE term = 'Spring2026' 
+    GROUP BY course_id ) ); ✅
 
-🔴 Question 45 (Hard — but not evil 😈)
+--🔴 Question 45 (Hard)
 
-Scenario:
-The registrar wants to find the most active students across all terms.
+-- Scenario:
+-- The registrar wants to find the most active students across all terms.
 
-Task:
-Return the student_id(s) who are enrolled in the highest number of total courses across all terms.
+-- Task:
+-- Return the student_id(s) who are enrolled in the highest number of total courses across all terms.
 
 
