@@ -1101,4 +1101,54 @@ HAVING COUNT (*) = (
   FROM registrations r
   WHERE r.student_id = s1.stuent_id
 
--- This works because 
+-- This works because subquery s1, pulls rows from registration where term values are in the list 
+  -- Fall2025, Spring2026. and returns the student_id and course_id. Subquery s2 does the same as 
+  -- s1. The outer query then takes s1 and joins it with s2, associates them by course_id and s1 < 
+  -- s2. It then groups by s1 and s2 student_ids, that have a count equal to the following two subqueries 
+  -- the first subquery compares the count(*) to uses registrations table (r), and filters by rows where 
+  -- the student_id is equal to s1's student_ids as well as having a term value within the list ('Fall2025', 'Spring2026'). 
+  -- The second subquery does the same but replaces s1 with s2. Afterwards, it returns s1 and s2 student_ids.
+
+🟢 Question 41 (Easy-Moderate)
+
+Scenario:
+The registrar wants to see how many students are enrolled in each term.
+
+Task:
+Return each term and the total number of students enrolled in that term.
+
+🟡 Question 42 (Moderate)
+
+Scenario:
+The university wants to find courses with solid enrollment.
+
+Task:
+Return course_id and the number of students enrolled, but only for courses that have at least 5 students.
+
+🟡 Question 43 (Moderate)
+
+Scenario:
+The registrar wants to identify students taking a heavier course load.
+
+Task:
+Return student_id and the number of courses they are enrolled in for Spring2026, but only include students taking 3 or more courses.
+
+🟠 Question 44 (Moderate+)
+
+Scenario:
+The university wants to compare course popularity within a single term.
+
+Task:
+Return the course_id and student count for courses in Spring2026 that have more students than the average course enrollment in that same term.
+
+(Hint: this introduces a subquery but not as intense as earlier ones)
+
+🔴 Question 45 (Hard — but not evil 😈)
+
+Scenario:
+The registrar wants to find the most active students across all terms.
+
+Task:
+Return the student_id(s) who are enrolled in the highest number of total courses across all terms.
+
+(Hint: similar idea to “top course per term,” but flipped to students)
