@@ -1176,4 +1176,38 @@ HAVING COUNT(DISTINCT student_id) > (
 -- Task:
 -- Return the student_id(s) who are enrolled in the highest number of total courses across all terms.
 
+SELECT student_id 
+FROM ( 
+  SELECT student_id, MAX(num_courses) 
+  FROM ( 
+    SELECT student_id, COUNT(DISTINCT course_id) AS num_courses 
+    FROM registrations 
+    GROUP BY student_id 
+  ) 
+);
 
+-- This is incorrect because MAX(num_course) is unable to determine which student_id it belongs to
+  -- on its on
+
+SELECT student_id
+FROM (
+  SELECT student_id, COUNT(DISTINCT course_id) AS num_courses
+  FROM registrations
+  GROUP BY student_id
+) AS student_totals
+WHERE num_courses = (
+  SELECT MAX(num_courses)
+  FROM (
+    SELECT student_id, COUNT(DISTINCT course_id) AS num_courses
+    FROM registrations
+    GROUP BY student_id
+  ) AS totals
+);
+
+-- This works because The innermost subquery groups the registrations table by student_id and then
+  -- returns the student IDs and the amount of distinct course IDs for each student. The outer query
+  -- then fiters the student_totals subquery. This subquery groups the registrations table by student
+  -- IDs and returns the student_ids and amount of distinct course_ids for each student. The outer query
+  -- filters it to rows where the number of courses is equal to the max amount of courses between the
+  -- students. The outer query then returns the student_ids with the max courses for each term. ✅
+  
