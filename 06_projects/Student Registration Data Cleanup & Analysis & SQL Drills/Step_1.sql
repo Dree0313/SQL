@@ -1211,3 +1211,37 @@ WHERE num_courses = (
   -- filters it to rows where the number of courses is equal to the max amount of courses between the
   -- students. The outer query then returns the student_ids with the max courses for each term. ✅
   
+--🟢 46. Students Skipping a Term (Easy → Medium)
+Scenario:
+The registrar wants to see which students missed a particular term.
+
+Task:
+Return all student_ids who were enrolled in Fall2025 but not in Spring2026.
+
+--🟡 47. Students with Light Workload (Medium)
+Scenario:
+Advisors want to identify students who are taking very few courses in a term.
+
+Task:
+Return student_id and the number of courses for students enrolled in fewer than 3 courses in Spring2026.
+
+--🟡 48. Courses with Growing Enrollment (Medium)
+Scenario:
+The university wants to see which courses are increasing in popularity.
+
+Task:
+Return course_ids where the number of students enrolled in Spring2026 is greater than the number enrolled in Fall2025.
+
+--🟡 49. Students Focusing on One Department (Medium)
+Scenario:
+Some students specialize heavily in a single department.
+
+Task:
+Return student_ids who are enrolled in courses from only one distinct department in Spring2026.
+
+--🔴 50. Top Student Across All Terms (Hard)
+Scenario:
+The university wants to recognize the most highly engaged student(s) across all terms.
+
+Task:
+Return the student_id(s) enrolled in the highest total number of distinct courses across all terms.
