@@ -1212,11 +1212,19 @@ WHERE num_courses = (
   -- students. The outer query then returns the student_ids with the max courses for each term. ✅
   
 --🟢 46. Students Skipping a Term (Easy → Medium)
-Scenario:
-The registrar wants to see which students missed a particular term.
+--Scenario:
+--The registrar wants to see which students missed a particular term.
 
-Task:
-Return all student_ids who were enrolled in Fall2025 but not in Spring2026.
+--Task:
+--Return all student_ids who were enrolled in Fall2025 but not in Spring2026.
+
+SELECT student_id
+FROM registrations
+WHERE term = 'Fall2025' AND NOT IN (
+  SELECT student_id
+  FROM registrations
+  WHERE term = 'Spring2026'
+);
 
 --🟡 47. Students with Light Workload (Medium)
 Scenario:
