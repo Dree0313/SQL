@@ -1220,18 +1220,18 @@ WHERE num_courses = (
 
 SELECT student_id
 FROM registrations
-WHERE term = 'Fall2025' AND NOT IN (
+WHERE term = 'Fall2025' AND student _id NOT IN (
   SELECT student_id
   FROM registrations
   WHERE term = 'Spring2026'
 );
 
 --🟡 47. Students with Light Workload (Medium)
-Scenario:
-Advisors want to identify students who are taking very few courses in a term.
+--Scenario:
+--Advisors want to identify students who are taking very few courses in a term.
 
-Task:
-Return student_id and the number of courses for students enrolled in fewer than 3 courses in Spring2026.
+--Task:
+--Return student_id and the number of courses for students enrolled in fewer than 3 courses in Spring2026.
 
 --🟡 48. Courses with Growing Enrollment (Medium)
 Scenario:
