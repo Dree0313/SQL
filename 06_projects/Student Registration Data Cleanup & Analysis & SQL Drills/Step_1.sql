@@ -1224,7 +1224,7 @@ WHERE term = 'Fall2025' AND student_id NOT IN (
   SELECT student_id
   FROM registrations
   WHERE term = 'Spring2026'
-); 
+); ✅
 
 --🟡 47. Students with Light Workload (Medium)
 --Scenario:
@@ -1233,23 +1233,171 @@ WHERE term = 'Fall2025' AND student_id NOT IN (
 --Task:
 --Return student_id and the number of courses for students enrolled in fewer than 3 courses in Spring2026.
 
+SELECT student_id, COUNT(course_id) AS num_courses
+FROM registrations
+WHERE term = 'Spring2026'
+GROUP BY student_id
+HAVING COUNT(course_id) < 3; ✅
+  
 --🟡 48. Courses with Growing Enrollment (Medium)
-Scenario:
-The university wants to see which courses are increasing in popularity.
+--Scenario:
+--The university wants to see which courses are increasing in popularity.
 
-Task:
-Return course_ids where the number of students enrolled in Spring2026 is greater than the number enrolled in Fall2025.
+--Task:
+--Return course_ids where the number of students enrolled in Spring2026 is greater than the number enrolled in Fall2025.
+
+SELECT course_id
+FROM registrations
+GROUP BY course_id
+HAVING (
+  SELECT COUNT(student_id)
+  FROM registrations
+  WHERE term = 'Spring2026'
+  GROUP BY course_id) > (
+  SELECT COUNT(student_id)
+  FROM registrations
+  WHERE term = 'Fall2025'
+  GROUP BY course_id
+);
+
+-- This does not work because there is no way to compare and determine if the same courses are being
+  -- compared to each other
+
+SELECT course_id
+FROM registrations r1
+WHERE term = 'Spring2026'
+GROUP BY course_id
+HAVING COUNT(*) > (
+  SELECT COUNT(*)
+  FROM registrations r2
+  WHERE r2.term = 'Fall2025'
+    AND r2.course_id = r1.course_id
+);
+
+-- This works because The outer query filters rows for the Spring2026 term from the registrations
+  -- table (r1), groups it by course_id and compares the amount of rows for each course to the inner
+  -- query. The inner query uses table registrations (r2) and filters it for rows that contain the
+  -- term Fall2025 and course_ids equal to that of r1's course_ids. It then returns the amount of rows
+  -- per course for r2. The outer query can then proceed with comparing the values and return the course_ids
+  -- for r1 that have a greater amount of students than r2 ✅
 
 --🟡 49. Students Focusing on One Department (Medium)
-Scenario:
-Some students specialize heavily in a single department.
+--Scenario:
+--Some students specialize heavily in a single department.
 
-Task:
-Return student_ids who are enrolled in courses from only one distinct department in Spring2026.
+--Task:
+--Return student_ids who are enrolled in courses from only one distinct department in Spring2026.
+
+SELECT student_id
+FROM departments
+WHERE term = 'Spring2026'
+GROUP BY student_id
+HAVING COUNT(DISTINCT department_id) = 1;
+
+-- This is incorrect because departments is connected to the courses table
+
+SELECT r.student_id
+FROM registrations r
+JOIN courses c ON r.course_id = c.course_id
+WHERE r.term = 'Spring2026'
+GROUP BY r.student_id
+HAVING COUNT(DISTINCT c.department) = 1;
+
+-- This works because the query uses the registrations table (r) and joins it with the courses table
+  -- (c) on course_id. It then filters the table for table r's term values set to 'Spring2026'. It then
+  -- groups by r's student_ids and filters to students whose courses belong to exactly one distinct department. It is then able
+  -- to returns the student_ids from the registrations table. ✅ 
 
 --🔴 50. Top Student Across All Terms (Hard)
+--Scenario:
+--The university wants to recognize the most highly engaged student(s) across all terms.
+
+--Task:
+--Return the student_id(s) enrolled in the highest total number of distinct courses across all terms.
+
+SELECT student_id
+FROM registrations
+GROUP BY student_id
+HAVING COUNT(DISTINCT course_id) = (
+  SELECT MAX(COURSE_AMOUNT)
+  FROM (
+    SELECT COUNT(DISTINCT course_id)
+    FROM registrations
+    GROUP BY term) AS COURSE_AMOUNT
+);
+
+-- This is incorrect because I should be grouping by student_id within my subquery instead of term
+
+SELECT student_id
+FROM registrations
+GROUP BY student_id
+HAVING COUNT(DISTINCT course_id) = (
+  SELECT MAX (course_count)
+  FROM (
+    SELECT student_id, COUNT(DISTINCT course_id) AS course_count
+    FROM registrations
+    GROUP BY student_id
+  ) AS student_totals
+);
+
+-- This works because the inner most query uses the registrations table, grouping it by student_id and
+  -- returns the student_ids and number of distince course_ids for each student_id. Using this query,
+  -- the middle query then returns the maximum course amount. The outer query uses the registrations
+  -- table and groups it by student_id having the an amount of distinct course_ids equal to the middle
+  -- query's returned result. The outer query the returns the student_id(s) with the maximum amount
+  -- of distinct courses across all terms ✅
+
+--🟢 51. Students Per Term (Easy)
+
+--Scenario:
+--The registrar wants a simple breakdown of student participation per term.
+
+--Task:
+--Return each term and the number of distinct students enrolled in that term.
+
+SELECT term, COUNT(DISTINCT student_id)
+FROM registrations
+GROUP BY term; ✅
+
+--🟡 52. Light Course Load Check (Easy → Medium)
+
+--Scenario:
+--Advisors want to identify students who are not very active in a term.
+
+--Task:
+--Return student_id and number of courses for students in Spring2026, but only include those taking 1 or 2 courses.
+
+SELECT student_id, COUNT(course_id)
+FROM registrations
+WHERE term = 'Spring2026'
+GROUP BY student_id
+HAVING COUNT(course_id) = 1 OR COUNT(course_id) = 2; ✅
+
+--🟡 53. Course Stability (Medium)
+
+--Scenario:
+--The university wants to see which courses have consistent enrollment.
+
+--Task:
+--Return course_id and total students enrolled in both Fall2025 and Spring2026 (combined total across both terms).
+
+SELECT course_id, 
+
+🟡 54. Students With Growth in Activity (Medium)
+
 Scenario:
-The university wants to recognize the most highly engaged student(s) across all terms.
+The registrar wants to find students who became more active over time.
 
 Task:
-Return the student_id(s) enrolled in the highest total number of distinct courses across all terms.
+Return student_ids who took more courses in Spring2026 than in Fall2025.
+
+🟥 55. Top Balanced Students (Hard)
+
+Scenario:
+The university wants to recognize students who are highly engaged but balanced across terms.
+
+Task:
+Return student_ids who:
+
+Are among the top 5 students with the highest total course enrollments, AND
+Are enrolled in at least 2 different terms
