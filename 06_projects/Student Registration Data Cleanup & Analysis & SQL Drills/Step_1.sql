@@ -1220,11 +1220,11 @@ WHERE num_courses = (
 
 SELECT student_id
 FROM registrations
-WHERE term = 'Fall2025' AND student _id NOT IN (
+WHERE term = 'Fall2025' AND student_id NOT IN (
   SELECT student_id
   FROM registrations
   WHERE term = 'Spring2026'
-);
+); 
 
 --🟡 47. Students with Light Workload (Medium)
 --Scenario:
