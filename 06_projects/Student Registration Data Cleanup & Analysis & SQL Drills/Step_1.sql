@@ -1381,23 +1381,67 @@ HAVING COUNT(course_id) = 1 OR COUNT(course_id) = 2; ✅
 --Task:
 --Return course_id and total students enrolled in both Fall2025 and Spring2026 (combined total across both terms).
 
-SELECT course_id, 
+SELECT course_id, COUNT(student_id)
+FROM registrations
+WHERE term = 'Fall2025' AND term = 'Spring2026'
+GROUP BY course_id;
+
+-- This doesn't work because a term cannoth be both Fall2025 and Spring2026.
+
+SELECT course_id, COUNT(student_id) AS total_students
+FROM registrations
+WHERE term IN ('Fall2025', 'Spring2026')
+GROUP BY course_id
+HAVING COUNT(DISTINCT term) = 2;
 
 🟡 54. Students With Growth in Activity (Medium)
 
-Scenario:
-The registrar wants to find students who became more active over time.
+--Scenario:
+--The registrar wants to find students who became more active over time.
 
-Task:
-Return student_ids who took more courses in Spring2026 than in Fall2025.
+--Task:
+--Return student_ids who took more courses in Spring2026 than in Fall2025.
 
+SELECT student_id
+FROM (
+  SELECT student_id
+  FROM registrations r1
+  WHERE term = 'Spring2026'
+)AS r1
+JOIN (
+  SELECT student_id
+  FROM registrations r2
+  WHERE term = 'Fall2025'
+) AS r2 ON r1.student_id = r2.student_id
+GROUP BY student_id
+HAVING COUNT(r1.course_id) > COUNT(r2.course_id);
+
+-- This doesn't work because my subqueries don't include course_id, so when I call course_id later,
+  -- the column doesn't exist. For some reason my join causes a multiplication effect (cartesian duplication
+  -- per student)
+
+SELECT student_id
+FROM registrations r1
+GROUP BY student_id
+HAVING (
+  SELECT COUNT(*)
+  FROM registrations r2
+  WHERE r2.student_id = r1.student_id
+    AND r2.term = 'Spring2026'
+) > (
+  SELECT COUNT(*)
+  FROM registrations r3
+  WHERE r3.student_id = r1.student_id
+    AND r3.term = 'Fall2025'
+);
+  
 🟥 55. Top Balanced Students (Hard)
 
-Scenario:
-The university wants to recognize students who are highly engaged but balanced across terms.
+--Scenario:
+--The university wants to recognize students who are highly engaged but balanced across terms.
 
-Task:
-Return student_ids who:
+--Task:
+--Return student_ids who:
 
-Are among the top 5 students with the highest total course enrollments, AND
-Are enrolled in at least 2 different terms
+--Are among the top 5 students with the highest total course enrollments, AND
+--Are enrolled in at least 2 different terms
