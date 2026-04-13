@@ -1445,3 +1445,78 @@ HAVING (
 
 --Are among the top 5 students with the highest total course enrollments, AND
 --Are enrolled in at least 2 different terms
+
+SELECT student_id
+FROM registrations
+WHERE student_id IN (
+  SELECT TOP 5 student_id
+  FROM registrations
+  GROUP BY student_id
+  ORDER BY COUNT(course_id) DESC) AND student_id IN (
+  SELECT student_id
+  FROM registrations
+  GROUP BY student_id
+  HAVING COUNT(DISTINCT term) > 1
+);
+
+-- This is not correct because I am ordering by an aggregate but not selecting it. This could cause
+  -- the SQL engine to error or behave unpreddictably. Also TOP 5 is SQL Server-specific
+
+SELECT student_id
+FROM registrations
+WHERE student_id IN (
+  SELECT student_id
+  FROM (
+    SELECT student_id, COUNT(course_id) AS total_courses
+    FROM registrations
+    GROUP BY total_courses DESC
+    LIMIT 5) AS top_students
+  )
+AND student_id IN (
+  SELECT student_id
+  FROM registrations
+  GROUP BY student_id
+  HAVING COUNT(DISTINCT term) >= 2
+);
+  
+*Reminder to come back and explain why 53 and 54 work
+
+🟢 56. Total Courses Per Student (Easy)
+
+Scenario:
+The registrar wants a quick overview of student activity.
+
+Task:
+Return each student_id and the total number of courses they are enrolled in across all terms.
+
+🟡 57. Courses with Multiple Students (Easy → Medium)
+
+Scenario:
+The university wants to identify courses with enough participation.
+
+Task:
+Return course_ids that have at least 3 distinct students enrolled.
+
+🟡 58. Students in a Specific Term Only (Medium)
+
+Scenario:
+The registrar wants to find students who are only active in one specific term.
+
+Task:
+Return student_ids who are enrolled in Spring2026 and no other terms.
+
+🟡 59. Average Enrollment Per Course (Medium)
+
+Scenario:
+The university wants to understand overall course demand.
+
+Task:
+Return the average number of students per course across all courses.
+
+🔴 60. Students Matching Average Load (Hard)
+
+Scenario:
+Advisors want to identify students with a “typical” workload.
+
+Task:
+Return student_ids whose total number of courses is equal to the average number of courses per student.
