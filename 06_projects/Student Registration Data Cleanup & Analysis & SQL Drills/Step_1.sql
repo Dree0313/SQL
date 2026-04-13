@@ -1386,13 +1386,17 @@ FROM registrations
 WHERE term = 'Fall2025' AND term = 'Spring2026'
 GROUP BY course_id;
 
--- This doesn't work because a term cannoth be both Fall2025 and Spring2026.
+-- This doesn't work because a term cannot be both Fall2025 and Spring2026.
 
 SELECT course_id, COUNT(student_id) AS total_students
 FROM registrations
 WHERE term IN ('Fall2025', 'Spring2026')
 GROUP BY course_id
 HAVING COUNT(DISTINCT term) = 2;
+
+-- This works because the query filters the registrations table by terms that are in the list, and
+  -- then groups by the course_id that have an amount distinct terms equal to two. The course_ids and 
+  -- amount of enrollments for those courses. ✅
 
 🟡 54. Students With Growth in Activity (Medium)
 
@@ -1434,6 +1438,14 @@ HAVING (
   WHERE r3.student_id = r1.student_id
     AND r3.term = 'Fall2025'
 );
+
+-- This works because outer query groups the registrations table (r1) by student_id having the 
+  -- following subquery comparison. The first subquery filters the registrations table (r2) for rows
+  -- where r2's student_ids are equal to r1's student_ids and r2's term value equals Spring2026 and 
+  -- then the query returns the amount of rows. This subquery is then compared to the second which 
+  -- filters the registrations table (r3) for rows where r3's student_ids equal r1's student_ids and 
+  -- r3's term value equals Fall2025. It then returns the amount of rows. If the first subquery is 
+  -- greater than the second, then the student_id is returned ✅
   
 🟥 55. Top Balanced Students (Hard)
 
@@ -1479,7 +1491,7 @@ AND student_id IN (
   HAVING COUNT(DISTINCT term) >= 2
 );
   
-*Reminder to come back and explain why 53 and 54 work
+-- This query works beccause The outer subquery filters the registrations table for 
 
 🟢 56. Total Courses Per Student (Easy)
 
