@@ -1553,7 +1553,7 @@ FROM (
   SELECT COUNT(student_id) AS total_students
   FROM registrations
   GROUP BY course_id
-) AS total;
+) AS total; ✅
 
 --🔴 60. Students Matching Average Load (Hard)
 
