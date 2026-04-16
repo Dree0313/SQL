@@ -1,14 +1,16 @@
-🟢 1. Add New Enrollment (Easy)
+--🟢 1. Add New Enrollment (Easy)
 
-Scenario:
-A student just enrolled in a course for the new term.
+--Scenario:
+--A student just enrolled in a course for the new term.
 
-Task:
-Insert a new record for:
+--Task:
+--Insert a new record for:
 
-student_id = 101
-course_id = 205
-term = 'Spring2026'
+--student_id = 101
+--course_id = 205
+--term = 'Spring2026'
+
+
 🟡 2. Remove Duplicate Enrollment (Easy → Medium)
 
 Scenario:
