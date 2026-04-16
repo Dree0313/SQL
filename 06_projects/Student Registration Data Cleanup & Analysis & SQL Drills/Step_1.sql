@@ -1481,7 +1481,8 @@ WHERE student_id IN (
   FROM (
     SELECT student_id, COUNT(course_id) AS total_courses
     FROM registrations
-    GROUP BY total_courses DESC
+    GROUP BY student_id
+    ORDER BY total_courses DESC
     LIMIT 5) AS top_students
   )
 AND student_id IN (
@@ -1491,44 +1492,86 @@ AND student_id IN (
   HAVING COUNT(DISTINCT term) >= 2
 );
   
--- This query works beccause The outer subquery filters the registrations table for 
+-- This query works because The outer query filters the registrations table for student_ids that satisfy both
+  -- subquery conditions. The first subquery pulls student_ids from the table created by its inner
+  -- subquery. This subquery groups the registrations table by student_id. It then orders by the amount of courses per student as the total_courses in descending
+  -- order, and limits the result to the top 5 students by total courses. The innermost subquery then returns the student_ids, and the total_courses.
+  -- In the second query, it groups the registrations table by student_ids having at least 2 unique
+  -- terms, and then returns the student_id. The query then returns the student_ids. ✅
 
-🟢 56. Total Courses Per Student (Easy)
+--🟢 56. Total Courses Per Student (Easy)
 
-Scenario:
-The registrar wants a quick overview of student activity.
+--Scenario:
+--The registrar wants a quick overview of student activity.
 
-Task:
-Return each student_id and the total number of courses they are enrolled in across all terms.
+--Task:
+--Return each student_id and the total number of courses they are enrolled in across all terms.
 
-🟡 57. Courses with Multiple Students (Easy → Medium)
+SELECT student_id, COUNT(course_id) AS total_courses
+FROM registrations
+GROUP BY student_id; ✅
 
-Scenario:
-The university wants to identify courses with enough participation.
+--🟡 57. Courses with Multiple Students (Easy → Medium)
 
-Task:
-Return course_ids that have at least 3 distinct students enrolled.
+--Scenario:
+--The university wants to identify courses with enough participation.
 
-🟡 58. Students in a Specific Term Only (Medium)
+--Task:
+--Return course_ids that have at least 3 distinct students enrolled.
 
-Scenario:
-The registrar wants to find students who are only active in one specific term.
+SELECT course_id
+FROM registrations
+GROUP BY course_id
+HAVING COUNT(DISTINCT student_id) > 2; ✅
 
-Task:
-Return student_ids who are enrolled in Spring2026 and no other terms.
+--🟡 58. Students in a Specific Term Only (Medium)
 
-🟡 59. Average Enrollment Per Course (Medium)
+--Scenario:
+--The registrar wants to find students who are only active in one specific term.
 
-Scenario:
-The university wants to understand overall course demand.
+--Task:
+--Return student_ids who are enrolled in Spring2026 and no other terms.
 
-Task:
-Return the average number of students per course across all courses.
+SELECT student_id
+FROM registrations
+WHERE term = 'Spring2026' AND student_id NOT IN (
+  SELECT student_id
+  FROM registrations
+  WHERE term != 'Spring2026'
+); ✅
 
-🔴 60. Students Matching Average Load (Hard)
+--🟡 59. Average Enrollment Per Course (Medium)
 
-Scenario:
-Advisors want to identify students with a “typical” workload.
+--Scenario:
+--The university wants to understand overall course demand.
 
-Task:
-Return student_ids whose total number of courses is equal to the average number of courses per student.
+--Task:
+--Return the average number of students per course across all courses.
+
+SELECT AVG(total_students)
+FROM (
+  SELECT COUNT(student_id) AS total_students
+  FROM registrations
+  GROUP BY course_id
+) AS total;
+
+--🔴 60. Students Matching Average Load (Hard)
+
+--Scenario:
+--Advisors want to identify students with a “typical” workload.
+
+--Task:
+--Return student_ids whose total number of courses is equal to the average number of courses per student.
+
+SELECT student_id
+FROM registrations
+GROUP BY student_id
+HAVING COUNT(course_id) = (
+  SELECT AVG(total_courses)
+  FROM (
+    SELECT COUNT(course_id) AS total_courses
+    FROM registrations
+    GROUP BY student_id
+  ) AS total
+); ✅
+    
