@@ -24,6 +24,9 @@ VALUES (101, 205, 'Spring2026');
 
 COMMIT;
 
+-- This works because it tells the program to insert integer value 101 as student_id, integer 205 as
+  -- course_id, and string Spring2026 as term for the registrations table. ✅
+
 --🟡 2. Remove Duplicate Enrollment (Easy → Medium)
 
 --Scenario:
@@ -52,10 +55,23 @@ WHERE id IN (
       ORDER BY id) AS rn
     FROM registrations
   ) t
-  WHERE rn > 1;
+  WHERE rn > 1
 );
 
 COMMIT;
+
+-- This works because it tells the program to locate the id within the following subquery. This subquery
+  -- uses an inner subquery table wher it chooses the id, number of the row partitioned by the columns
+  -- student id, course_id, and term and then ordered by id (rn), from the registrations table. Once it pulls
+  -- the id(s) within the subquery, it then filters for rn greater than one and deletes the returned results. 
+
+-- Revised: This query removes duplicate rows from the registrations table while keeping one unique
+  -- record for each combination of student_id, course_id, and term. These groups represent potential
+  -- duplicates. The numbering is ordered by id, so the first occurrence in each group receives a row
+  -- number of 1. The outer part of the subquery filters for rows where the row number is greater than
+  -- 1, which idendifies all duplicate records beyond the first occurrence. The DELECT statement then
+  -- removes all rows whose id matches those duplicate records, ensuring that only one unique row per
+  -- group remains in the table. 
 
 --🟡 3. Update Term Correction (Medium)
 
@@ -81,11 +97,17 @@ TO 'Spring2026';
 
 BEGIN TRANSACTION;
 
-UPDATE transactions
+UPDATE registrations
 SET term = 'Spring2026'
 WHERE term = 'Spr2026';
 
 COMMIT;
+
+-- This query has all term values that are equal to Spr2026 changed to Spring2026 in the registrations
+  -- table.
+
+-- Revised: This statement updates all rows in the registrations table where the term is 'Spr2026',
+  -- changing those values to 'Spring2026'
 
 --🟡 4. Bulk Insert From Another Term (Medium)
 
@@ -109,7 +131,7 @@ WHERE student_id IN (
   )
 VALUES (student_id, 999, 'Spring2026');
 
--- This is not correct because INSERT doesn't use WHERE in this manner, VALUES cannot be mized with
+-- This is not correct because INSERT doesn't use WHERE in this manner, VALUES cannot be mixed with
   -- a subquery in this way, and student_id cannot be used inside VALUES
 
 BEGIN TRANSACTION;
@@ -117,9 +139,13 @@ BEGIN TRANSACTION;
 INSERT INTO registrations (student_id, course_id, term)
 SELECT student_id, 999, 'Spring2026'
 FROM registrations
-WHERE term = 'Fall2025'
+WHERE term = 'Fall2025';
 
 COMMIT;
+
+-- This query filters for terms that equal 'Fall2025' and inserts the student ids that have this term
+  -- value with course_id equal to the integer 999 and term equal to the string 'Spring2026'. This creates
+  -- new entries for these students for the spring semester ✅
 
 
 --🔴 5. Conditional Data Cleanup (Hard)
@@ -150,5 +176,115 @@ AND student_id IN (
   GROUP BY student_id
   HAVING COUNT(course_id) < 2
   ); 
+
+COMMIT; ✅
+
+--🟢 6. Simple Delete
+
+--Scenario:
+--A course (course_id = 300) was canceled for Spring2026.
+
+--Task:
+--Delete all registrations for:
+
+--course_id = 300
+--term = 'Spring2026'
+
+BEGIN TRANSACTION;
+
+DELETE FROM registrations
+WHERE course_id = 300 AND term = 'Spring2026'; 
+
+COMMIT; ✅
+
+
+--🟡 7. Update Multiple Students
+
+--Scenario:
+--All students enrolled in course 101 during Fall2025 need to be moved to course 102 (same term).
+
+--Task:
+--Update:
+
+--course_id from 101 → 102
+--Only for term = 'Fall2025'
+
+BEGIN TRANSACTION;
+
+UPDATE registrations
+SET course_id = 102
+WHERE term = 'Fall2025' AND course_id = 101; ✅
+
+--🟡 8. Insert Missing Students Into a Course
+
+--Scenario:
+--Every student in Spring2026 should also be enrolled in course 500, but some already are.
+
+--Task:
+--Insert rows for students in Spring2026:
+
+--course_id = 500
+--term = 'Spring2026'
+--Only if they are NOT already enrolled in course 500 for that term
+
+BEGIN TRANSACTION;
+
+INSERT INTO registrations
+SELECT student_id, 500, term
+FROM registrations
+WHERE term = 'Spring2026' AND student_id NOT IN (
+  SELECT student_id
+  FROM registrations
+  WHERE course_id = 500 AND term = 'Spring2026'
+);
+
+COMMIT; ✅
+
+--🟡 9. Delete Based on Count
+
+--Scenario:
+--Students who are overloaded (taking more than 5 courses in Spring2026) must drop all their Spring2026 courses.
+
+--Task:
+--Delete all Spring2026 registrations for students who have:
+
+--More than 5 courses in that term
+
+BEGIN TRANSACTION;
+
+DELETE FROM registrations
+WHERE term = 'Spring2026' AND student_id IN (
+  SELECT student_id
+  FROM registrations
+  WHERE term = 'Spring2026'
+  GROUP BY student_id
+  HAVING COUNT(course_id) > 5
+); 
+
+COMMIT; ✅
+
+--🔴 10. Conditional Update With Aggregate
+
+--Scenario:
+--The university wants to flag heavy course loads by renaming the term.
+
+--If a student is taking more than 4 courses in Spring2026, update their records to:
+
+--term = 'Spring2026-Heavy'
+
+--Task:
+--Update the table accordingly.
+
+BEGIN TRANSACTION;
+
+UPDATE registrations
+SET term = 'Spring2026-Heavy'
+WHERE student_id IN (
+  SELECT student_id
+  FROM registrations
+  WHERE term = 'Spring2026'
+  GROUP BY student_id
+  HAVING COUNT(course_id) > 4
+);
 
 COMMIT; ✅
