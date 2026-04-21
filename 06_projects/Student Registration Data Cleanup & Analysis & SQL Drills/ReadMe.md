@@ -107,11 +107,11 @@ Determine how widespread the issue is:
 Which students are affected?
 How many duplicate enrollments exist per case?
 
-3. Data Inspection
+3. Data Update
 
-Retrieve the full records that are considered duplicates so they can be reviewed manually.
+Remove the records that are considered duplicates.
 
-4. Business Awareness (Conceptual — no code required yet)
+5. Business Awareness (Conceptual)
 
 Explain:
 
