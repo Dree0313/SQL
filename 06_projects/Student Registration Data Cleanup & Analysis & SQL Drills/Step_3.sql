@@ -35,6 +35,8 @@ WHERE registration_id IN (
   WHERE RN > 1
 );
 
+COMMIT;
+
 --Business Awareness (Conceptual)
 --Explain:
 
