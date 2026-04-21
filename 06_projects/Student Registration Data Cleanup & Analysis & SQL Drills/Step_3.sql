@@ -26,19 +26,37 @@ HAVING COUNT(*) > 1;
 BEGIN TRANSACTION;
 
 DELETE FROM registrations
-WHERE student_id IN (
-  SELECT student_id, ROW_NUMBER() OVER (PARTITION BY)
-  FROM registrations
-  GROUP BY student_id, course_id, term
-  HAVING COUNT(*) > 1
-)
+WHERE registration_id IN (
+  SELECT registration_id
+  FROM (
+    SELECT registration_id, ROW_NUMBER() OVER (PARTITION BY student_id, course_id, term) AS RN
+    FROM registrations
+  ) AS duplicate_rows
+  WHERE RN > 1
+);
 
-Business Awareness (Conceptual — no code required yet)
-Explain:
+--Business Awareness (Conceptual)
+--Explain:
 
-Why duplicate records like this are a problem What kind of real-world issues they could cause
+--Why duplicate records like this are a problem What kind of real-world issues they could cause
 
-Prevention Thinking
-Describe:
+--Duplicate records can lead to inaccurate reporting, such as inflated enrollment counts or incorrect
+  --payment totals. This can result in operational issues like overbooking courses or billing errors. Additionally,
+  --duplicates can impact decision-making by providing misleading data insights. Over time, these issues can
+  --reduce trust in the system, harm the organization's reputation, and create a poor experience for both
+  --staff and customers.
 
-What could have caused this issue in the system What kind of database-level or application-level safeguards might prevent it
+--Prevention Thinking
+--Describe:
+
+--What could have caused this issue in the system What kind of database-level or application-level safeguards might prevent it
+
+--Duplicate records could be cause by system issues such as failed or delayed confirmations, where a user
+  --retries an action believing it did not succeed. They can also result from user error, such as submitting
+  --the same request multiple times, or from application bugs that allow repeated inserts without validation
+
+--To prevent this, database-level safeguards like a UNIQUE constraint on (student_id, course_id, term)
+  --can ensure that duplicate enrollments cannot be inserted. At the application level, safeguards such as
+  --input validation, disabling repeated submissions, and implementing safeguards that ensure repeating
+  --the same action (such as enrolling in a course) does not create additional records can further prevent
+  --duplicates from being created. 
